@@ -297,7 +297,7 @@ describe ArticlePolicy do
         expect(resolved_scope).not_to include(article)
       end
 
-      it { should permit_action(:show) }
+      it { should forbid_action(:show) }
       it { should forbid_edit_and_update_actions }
       it { should forbid_action(:destroy) }
       it { should forbid_mass_assignment_of(:publish) }
