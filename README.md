@@ -96,15 +96,12 @@ subject { ArticlePolicy.new(user, article) }
 ```
 
 The subject will be implicitly referenced inside of `it` blocks throughout the
-spec, whenever a permit or forbid matcher is used. The new method of the policy
-class should also contain the two objects that will be used to authorise each
-action within the policy, the user who is attempting access to the record and
-the record which is to be authorised.
+spec, whenever a permit or forbid matcher is used. The new method of the  policy class should also contain the two objects that will be used to authorise each action within the policy: the user who is attempting access to the record and the record which is to be authorised.
 
 Throughout the spec, you can use `let` statements to create objects for the
-user and the record which are being authorised. For example, the following
-`permit_action` matcher would test that the user can destroy articles which
-contain a `user_id` attribute which matches the user's ID:
+user/record pair which is being authorised. For example, the following
+`permit_action` matcher would test that the user can destroy articles
+containing a `user_id` attribute which matches the user's ID:
 
 ```ruby
 let(:user) { User.create }
@@ -113,20 +110,23 @@ let(:article) { Article.create(user_id: user.id) }
 it { should permit_action(:destroy) }
 ```
 
-The user and record objects used by the subject policy class will be reassigned
-whenever you reassign these using the `let` keyword. This will typically be
-done on a per context basis, as you will likely want to check the outcome of an
-authorisation attempt using different configurations and combinations of user
-and record objects based on application state. These variations should be
+The user and record objects used by the subject policy class will be
+reassigned whenever you reassign these using the `let` keyword. This will
+typically be done on a per context basis, as you will likely want to check the
+outcome of an authorisation attempt using different configurations of
+user/record pairs based on application state. These variations should be
 organised into separate RSpec context blocks, as in the previous example.
 
 ## Testing New/Create and Edit/Update Pairs
 
 It common to write separate authorisation policies on a per action basis. A
-notable exception to this is the case of new/create and edit/update action
-pairs. Generally speaking you do not want to allow users to access a new or
-edit form unless they were also authorised to create or update the record
-associated with that form. Pundit Matchers provides four shortcut matchers to
+notable exception to this is in the case of new/create and edit/update action
+pairs. Generally speaking, you do not want to allow users to access a 'new'
+form unless the user is also authorised to create the record associated with
+that form. Similarly, you generally do not want the user to access an 'edit'
+form unless that user can also update the associated record.
+
+Pundit Matchers provides four shortcut matchers to
 account for these common scenarios:
 
 * `permit_new_and_create_actions`
@@ -161,16 +161,16 @@ end
 
 ## Testing the Mass Assignment of Attributes
 
-For policies that contain a `permitted_attributes` method to authorise only
-particular attributes, Pundit Matchers provides two matchers to test for mass
+For policies that contain a `permitted_attributes` method (to authorise only
+particular attributes), Pundit Matchers provides two matchers to test for mass
 assignment.
 
 * `permit_mass_assignment_of(:attribute_name)`
 * `forbid_mass_assignment_of(:attribute_name)`
 
-Let's modify the earlier example which tests a policy where administrators have
-permission to create articles, but visitors are not authorised to do so. In
-this updated example, visitors *can* create articles but they cannot set the
+Let's modify the earlier example which tests a policy where administrators are
+granted permission to create articles, but visitors are not authorised to do so.
+In this updated example, visitors *can* create articles but they cannot set the
 publish flag.
 
 ```ruby
@@ -200,11 +200,10 @@ end
 ## Testing Resolved Scopes
 
 Another common scenario is to authorise particular records to be returned
-in a collection, based on the particular properties of the record. To test for
-this you don't need to use any matchers. Instead, you can test for the
-inclusion or exclusion of a record in the resolved scope by using the `let`
-keyword to create a resolved scope based on the current user and record objects
-used by a `Policy::Scope` class.
+in a collection, based on particular properties of candidate records for that
+collection. To test for this you don't need to use any matchers. Instead, you
+can test for the inclusion or exclusion of a record in the resolved scope by using the `let` keyword to create a resolved scope based on the current user
+and record objects used by a `Policy::Scope` class.
 
 For example, to test that visitors can only view published articles in
 a resolved scope you could write your policy spec as follows:
@@ -245,16 +244,17 @@ describe ArticlePolicy do
 end
 ```
 
-The advantage of this approach is that you place all of your specifications for
-authorising a particular context (user and record configuration) inside of a
-single context block, regardless of whether the user is attempting to access
-the record via an action or a scope.
+The advantage of this approach is that it increases the readability of your
+specs. It allows you to place all of your specifications for authorising a
+particular context (user and record configuration) inside of a single context
+block; attempts to access a particular record via both actions and
+scopes are tested in the same part of the spec.
 
 ## Putting It All Together
 
 The following example puts all of the techniques discussed so far together in
-one policy that tests multiple user and record configurations within different
-context blocks. Here visitors can view published articles and create
+one policy spec that tests multiple user and record configurations within
+different context blocks. Here visitors can view published articles and create
 unpublished articles, while administrators have full access to all articles.
 
 ```ruby
