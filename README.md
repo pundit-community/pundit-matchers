@@ -6,9 +6,13 @@ authorisation policies. The matcher syntax was inspired by
 
 ## Installation
 
-Add the following line to your Rails application's Gemfile:
+Include `pundit-matchers` in your Rails application's Gemfile, inside the test group:
 
-`gem 'pundit-matchers'`
+```ruby
+group :test do
+  gem 'pundit-matchers', '~> 1.0.0'
+end
+```
 
 And then execute the following command:
 
