@@ -1,3 +1,5 @@
+require 'rspec/core'
+
 module Pundit
   module Matchers
     RSpec::Matchers.define :permit_action do |action|
