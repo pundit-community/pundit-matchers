@@ -10,7 +10,7 @@ Include `pundit-matchers` in your Rails application's Gemfile, inside the test g
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 1.0.1'
+  gem 'pundit-matchers', '~> 1.0.2'
 end
 ```
 
