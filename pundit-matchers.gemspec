@@ -10,6 +10,5 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://github.com/chrisalley/pundit-matchers'
   s.license     = 'MIT'
   s.add_dependency 'pundit', '~> 1.0', '>= 1.0.0'
-  s.add_dependency 'rspec', '~> 3.0', '>= 3.0.0'
-  s.add_dependency 'rspec-rails', '~> 3.0', '>= 3.0.0'
+  s.add_dependency 'rspec-rails', '>= 3.0.0'
 end
