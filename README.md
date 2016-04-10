@@ -2,11 +2,15 @@
 
 A set of RSpec matchers for testing [Pundit](https://github.com/elabs/pundit)
 authorisation policies. The matcher syntax was inspired by
-[this excellent blog post](http://thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec) from Thunderbolt Labs.
+[this excellent blog post](
+  http://thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec
+)
+from Thunderbolt Labs.
 
 ## Installation
 
-Include `pundit-matchers` in your Rails application's Gemfile, inside the test group:
+Include `pundit-matchers` in your Rails application's Gemfile, inside the test
+group:
 
 ```ruby
 group :test do
@@ -100,7 +104,10 @@ subject { ArticlePolicy.new(user, article) }
 ```
 
 The subject will be implicitly referenced inside of `it` blocks throughout the
-spec, whenever a permit or forbid matcher is used. The new method of the  policy class should also contain the two objects that will be used to authorise each action within the policy: the user who is attempting access to the record and the record which is to be authorised.
+spec, whenever a permit or forbid matcher is used. The new method of the policy
+class should also contain the two objects that will be used to authorise each
+action within the policy: the user who is attempting access to the record and
+the record which is to be authorised.
 
 Throughout the spec, you can use `let` statements to create objects for the
 user/record pair which is being authorised. For example, the following
@@ -206,7 +213,8 @@ end
 Another common scenario is to authorise particular records to be returned
 in a collection, based on particular properties of candidate records for that
 collection. To test for this you don't need to use any matchers. Instead, you
-can test for the inclusion or exclusion of a record in the resolved scope by using the `let` keyword to create a resolved scope based on the current user
+can test for the inclusion or exclusion of a record in the resolved scope by
+using the `let` keyword to create a resolved scope based on the current user
 and record objects used by a `Policy::Scope` class.
 
 For example, to test that visitors can only view published articles in
