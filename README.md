@@ -76,14 +76,14 @@ describe ArticlePolicy do
 
   let(:article) { Article.create }
 
-  context "being a visitor" do
+  context 'being a visitor' do
     let(:user) { nil }
 
     it { should permit_action(:show) }
     it { should forbid_action(:destroy) }
   end
 
-  context "being an administrator" do
+  context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
     it { should permit_action(:show) }
@@ -156,13 +156,13 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context "being a visitor" do
+  context 'being a visitor' do
     let(:user) { nil }
 
     it { should forbid_new_and_create_actions }
   end
 
-  context "being an administrator" do
+  context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
     it { should permit_new_and_create_actions }
@@ -192,14 +192,14 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context "being a visitor" do
+  context 'being a visitor' do
     let(:user) { nil }
 
     it { should permit_new_and_create_actions }
     it { should forbid_mass_assignment_of(:publish) }
   end
 
-  context "being an administrator" do
+  context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
     it { should permit_new_and_create_actions }
@@ -230,23 +230,23 @@ describe ArticlePolicy do
     ArticlePolicy::Scope.new(user, Article.all).resolve
   }
 
-  context "being a visitor" do
+  context 'being a visitor' do
     let(:user) { nil }
 
-    context "accessing a published article" do
-      let(:article) { Article.create(publish: true) }  
+    context 'accessing a published article' do
+      let(:article) { Article.create(publish: true) }
 
-      it "includes article in resolved scope" do
+      it 'includes article in resolved scope' do
         expect(resolved_scope).to include(article)
       end
 
       it { should permit_action(:show) }
     end
 
-    context "accessing an unpublished article" do
+    context 'accessing an unpublished article' do
       let(:article) { Article.create(publish: false) }
 
-      it "excludes article from resolved scope" do
+      it 'excludes article from resolved scope' do
         expect(resolved_scope).not_to include(article)
       end
 
@@ -279,20 +279,20 @@ describe ArticlePolicy do
     ArticlePolicy::Scope.new(user, Article.all).resolve
   }
 
-  context "being a visitor" do
+  context 'being a visitor' do
     let(:user) { nil }
 
-    context "creating a new article" do
+    context 'creating a new article' do
       let(:article) { Article.new }
 
       it { should permit_new_and_create_actions }
       it { should forbid_mass_assignment_of(:publish) }
     end
 
-    context "accessing a published article" do
+    context 'accessing a published article' do
       let(:article) { Article.create(publish: true) }
 
-      it "includes article in resolved scope" do
+      it 'includes article in resolved scope' do
         expect(resolved_scope).to include(article)
       end
 
@@ -302,10 +302,10 @@ describe ArticlePolicy do
       it { should forbid_mass_assignment_of(:publish) }
     end
 
-    context "accessing an unpublished article" do
+    context 'accessing an unpublished article' do
       let(:article) { Article.create(publish: false) }
 
-      it "excludes article from resolved scope" do
+      it 'excludes article from resolved scope' do
         expect(resolved_scope).not_to include(article)
       end
 
@@ -316,20 +316,20 @@ describe ArticlePolicy do
     end
   end
 
-  context "being an administrator" do
+  context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    context "creating a new article" do
+    context 'creating a new article' do
       let(:article) { Article.new }
 
       it { should permit_new_and_create_actions }
       it { should permit_mass_assignment_of(:publish) }
     end
 
-    context "accessing a published article" do
+    context 'accessing a published article' do
       let(:article) { Article.create(publish: true) }
 
-      it "includes article in resolved scope" do
+      it 'includes article in resolved scope' do
         expect(resolved_scope).to include(article)
       end
 
@@ -339,10 +339,10 @@ describe ArticlePolicy do
       it { should permit_mass_assignment_of(:publish) }
     end
 
-    context "accessing an unpublished article" do
+    context 'accessing an unpublished article' do
       let(:article) { Article.create(publish: false) }
 
-      it "includes article in resolved scope" do
+      it 'includes article in resolved scope' do
         expect(resolved_scope).to include(article)
       end
 
