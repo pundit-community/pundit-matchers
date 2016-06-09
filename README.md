@@ -118,7 +118,7 @@ containing a `user_id` attribute which matches the user's ID:
 let(:user) { User.create }
 let(:article) { Article.create(user_id: user.id) }
 
-it { should permit_action(:destroy) }
+it { is_expected.to permit_action(:destroy) }
 ```
 
 The user and record objects used by the subject policy class will be
