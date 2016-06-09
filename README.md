@@ -72,22 +72,22 @@ articles.
 require 'rails_helper'
 
 describe ArticlePolicy do
-  subject { ArticlePolicy.new(user, article) }
+  subject { described_class.new(user, article) }
 
   let(:article) { Article.create }
 
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { should permit_action(:show) }
-    it { should forbid_action(:destroy) }
+    it { is_expected.to permit_action(:show) }
+    it { is_expected.to forbid_action(:destroy) }
   end
 
   context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    it { should permit_action(:show) }
-    it { should permit_action(:destroy) }
+    it { is_expected.to permit_action(:show) }
+    it { is_expected.to permit_action(:destroy) }
   end
 end
 ```
@@ -100,7 +100,7 @@ subject should be a new instance of the policy class that you're testing. For
 example:
 
 ```ruby
-subject { ArticlePolicy.new(user, article) }
+subject { described_class.new(user, article) }
 ```
 
 The subject will be implicitly referenced inside of `it` blocks throughout the
@@ -152,20 +152,20 @@ create articles, but does not authorise visitors to do the same.
 require 'rails_helper'
 
 describe ArticlePolicy do
-  subject { ArticlePolicy.new(user, article) }
+  subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
 
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { should forbid_new_and_create_actions }
+    it { is_expected.to forbid_new_and_create_actions }
   end
 
   context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    it { should permit_new_and_create_actions }
+    it { is_expected.to permit_new_and_create_actions }
   end
 end
 ```
@@ -188,22 +188,22 @@ publish flag.
 require 'rails_helper'
 
 describe ArticlePolicy do
-  subject { ArticlePolicy.new(user, article) }
+  subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
 
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { should permit_new_and_create_actions }
-    it { should forbid_mass_assignment_of(:publish) }
+    it { is_expected.to permit_new_and_create_actions }
+    it { is_expected.to forbid_mass_assignment_of(:publish) }
   end
 
   context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    it { should permit_new_and_create_actions }
-    it { should permit_mass_assignment_of(:publish) }
+    it { is_expected.to permit_new_and_create_actions }
+    it { is_expected.to permit_mass_assignment_of(:publish) }
   end
 end
 ```
@@ -224,11 +224,11 @@ a resolved scope you could write your policy spec as follows:
 require 'rails_helper'
 
 describe ArticlePolicy do
-  subject { ArticlePolicy.new(user, article) }
+  subject { described_class.new(user, article) }
 
-  let(:resolved_scope) {
-    ArticlePolicy::Scope.new(user, Article.all).resolve
-  }
+  let(:resolved_scope) do
+    described_class::Scope.new(user, Article.all).resolve
+  end
 
   context 'being a visitor' do
     let(:user) { nil }
@@ -240,7 +240,7 @@ describe ArticlePolicy do
         expect(resolved_scope).to include(article)
       end
 
-      it { should permit_action(:show) }
+      it { is_expected.to permit_action(:show) }
     end
 
     context 'accessing an unpublished article' do
@@ -250,7 +250,7 @@ describe ArticlePolicy do
         expect(resolved_scope).not_to include(article)
       end
 
-      it { should forbid_action(:show) }
+      it { is_expected.to forbid_action(:show) }
     end
   end
 end
@@ -273,11 +273,11 @@ unpublished articles, while administrators have full access to all articles.
 require 'rails_helper'
 
 describe ArticlePolicy do
-  subject { ArticlePolicy.new(user, article) }
+  subject { described_class.new(user, article) }
 
-  let(:resolved_scope) {
-    ArticlePolicy::Scope.new(user, Article.all).resolve
-  }
+  let(:resolved_scope) do
+    described_class::Scope.new(user, Article.all).resolve
+  end
 
   context 'being a visitor' do
     let(:user) { nil }
@@ -285,8 +285,8 @@ describe ArticlePolicy do
     context 'creating a new article' do
       let(:article) { Article.new }
 
-      it { should permit_new_and_create_actions }
-      it { should forbid_mass_assignment_of(:publish) }
+      it { is_expected.to permit_new_and_create_actions }
+      it { is_expected.to forbid_mass_assignment_of(:publish) }
     end
 
     context 'accessing a published article' do
@@ -296,10 +296,10 @@ describe ArticlePolicy do
         expect(resolved_scope).to include(article)
       end
 
-      it { should permit_action(:show) }
-      it { should forbid_edit_and_update_actions }
-      it { should forbid_action(:destroy) }
-      it { should forbid_mass_assignment_of(:publish) }
+      it { is_expected.to permit_action(:show) }
+      it { is_expected.to forbid_edit_and_update_actions }
+      it { is_expected.to forbid_action(:destroy) }
+      it { is_expected.to forbid_mass_assignment_of(:publish) }
     end
 
     context 'accessing an unpublished article' do
@@ -309,10 +309,10 @@ describe ArticlePolicy do
         expect(resolved_scope).not_to include(article)
       end
 
-      it { should forbid_action(:show) }
-      it { should forbid_edit_and_update_actions }
-      it { should forbid_action(:destroy) }
-      it { should forbid_mass_assignment_of(:publish) }
+      it { is_expected.to forbid_action(:show) }
+      it { is_expected.to forbid_edit_and_update_actions }
+      it { is_expected.to forbid_action(:destroy) }
+      it { is_expected.to forbid_mass_assignment_of(:publish) }
     end
   end
 
@@ -322,8 +322,8 @@ describe ArticlePolicy do
     context 'creating a new article' do
       let(:article) { Article.new }
 
-      it { should permit_new_and_create_actions }
-      it { should permit_mass_assignment_of(:publish) }
+      it { is_expected.to permit_new_and_create_actions }
+      it { is_expected.to permit_mass_assignment_of(:publish) }
     end
 
     context 'accessing a published article' do
@@ -333,10 +333,10 @@ describe ArticlePolicy do
         expect(resolved_scope).to include(article)
       end
 
-      it { should permit_action(:show) }
-      it { should permit_edit_and_update_actions }
-      it { should permit_action(:destroy) }
-      it { should permit_mass_assignment_of(:publish) }
+      it { is_expected.to permit_action(:show) }
+      it { is_expected.to permit_edit_and_update_actions }
+      it { is_expected.to permit_action(:destroy) }
+      it { is_expected.to permit_mass_assignment_of(:publish) }
     end
 
     context 'accessing an unpublished article' do
@@ -346,10 +346,10 @@ describe ArticlePolicy do
         expect(resolved_scope).to include(article)
       end
 
-      it { should permit_action(:show) }
-      it { should permit_edit_and_update_actions }
-      it { should permit_action(:destroy) }
-      it { should permit_mass_assignment_of(:publish) }
+      it { is_expected.to permit_action(:show) }
+      it { is_expected.to permit_edit_and_update_actions }
+      it { is_expected.to permit_action(:destroy) }
+      it { is_expected.to permit_mass_assignment_of(:publish) }
     end
   end
 end
