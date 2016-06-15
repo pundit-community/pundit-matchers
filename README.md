@@ -208,6 +208,58 @@ describe ArticlePolicy do
 end
 ```
 
+## Testing the Mass Assignment of Attributes for Particular Actions
+
+Pundit allows you to permit different attributes based on the current action
+by adding a `permitted_attributes_for_#{action}` method to your policy.
+Pundit Matchers supports testing of these methods via composable matchers.
+
+* `permit_mass_assignment_of(:attribute_name).for_action(:action_name)`
+* `forbid_mass_assignment_of(:attribute_name).for_action(:action_name)`
+
+To illustrate this, we'll check for the mass assignment of a slug attribute in
+our spec. The policy is expected to allow visitors to set the slug attribute
+when creating an article, but not when updating it. Administrators will be
+permitted to set the slug when either creating or updating the article.
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:article) { Article.new }
+
+  context 'being a visitor' do
+    let(:user) { nil }
+
+    it { is_expected.to permit_action(:create) }
+    it { is_expected.to permit_action(:update) }
+    it { is_expected.to forbid_mass_assignment_of(:slug)
+    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
+    it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
+  end
+
+  context 'being an administrator' do
+    let(:user) { User.create(administrator: true) }
+
+    it { is_expected.to permit_action(:create) }
+    it { is_expected.to permit_action(:update) }
+    it { is_expected.to permit_mass_assignment_of(:slug)
+    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
+    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
+  end
+end
+```
+
+Warning: Currently, Pundit Matchers does *not* automatically check if the 
+attribute is permitted by a `permitted_attributes_for_#{action}` method, so even 
+if you include a `forbid_mass_assignment_of(:attribute)` expectation in the 
+policy spec, it's entirely possible that the attribute *is* being permitted
+through a `permitted_attributes_for_#{action}` method that is tested separately.
+For this reason, you should always explictly test *all* implemented
+`permitted_attributes_for_#{action}` methods, as demonstrated in the example.
+
 ## Testing Resolved Scopes
 
 Another common scenario is to authorise particular records to be returned
@@ -268,6 +320,7 @@ The following example puts all of the techniques discussed so far together in
 one policy spec that tests multiple user and record configurations within
 different context blocks. Here visitors can view published articles and create
 unpublished articles, while administrators have full access to all articles.
+Visitors can only set the slug attribute when creating an article.
 
 ```ruby
 require 'rails_helper'
@@ -287,6 +340,11 @@ describe ArticlePolicy do
 
       it { is_expected.to permit_new_and_create_actions }
       it { is_expected.to forbid_mass_assignment_of(:publish) }
+      it do
+        is_expected.to forbid_mass_assignment_of(:publish).for_action(:create)
+      end
+      it { is_expected.to forbid_mass_assignment_of(:slug) }
+      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     end
 
     context 'accessing a published article' do
@@ -300,6 +358,11 @@ describe ArticlePolicy do
       it { is_expected.to forbid_edit_and_update_actions }
       it { is_expected.to forbid_action(:destroy) }
       it { is_expected.to forbid_mass_assignment_of(:publish) }
+      it do
+        is_expected.to forbid_mass_assignment_of(:publish).for_action(:update)
+      end
+      it { is_expected.to forbid_mass_assignment_of(:slug) }
+      it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
     end
 
     context 'accessing an unpublished article' do
@@ -313,6 +376,11 @@ describe ArticlePolicy do
       it { is_expected.to forbid_edit_and_update_actions }
       it { is_expected.to forbid_action(:destroy) }
       it { is_expected.to forbid_mass_assignment_of(:publish) }
+      it do
+        is_expected.to forbid_mass_assignment_of(:publish).for_action(:update)
+      end
+      it { is_expected.to forbid_mass_assignment_of(:slug) }
+      it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
     end
   end
 
@@ -324,6 +392,11 @@ describe ArticlePolicy do
 
       it { is_expected.to permit_new_and_create_actions }
       it { is_expected.to permit_mass_assignment_of(:publish) }
+      it do
+        is_expected.to permit_mass_assignment_of(:publish).for_action(:create)
+      end
+      it { is_expected.to permit_mass_assignment_of(:slug) }
+      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     end
 
     context 'accessing a published article' do
@@ -337,6 +410,11 @@ describe ArticlePolicy do
       it { is_expected.to permit_edit_and_update_actions }
       it { is_expected.to permit_action(:destroy) }
       it { is_expected.to permit_mass_assignment_of(:publish) }
+      it do
+        is_expected.to permit_mass_assignment_of(:publish).for_action(:update)
+      end
+      it { is_expected.to permit_mass_assignment_of(:slug) }
+      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
     end
 
     context 'accessing an unpublished article' do
@@ -350,6 +428,11 @@ describe ArticlePolicy do
       it { is_expected.to permit_edit_and_update_actions }
       it { is_expected.to permit_action(:destroy) }
       it { is_expected.to permit_mass_assignment_of(:publish) }
+      it do
+        is_expected.to permit_mass_assignment_of(:publish).for_action(:update)
+      end
+      it { is_expected.to permit_mass_assignment_of(:slug) }
+      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
     end
   end
 end
