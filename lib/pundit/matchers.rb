@@ -130,8 +130,8 @@ module Pundit
       failure_message do |policy|
         if @action
           "#{policy.class} does not forbid the mass assignment of the " \
-            "#{attribute} attribute for #{policy.user.inspect} performing " \
-            "the #{@action} action."
+            "#{attribute} attribute, when performing the #{@action} action, " \
+            "for #{policy.user.inspect}."
         else
           "#{policy.class} does not forbid the mass assignment of the " \
             "#{attribute} attribute for #{policy.user.inspect}."
@@ -141,8 +141,8 @@ module Pundit
       failure_message_when_negated do |policy|
         if @action
           "#{policy.class} does not permit the mass assignment of the " \
-            "#{attribute} attribute for #{policy.user.inspect} performing " \
-            "the #{@action} action."
+            "#{attribute} attribute, when performing the #{@action} action, " \
+            "for #{policy.user.inspect}."
         else
           "#{policy.class} does not permit the mass assignment of the " \
             "#{attribute} attribute for #{policy.user.inspect}."
