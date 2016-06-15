@@ -50,9 +50,13 @@ module Pundit
       end
     end
 
-    RSpec::Matchers.define :permit_mass_assignment_of do |attribute|
+    RSpec::Matchers.define :permit_mass_assignment_of do |attribute, action|
       match do |policy|
-        policy.permitted_attributes.include? attribute
+        if action
+          policy.send("permitted_attributes_for_#{action}").include? attribute
+        else
+          policy.permitted_attributes.include? attribute
+        end
       end
 
       failure_message do |policy|
