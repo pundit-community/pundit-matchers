@@ -235,7 +235,7 @@ describe ArticlePolicy do
 
     it { is_expected.to permit_action(:create) }
     it { is_expected.to permit_action(:update) }
-    it { is_expected.to forbid_mass_assignment_of(:slug)
+    it { is_expected.to forbid_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
   end
@@ -245,7 +245,7 @@ describe ArticlePolicy do
 
     it { is_expected.to permit_action(:create) }
     it { is_expected.to permit_action(:update) }
-    it { is_expected.to permit_mass_assignment_of(:slug)
+    it { is_expected.to permit_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
   end
