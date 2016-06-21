@@ -252,9 +252,9 @@ describe ArticlePolicy do
 end
 ```
 
-Warning: Currently, Pundit Matchers does *not* automatically check if the 
-attribute is permitted by a `permitted_attributes_for_#{action}` method, so even 
-if you include a `forbid_mass_assignment_of(:attribute)` expectation in the 
+Warning: Currently, Pundit Matchers does *not* automatically check if the
+attribute is permitted by a `permitted_attributes_for_#{action}` method, so even
+if you include a `forbid_mass_assignment_of(:attribute)` expectation in the
 policy spec, it's entirely possible that the attribute *is* being permitted
 through a `permitted_attributes_for_#{action}` method that is tested separately.
 For this reason, you should always explictly test *all* implemented
@@ -339,12 +339,6 @@ describe ArticlePolicy do
       let(:article) { Article.new }
 
       it { is_expected.to permit_new_and_create_actions }
-      it { is_expected.to forbid_mass_assignment_of(:publish) }
-      it do
-        is_expected.to forbid_mass_assignment_of(:publish).for_action(:create)
-      end
-      it { is_expected.to forbid_mass_assignment_of(:slug) }
-      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     end
 
     context 'accessing a published article' do
@@ -357,12 +351,6 @@ describe ArticlePolicy do
       it { is_expected.to permit_action(:show) }
       it { is_expected.to forbid_edit_and_update_actions }
       it { is_expected.to forbid_action(:destroy) }
-      it { is_expected.to forbid_mass_assignment_of(:publish) }
-      it do
-        is_expected.to forbid_mass_assignment_of(:publish).for_action(:update)
-      end
-      it { is_expected.to forbid_mass_assignment_of(:slug) }
-      it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
     end
 
     context 'accessing an unpublished article' do
@@ -375,11 +363,18 @@ describe ArticlePolicy do
       it { is_expected.to forbid_action(:show) }
       it { is_expected.to forbid_edit_and_update_actions }
       it { is_expected.to forbid_action(:destroy) }
+    end
+
+    describe 'permitted attributes' do
       it { is_expected.to forbid_mass_assignment_of(:publish) }
+      it do
+        is_expected.to forbid_mass_assignment_of(:publish).for_action(:create)
+      end      
       it do
         is_expected.to forbid_mass_assignment_of(:publish).for_action(:update)
       end
       it { is_expected.to forbid_mass_assignment_of(:slug) }
+      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
       it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
     end
   end
@@ -391,12 +386,6 @@ describe ArticlePolicy do
       let(:article) { Article.new }
 
       it { is_expected.to permit_new_and_create_actions }
-      it { is_expected.to permit_mass_assignment_of(:publish) }
-      it do
-        is_expected.to permit_mass_assignment_of(:publish).for_action(:create)
-      end
-      it { is_expected.to permit_mass_assignment_of(:slug) }
-      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     end
 
     context 'accessing a published article' do
@@ -409,12 +398,6 @@ describe ArticlePolicy do
       it { is_expected.to permit_action(:show) }
       it { is_expected.to permit_edit_and_update_actions }
       it { is_expected.to permit_action(:destroy) }
-      it { is_expected.to permit_mass_assignment_of(:publish) }
-      it do
-        is_expected.to permit_mass_assignment_of(:publish).for_action(:update)
-      end
-      it { is_expected.to permit_mass_assignment_of(:slug) }
-      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
     end
 
     context 'accessing an unpublished article' do
@@ -427,11 +410,18 @@ describe ArticlePolicy do
       it { is_expected.to permit_action(:show) }
       it { is_expected.to permit_edit_and_update_actions }
       it { is_expected.to permit_action(:destroy) }
+    end
+
+    describe 'permitted attributes' do
       it { is_expected.to permit_mass_assignment_of(:publish) }
+      it do
+        is_expected.to permit_mass_assignment_of(:publish).for_action(:create)
+      end
       it do
         is_expected.to permit_mass_assignment_of(:publish).for_action(:update)
       end
       it { is_expected.to permit_mass_assignment_of(:slug) }
+      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
       it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
     end
   end
