@@ -137,9 +137,9 @@ module Pundit
     RSpec::Matchers.define :forbid_mass_assignment_of do |attribute|
       match do |policy|
         if @action
-          policy.send("permitted_attributes_for_#{@action}").exclude? attribute
+          !policy.send("permitted_attributes_for_#{@action}").include? attribute
         else
-          policy.permitted_attributes.exclude? attribute
+          !policy.permitted_attributes.include? attribute
         end
       end
 
