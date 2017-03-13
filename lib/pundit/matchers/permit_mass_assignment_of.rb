@@ -2,7 +2,7 @@ module Pundit
   module Matchers
     RSpec::Matchers.define :permit_mass_assignment_of do |attribute|
       match do |policy|
-        if @action
+        if defined? @action
           policy.send("permitted_attributes_for_#{@action}").include? attribute
         else
           policy.permitted_attributes.include? attribute
@@ -14,7 +14,7 @@ module Pundit
       end
 
       failure_message do |policy|
-        if @action
+        if defined? @action
           "#{policy.class} does not permit the mass assignment of the " \
             "#{attribute} attribute, when authorising the #{@action} action, " \
             "for #{policy.user.inspect}."
@@ -25,7 +25,7 @@ module Pundit
       end
 
       failure_message_when_negated do |policy|
-        if @action
+        if defined? @action
           "#{policy.class} does not forbid the mass assignment of the " \
             "#{attribute} attribute, when authorising the #{@action} action, " \
             "for #{policy.user.inspect}."
