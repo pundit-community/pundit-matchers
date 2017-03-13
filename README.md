@@ -14,7 +14,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 1.1.0'
+  gem 'pundit-matchers', '~> 1.2.0'
 end
 ```
 
