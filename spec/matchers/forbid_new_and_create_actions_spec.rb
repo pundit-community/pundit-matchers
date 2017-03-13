@@ -2,7 +2,6 @@ require 'rspec/core'
 
 describe 'forbid_new_and_create_actions matcher' do
   context 'new? and create? are both permitted' do
-
     before do
       class ForbidNewAndCreateActionsTestPolicy1
         def new?
