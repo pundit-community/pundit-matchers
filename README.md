@@ -40,8 +40,10 @@ files (by convention, saved in the `spec/policies` directory).
 
 ### Permit Matchers
 
-* `permit_action(:action_name)` Tests that the action, passed in as a parameter,
+* `permit_action(:action_name)` Tests that an action, passed in as a parameter,
   is permitted by the policy.
+* `permit_actions([:action1, :action2])` Tests that an array of actions, passed
+  in as a parameter, are permitted by the policy.
 * `permit_new_and_create_actions` Tests that both the new and create actions
   are permitted by the policy.
 * `permit_edit_and_update_actions` Tests that both the edit and update actions
@@ -51,8 +53,10 @@ files (by convention, saved in the `spec/policies` directory).
 
 ### Forbid Matchers
 
-* `forbid_action(:action_name)` Tests that the action, passed in as a parameter,
+* `forbid_action(:action_name)` Tests that an action, passed in as a parameter,
   is not permitted by the policy.
+* `forbid_actions([:action1, :action2])` Tests that an array of actions, passed
+  in as a parameter, are not permitted by the policy.
 * `forbid_new_and_create_actions` Tests that both the new and create actions
   are not permitted by the policy.
 * `forbid_edit_and_update_actions` Tests that both the edit and update actions
@@ -86,8 +90,7 @@ describe ArticlePolicy do
   context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    it { is_expected.to permit_action(:show) }
-    it { is_expected.to permit_action(:destroy) }
+    it { is_expected.to permit_actions([:show, :destroy]) }
   end
 end
 ```
@@ -128,6 +131,36 @@ outcome of an authorisation attempt using different configurations of
 user/record pairs based on application state. These variations should be
 organised into separate RSpec context blocks, as in the previous example.
 
+## Testing Multiple Actions
+
+To test multiple actions at once the `permit_actions` and `forbid_actions`
+matchers can be used. Both matchers accept an array of actions as a parameter.
+In the following example, visitors can only view articles, while administrators
+can also create and update articles.
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:article) { Article.new }
+
+  context 'being a visitor' do
+    let(:user) { nil }
+
+    it { is_expected.to permit_action(:show) }
+    it { is_expected.to forbid_actions([:create, :update]) }
+  end
+
+  context 'being an administrator' do
+    let(:user) { User.create(administrator: true) }
+
+    it { is_expected.to permit_actions([:show, :create, :update]) }
+  end
+end
+```
+
 ## Testing New/Create and Edit/Update Pairs
 
 It common to write separate authorisation policies on a per action basis. A
@@ -137,8 +170,8 @@ form unless the user is also authorised to create the record associated with
 that form. Similarly, you generally do not want the user to access an 'edit'
 form unless that user can also update the associated record.
 
-Pundit Matchers provides four shortcut matchers to
-account for these common scenarios:
+Pundit Matchers provides four shortcut matchers to account for these common
+scenarios:
 
 * `permit_new_and_create_actions`
 * `permit_edit_and_update_actions`
@@ -233,8 +266,7 @@ describe ArticlePolicy do
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { is_expected.to permit_action(:create) }
-    it { is_expected.to permit_action(:update) }
+    it { is_expected.to permit_actions([:create, :update]) }
     it { is_expected.to forbid_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
@@ -243,8 +275,7 @@ describe ArticlePolicy do
   context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    it { is_expected.to permit_action(:create) }
-    it { is_expected.to permit_action(:update) }
+    it { is_expected.to permit_actions([:create, :update]) }
     it { is_expected.to permit_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
@@ -257,7 +288,7 @@ attribute is permitted by a `permitted_attributes_for_#{action}` method, so even
 if you include a `forbid_mass_assignment_of(:attribute)` expectation in the
 policy spec, it's entirely possible that the attribute *is* being permitted
 through a `permitted_attributes_for_#{action}` method that is tested separately.
-For this reason, you should always explictly test *all* implemented
+For this reason, you should always explicitly test *all* implemented
 `permitted_attributes_for_#{action}` methods, as demonstrated in the example.
 
 ## Testing Resolved Scopes
@@ -395,9 +426,8 @@ describe ArticlePolicy do
         expect(resolved_scope).to include(article)
       end
 
-      it { is_expected.to permit_action(:show) }
+      it { is_expected.to permit_actions([:show, :destroy]) }
       it { is_expected.to permit_edit_and_update_actions }
-      it { is_expected.to permit_action(:destroy) }
     end
 
     context 'accessing an unpublished article' do
@@ -407,9 +437,8 @@ describe ArticlePolicy do
         expect(resolved_scope).to include(article)
       end
 
-      it { is_expected.to permit_action(:show) }
+      it { is_expected.to permit_actions([:show, :destroy]) }
       it { is_expected.to permit_edit_and_update_actions }
-      it { is_expected.to permit_action(:destroy) }
     end
 
     describe 'permitted attributes' do
