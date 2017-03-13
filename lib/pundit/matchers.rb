@@ -1,15 +1,15 @@
 require 'rspec/core'
 
-require_relative './matchers/forbid_action'
-require_relative './matchers/forbid_actions'
-require_relative './matchers/forbid_edit_and_update_actions'
-require_relative './matchers/forbid_mass_assignment_of'
-require_relative './matchers/forbid_new_and_create_actions'
-require_relative './matchers/permit_action'
-require_relative './matchers/permit_actions'
-require_relative './matchers/permit_edit_and_update_actions'
-require_relative './matchers/permit_mass_assignment_of'
-require_relative './matchers/permit_new_and_create_actions'
+require './lib/pundit/matchers/forbid_action'
+require './lib/pundit/matchers/forbid_actions'
+require './lib/pundit/matchers/forbid_edit_and_update_actions'
+require './lib/pundit/matchers/forbid_mass_assignment_of'
+require './lib/pundit/matchers/forbid_new_and_create_actions'
+require './lib/pundit/matchers/permit_action'
+require './lib/pundit/matchers/permit_actions'
+require './lib/pundit/matchers/permit_edit_and_update_actions'
+require './lib/pundit/matchers/permit_mass_assignment_of'
+require './lib/pundit/matchers/permit_new_and_create_actions'
 
 if defined?(Pundit)
   RSpec.configure do |config|
