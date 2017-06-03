@@ -401,8 +401,8 @@ Visitors can only set the slug attribute when creating an article.
 
 To avoid deeply nested context trees it is a good idea to split larger policy
 specs up into multiple files. Here we divide the policy spec into seperate files
-for the visitor and administrator contexts, but you could just as easily the
-files up by published status or by policy action.
+for the visitor and administrator contexts, but you could just as easily split
+the files by published status or policy action.
 
 `spec/policies/article_policy/visitor_context_spec.rb`:
 
