@@ -399,6 +399,13 @@ different context blocks. Here visitors can view published articles and create
 unpublished articles, while administrators have full access to all articles.
 Visitors can only set the slug attribute when creating an article.
 
+To avoid deeply nested context trees it is a good idea to split larger policy
+specs up into multiple files. Here we divide the policy spec into seperate files
+for the visitor and administrator contexts, but you could just as easily the
+files up by published status or by policy action.
+
+`spec/policies/article_policy/visitor_context_spec.rb`:
+
 ```ruby
 require 'rails_helper'
 
@@ -409,96 +416,106 @@ describe ArticlePolicy do
     described_class::Scope.new(user, Article.all).resolve
   end
 
-  context 'being a visitor' do
-    let(:user) { nil }
+  let(:user) { nil }
 
-    context 'creating a new article' do
-      let(:article) { Article.new }
+  context 'visitor creating a new article' do
+    let(:article) { Article.new }
 
-      it { is_expected.to permit_new_and_create_actions }
-    end
-
-    context 'accessing a published article' do
-      let(:article) { Article.create(publish: true) }
-
-      it 'includes article in resolved scope' do
-        expect(resolved_scope).to include(article)
-      end
-
-      it { is_expected.to permit_action(:show) }
-      it { is_expected.to forbid_edit_and_update_actions }
-      it { is_expected.to forbid_action(:destroy) }
-    end
-
-    context 'accessing an unpublished article' do
-      let(:article) { Article.create(publish: false) }
-
-      it 'excludes article from resolved scope' do
-        expect(resolved_scope).not_to include(article)
-      end
-
-      it { is_expected.to forbid_action(:show) }
-      it { is_expected.to forbid_edit_and_update_actions }
-      it { is_expected.to forbid_action(:destroy) }
-    end
-
-    describe 'permitted attributes' do
-      it { is_expected.to forbid_mass_assignment_of(:publish) }
-      it do
-        is_expected.to forbid_mass_assignment_of(:publish).for_action(:create)
-      end      
-      it do
-        is_expected.to forbid_mass_assignment_of(:publish).for_action(:update)
-      end
-      it { is_expected.to forbid_mass_assignment_of(:slug) }
-      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
-      it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
-    end
+    it { is_expected.to permit_new_and_create_actions }
   end
 
-  context 'being an administrator' do
-    let(:user) { User.create(administrator: true) }
+  context 'visitor accessing a published article' do
+    let(:article) { Article.create(publish: true) }
 
-    context 'creating a new article' do
-      let(:article) { Article.new }
-
-      it { is_expected.to permit_new_and_create_actions }
+    it 'includes article in resolved scope' do
+      expect(resolved_scope).to include(article)
     end
 
-    context 'accessing a published article' do
-      let(:article) { Article.create(publish: true) }
+    it { is_expected.to permit_action(:show) }
+    it { is_expected.to forbid_edit_and_update_actions }
+    it { is_expected.to forbid_action(:destroy) }
+  end
 
-      it 'includes article in resolved scope' do
-        expect(resolved_scope).to include(article)
-      end
+  context 'visitor accessing an unpublished article' do
+    let(:article) { Article.create(publish: false) }
 
-      it { is_expected.to permit_actions([:show, :destroy]) }
-      it { is_expected.to permit_edit_and_update_actions }
+    it 'excludes article from resolved scope' do
+      expect(resolved_scope).not_to include(article)
     end
 
-    context 'accessing an unpublished article' do
-      let(:article) { Article.create(publish: false) }
+    it { is_expected.to forbid_action(:show) }
+    it { is_expected.to forbid_edit_and_update_actions }
+    it { is_expected.to forbid_action(:destroy) }
+  end
 
-      it 'includes article in resolved scope' do
-        expect(resolved_scope).to include(article)
-      end
+  describe 'permitted attributes for visitor' do
+    it { is_expected.to forbid_mass_assignment_of(:publish) }
+    it do
+      is_expected.to forbid_mass_assignment_of(:publish).for_action(:create)
+    end
+    it do
+      is_expected.to forbid_mass_assignment_of(:publish).for_action(:update)
+    end
+    it { is_expected.to forbid_mass_assignment_of(:slug) }
+    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
+    it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
+  end
+end
+```
 
-      it { is_expected.to permit_actions([:show, :destroy]) }
-      it { is_expected.to permit_edit_and_update_actions }
+`spec/policies/article_policy/administrator_context_spec.rb`:
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:resolved_scope) do
+    described_class::Scope.new(user, Article.all).resolve
+  end
+
+  let(:user) { User.create(administrator: true) }
+
+  context 'administrator creating a new article' do
+    let(:article) { Article.new }
+
+    it { is_expected.to permit_new_and_create_actions }
+  end
+
+  context 'administrator accessing a published article' do
+    let(:article) { Article.create(publish: true) }
+
+    it 'includes article in resolved scope' do
+      expect(resolved_scope).to include(article)
     end
 
-    describe 'permitted attributes' do
-      it { is_expected.to permit_mass_assignment_of(:publish) }
-      it do
-        is_expected.to permit_mass_assignment_of(:publish).for_action(:create)
-      end
-      it do
-        is_expected.to permit_mass_assignment_of(:publish).for_action(:update)
-      end
-      it { is_expected.to permit_mass_assignment_of(:slug) }
-      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
-      it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
+    it { is_expected.to permit_actions([:show, :destroy]) }
+    it { is_expected.to permit_edit_and_update_actions }
+  end
+
+  context 'administrator accessing an unpublished article' do
+    let(:article) { Article.create(publish: false) }
+
+    it 'includes article in resolved scope' do
+      expect(resolved_scope).to include(article)
     end
+
+    it { is_expected.to permit_actions([:show, :destroy]) }
+    it { is_expected.to permit_edit_and_update_actions }
+  end
+
+  describe 'permitted attributes for administrator' do
+    it { is_expected.to permit_mass_assignment_of(:publish) }
+    it do
+      is_expected.to permit_mass_assignment_of(:publish).for_action(:create)
+    end
+    it do
+      is_expected.to permit_mass_assignment_of(:publish).for_action(:update)
+    end
+    it { is_expected.to permit_mass_assignment_of(:slug) }
+    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
+    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
   end
 end
 ```
