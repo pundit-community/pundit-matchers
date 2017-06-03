@@ -218,7 +218,7 @@ arguments can be tested. For example, you might have a policy with a
 ```ruby
 class ArticlePolicy < ApplicationPolicy
   def create_comment?(comment)
-    true unless comment.is_spam
+    true unless comment.spam
   end
 end
 ```
@@ -236,13 +236,13 @@ describe ArticlePolicy do
   let(:article) { Article.create }
 
   context 'comment is spam' do
-    let(:comment) { Comment.new(is_spam: true) }
+    let(:comment) { Comment.new(spam: true) }
 
     it { is_expected.to forbid_action(:create_comment, comment) }
   end
 
   context 'comment is not spam' do
-    let(:comment) { Comment.new(is_spam: false) }
+    let(:comment) { Comment.new(spam: false) }
 
     it { is_expected.to permit_action(:create_comment, comment) }
   end
