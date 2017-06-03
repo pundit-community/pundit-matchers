@@ -14,7 +14,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 1.2.3'
+  gem 'pundit-matchers', '~> 1.3.0'
 end
 ```
 
@@ -42,6 +42,8 @@ files (by convention, saved in the `spec/policies` directory).
 
 * `permit_action(:action_name)` Tests that an action, passed in as a parameter,
   is permitted by the policy.
+* `permit_action(:action_name, *arguments)` Tests that an action and its argument(s),
+  passed in as parameters, is permitted by the policy.
 * `permit_actions([:action1, :action2])` Tests that an array of actions, passed
   in as a parameter, are permitted by the policy.
 * `permit_new_and_create_actions` Tests that both the new and create actions
@@ -55,6 +57,8 @@ files (by convention, saved in the `spec/policies` directory).
 
 * `forbid_action(:action_name)` Tests that an action, passed in as a parameter,
   is not permitted by the policy.
+* `forbid_action(:action_name, *arguments)` Tests that an action and its argument(s),
+  passed in as a parameter, is not permitted by the policy.
 * `forbid_actions([:action1, :action2])` Tests that an array of actions, passed
   in as a parameter, are not permitted by the policy.
 * `forbid_new_and_create_actions` Tests that both the new and create actions
