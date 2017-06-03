@@ -207,6 +207,48 @@ describe ArticlePolicy do
 end
 ```
 
+## Testing Actions With Arguments
+
+Sometimes you may have a custom policy action which accepts one or more
+arguments. Pundit Matchers allows you to specify a number of optional arguments
+to the `permit_action` and `forbid_action` matchers so that actions with
+arguments can be tested. For example, you might have a policy with a
+`create_comment?` method that takes the comment as an argument, like this:
+
+```ruby
+class ArticlePolicy < ApplicationPolicy
+  def create_comment?(comment)
+    true unless comment.is_spam
+  end
+end
+```
+
+To test this, we can simply pass the comment to the permit or forbid action
+matcher.
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:user) { nil }
+  let(:article) { Article.create }
+
+  context 'comment is spam' do
+    let(:comment) { Comment.new(is_spam: true) }
+
+    it { is_expected.to forbid_action(:create_comment, comment) }
+  end
+
+  context 'comment is not spam' do
+    let(:comment) { Comment.new(is_spam: false) }
+
+    it { is_expected.to permit_action(:create_comment, comment) }
+  end
+end
+```
+
 ## Testing the Mass Assignment of Attributes
 
 For policies that contain a `permitted_attributes` method (to authorise only
