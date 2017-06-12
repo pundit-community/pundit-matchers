@@ -2,3 +2,7 @@ language: ruby
 rvm:
  - 2.4.1
  - jruby
+notifications:
+  email:
+    on_failure: always
+    on_success: never
