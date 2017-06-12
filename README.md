@@ -1,5 +1,7 @@
 # Pundit Matchers
 
+[![Gem Version][version-badge]][rubygems]
+
 A set of RSpec matchers for testing [Pundit](https://github.com/elabs/pundit)
 authorisation policies. The matcher syntax was inspired by
 [this excellent blog post](
@@ -519,3 +521,7 @@ describe ArticlePolicy do
   end
 end
 ```
+
+[version-badge]: http://img.shields.io/gem/v/pundit-matchers.svg
+[rubygems]: http://rubygems.org/gems/pundit-matchers
+
