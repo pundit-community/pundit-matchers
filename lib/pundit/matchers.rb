@@ -12,12 +12,12 @@ module Pundit
       end
 
       failure_message do |policy|
-        "#{policy.class} does not forbid #{action} on #{policy.record} for " \
+        "#{policy.class} does not forbid #{action} for " \
           "#{policy.user.inspect}."
       end
 
       failure_message_when_negated do |policy|
-        "#{policy.class} does not permit #{action} on #{policy.record} for " \
+        "#{policy.class} does not permit #{action} for " \
           "#{policy.user.inspect}."
       end
     end
@@ -46,7 +46,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not forbid #{actions} on #{policy.record} " \
+        "#{policy.class} does not forbid #{actions} " \
           "for #{policy.user.inspect}."
       end
     end
@@ -58,7 +58,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not permit #{actions} on #{policy.record} " \
+        "#{policy.class} does not permit #{actions} " \
           "for #{policy.user.inspect}."
       end
     end
@@ -71,12 +71,12 @@ module Pundit
 
     failure_message do |policy|
       "#{policy.class} does not forbid the edit or update action on " \
-        "#{policy.record} for #{policy.user.inspect}."
+        "for #{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
       "#{policy.class} does not permit the edit or update action on " \
-        "#{policy.record} for #{policy.user.inspect}."
+        "for #{policy.user.inspect}."
     end
   end
 
@@ -123,12 +123,12 @@ module Pundit
 
     failure_message do |policy|
       "#{policy.class} does not forbid the new or create action on " \
-        "#{policy.record} for #{policy.user.inspect}."
+        "for #{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
       "#{policy.class} does not permit the new or create action on " \
-        "#{policy.record} for #{policy.user.inspect}."
+        "for #{policy.user.inspect}."
     end
   end
 
@@ -142,12 +142,12 @@ module Pundit
     end
 
     failure_message do |policy|
-      "#{policy.class} does not permit #{action} on #{policy.record} for " \
+      "#{policy.class} does not permit #{action} for " \
         "#{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
-      "#{policy.class} does not forbid #{action} on #{policy.record} for " \
+      "#{policy.class} does not forbid #{action} for " \
         "#{policy.user.inspect}."
     end
   end
@@ -175,7 +175,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not permit #{actions} on #{policy.record} " \
+        "#{policy.class} does not permit #{actions} " \
           "for #{policy.user.inspect}."
       end
     end
@@ -187,7 +187,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not forbid #{actions} on #{policy.record} " \
+        "#{policy.class} does not forbid #{actions} " \
           "for #{policy.user.inspect}."
       end
     end
@@ -200,12 +200,12 @@ module Pundit
 
     failure_message do |policy|
       "#{policy.class} does not permit the edit or update action on " \
-        "#{policy.record} for #{policy.user.inspect}."
+        "for #{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
       "#{policy.class} does not forbid the edit or update action on " \
-        "#{policy.record} for #{policy.user.inspect}."
+        "for #{policy.user.inspect}."
     end
   end
 
@@ -252,12 +252,12 @@ module Pundit
 
     failure_message do |policy|
       "#{policy.class} does not permit the new or create action on " \
-        "#{policy.record} for #{policy.user.inspect}."
+        "for #{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
       "#{policy.class} does not forbid the new or create action on " \
-        "#{policy.record} for #{policy.user.inspect}."
+        "for #{policy.user.inspect}."
     end
   end
 end
