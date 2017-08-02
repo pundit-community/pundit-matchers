@@ -46,8 +46,8 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not forbid #{actions} " \
-          "for #{policy.user.inspect}."
+        "#{policy.class} does not forbid #{actions} for " \
+          "#{policy.user.inspect}."
       end
     end
 
@@ -58,8 +58,8 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not permit #{actions} " \
-          "for #{policy.user.inspect}."
+        "#{policy.class} does not permit #{actions} for " \
+          "#{policy.user.inspect}."
       end
     end
   end
@@ -70,13 +70,13 @@ module Pundit
     end
 
     failure_message do |policy|
-      "#{policy.class} does not forbid the edit or update action on " \
-        "for #{policy.user.inspect}."
+      "#{policy.class} does not forbid the edit or update action for " \
+        "#{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
-      "#{policy.class} does not permit the edit or update action on " \
-        "for #{policy.user.inspect}."
+      "#{policy.class} does not permit the edit or update action for " \
+        "#{policy.user.inspect}."
     end
   end
 
@@ -122,13 +122,13 @@ module Pundit
     end
 
     failure_message do |policy|
-      "#{policy.class} does not forbid the new or create action on " \
-        "for #{policy.user.inspect}."
+      "#{policy.class} does not forbid the new or create action for " \
+        "#{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
-      "#{policy.class} does not permit the new or create action on " \
-        "for #{policy.user.inspect}."
+      "#{policy.class} does not permit the new or create action for " \
+        "#{policy.user.inspect}."
     end
   end
 
@@ -175,8 +175,8 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not permit #{actions} " \
-          "for #{policy.user.inspect}."
+        "#{policy.class} does not permit #{actions} for " \
+          "#{policy.user.inspect}."
       end
     end
 
@@ -187,8 +187,8 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not forbid #{actions} " \
-          "for #{policy.user.inspect}."
+        "#{policy.class} does not forbid #{actions} for " \
+          "#{policy.user.inspect}."
       end
     end
   end
@@ -199,13 +199,13 @@ module Pundit
     end
 
     failure_message do |policy|
-      "#{policy.class} does not permit the edit or update action on " \
-        "for #{policy.user.inspect}."
+      "#{policy.class} does not permit the edit or update action for " \
+        "#{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
-      "#{policy.class} does not forbid the edit or update action on " \
-        "for #{policy.user.inspect}."
+      "#{policy.class} does not forbid the edit or update action for " \
+        "#{policy.user.inspect}."
     end
   end
 
@@ -251,13 +251,13 @@ module Pundit
     end
 
     failure_message do |policy|
-      "#{policy.class} does not permit the new or create action on " \
-        "for #{policy.user.inspect}."
+      "#{policy.class} does not permit the new or create action for " \
+        "#{policy.user.inspect}."
     end
 
     failure_message_when_negated do |policy|
-      "#{policy.class} does not forbid the new or create action on " \
-        "for #{policy.user.inspect}."
+      "#{policy.class} does not forbid the new or create action for " \
+        "#{policy.user.inspect}."
     end
   end
 end
