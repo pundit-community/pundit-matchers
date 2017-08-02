@@ -17,7 +17,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 1.3.0'
+  gem 'pundit-matchers', '~> 1.3.1'
 end
 ```
 
@@ -527,4 +527,3 @@ end
 [rubygems]: http://rubygems.org/gems/pundit-matchers
 [travis-badge]: http://img.shields.io/travis/chrisalley/pundit-matchers/master.svg
 [travis]: http://travis-ci.org/chrisalley/pundit-matchers
-
