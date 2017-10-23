@@ -26,11 +26,13 @@ module Pundit
   RSpec::Matchers.define :forbid_actions do |actions|
     match do |policy|
       return false if actions.count < 2
-      actions.each do |action|
-        return false if policy.public_send("#{action}?")
+      @allowed_actions = actions.select do |action|
+        policy.public_send("#{action}?")
       end
-      true
+      @allowed_actions.size == 0
     end
+
+    attr_reader :allowed_actions
 
     zero_actions_failure_message = 'At least two actions must be ' \
       'specified when using the forbid_actions matcher.'
@@ -46,7 +48,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not forbid #{actions} for " \
+        "#{policy.class} expected to forbid #{actions}, but allowed #{allowed_actions} for " \
           "#{policy.user.inspect}."
       end
     end
@@ -58,7 +60,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not permit #{actions} for " \
+        "#{policy.class} expected to permit #{actions}, but forbid #{allowed_actions} for " \
           "#{policy.user.inspect}."
       end
     end
@@ -155,10 +157,10 @@ module Pundit
   RSpec::Matchers.define :permit_actions do |actions|
     match do |policy|
       return false if actions.count < 2
-      actions.each do |action|
-        return false unless policy.public_send("#{action}?")
+      @forbidden_actions = actions.reject do |action|
+        policy.public_send("#{action}?")
       end
-      true
+      @forbidden_actions.size == 0
     end
 
     zero_actions_failure_message = 'At least two actions must be ' \
@@ -175,7 +177,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not permit #{actions} for " \
+        "#{policy.class} expected to permit #{actions}, but forbid #{forbidden_actions} for " \
           "#{policy.user.inspect}."
       end
     end
@@ -187,7 +189,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} does not forbid #{actions} for " \
+        "#{policy.class} expected to forbid #{actions}, but allowed #{forbidden_actions} for " \
           "#{policy.user.inspect}."
       end
     end
