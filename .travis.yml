@@ -2,6 +2,8 @@ language: ruby
 rvm:
  - 2.4.1
  - jruby
+script:
+ - bin/rake
 notifications:
   email:
     on_failure: always
