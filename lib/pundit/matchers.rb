@@ -163,6 +163,8 @@ module Pundit
       @forbidden_actions.size == 0
     end
 
+    attr_reader :forbidden_actions
+
     zero_actions_failure_message = 'At least two actions must be ' \
       'specified when using the permit_actions matcher.'
 
