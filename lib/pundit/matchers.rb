@@ -29,7 +29,7 @@ module Pundit
       @allowed_actions = actions.select do |action|
         policy.public_send("#{action}?")
       end
-      @allowed_actions.size == 0
+      @allowed_actions.empty?
     end
 
     attr_reader :allowed_actions
@@ -48,8 +48,8 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} expected to forbid #{actions}, but allowed #{allowed_actions} for " \
-          "#{policy.user.inspect}."
+        "#{policy.class} expected to forbid #{actions}, but allowed " \
+          "#{allowed_actions} for #{policy.user.inspect}."
       end
     end
 
@@ -60,8 +60,8 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} expected to permit #{actions}, but forbid #{allowed_actions} for " \
-          "#{policy.user.inspect}."
+        "#{policy.class} expected to permit #{actions}, but forbid " \
+          "#{allowed_actions} for #{policy.user.inspect}."
       end
     end
   end
@@ -160,7 +160,7 @@ module Pundit
       @forbidden_actions = actions.reject do |action|
         policy.public_send("#{action}?")
       end
-      @forbidden_actions.size == 0
+      @forbidden_actions.empty?
     end
 
     attr_reader :forbidden_actions
@@ -179,8 +179,8 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} expected to permit #{actions}, but forbid #{forbidden_actions} for " \
-          "#{policy.user.inspect}."
+        "#{policy.class} expected to permit #{actions}, but forbid " \
+          "#{forbidden_actions} for #{policy.user.inspect}."
       end
     end
 
@@ -191,8 +191,8 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} expected to forbid #{actions}, but allowed #{forbidden_actions} for " \
-          "#{policy.user.inspect}."
+        "#{policy.class} expected to forbid #{actions}, but allowed " \
+          "#{forbidden_actions} for #{policy.user.inspect}."
       end
     end
   end
