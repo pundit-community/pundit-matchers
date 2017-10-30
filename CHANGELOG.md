@@ -1,5 +1,10 @@
 # Pundit Matchers
 
+## 1.4.1 (2017-10-31)
+
+- Fix `permit_actions` and `forbid_actions` matchers that were still not working
+  with a singular action.
+
 ## 1.4.0 (2017-10-30)
 
 - Add a changelog going back to the 1.0.0 release.
