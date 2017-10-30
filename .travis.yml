@@ -7,7 +7,7 @@ matrix:
     - rvm: 2.4.1
     - script: bundle exec rake
     - rvm: 2.4.1
-    - rvm: jruby-1.7.26
+    - rvm: jruby-9.1.13.0
       env:
       - JRUBY_OPTS="--debug"
 notifications:
