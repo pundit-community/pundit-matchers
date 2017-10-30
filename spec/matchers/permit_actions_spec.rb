@@ -14,11 +14,14 @@ describe 'permit_actions matcher' do
   context 'one action is specified' do
     before do
       class PermitActionsTestPolicy2
+        def test?
+          true
+        end
       end
     end
 
     subject { PermitActionsTestPolicy2.new }
-    it { is_expected.not_to permit_actions([:test]) }
+    it { is_expected.to permit_actions([:test]) }
   end
 
   context 'more than one action is specified' do

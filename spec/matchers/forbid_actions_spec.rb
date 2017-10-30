@@ -14,6 +14,9 @@ describe 'forbid_actions matcher' do
   context 'one action is specified' do
     before do
       class ForbidActionsTestPolicy2
+        def test?
+          true
+        end
       end
     end
 
