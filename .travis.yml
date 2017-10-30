@@ -1,7 +1,7 @@
 language: ruby
 rvm:
  - 2.4.1
- - jruby
+ - jruby-1.7.26
 notifications:
   email:
     on_failure: always
