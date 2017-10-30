@@ -37,16 +37,10 @@ module Pundit
     zero_actions_failure_message = 'At least two actions must be ' \
       'specified when using the forbid_actions matcher.'
 
-    one_action_failure_message = 'More than one action must be specified ' \
-      'when using the forbid_actions matcher. To test a single action, use ' \
-      'forbid_action instead.'
-
     failure_message do |policy|
       case actions.count
       when 0
         zero_actions_failure_message
-      when 1
-        one_action_failure_message
       else
         "#{policy.class} expected to forbid #{actions}, but allowed " \
           "#{allowed_actions} for #{policy.user.inspect}."
@@ -57,8 +51,6 @@ module Pundit
       case actions.count
       when 0
         zero_actions_failure_message
-      when 1
-        one_action_failure_message
       else
         "#{policy.class} expected to permit #{actions}, but forbade " \
           "#{allowed_actions} for #{policy.user.inspect}."
@@ -168,16 +160,10 @@ module Pundit
     zero_actions_failure_message = 'At least two actions must be ' \
       'specified when using the permit_actions matcher.'
 
-    one_action_failure_message = 'More than one action must be specified ' \
-      'when using the permit_actions matcher. To test a single action, use ' \
-      'permit_action instead.'
-
     failure_message do |policy|
       case actions.count
       when 0
         zero_actions_failure_message
-      when 1
-        one_action_failure_message
       else
         "#{policy.class} expected to permit #{actions}, but forbade " \
           "#{forbidden_actions} for #{policy.user.inspect}."
