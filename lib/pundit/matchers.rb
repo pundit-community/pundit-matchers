@@ -25,7 +25,7 @@ module Pundit
 
   RSpec::Matchers.define :forbid_actions do |actions|
     match do |policy|
-      return false if actions.count < 2
+      return false if actions.count < 1
       @allowed_actions = actions.select do |action|
         policy.public_send("#{action}?")
       end
@@ -34,12 +34,11 @@ module Pundit
 
     attr_reader :allowed_actions
 
-    zero_actions_failure_message = 'At least two actions must be ' \
+    zero_actions_failure_message = 'At least one action must be ' \
       'specified when using the forbid_actions matcher.'
 
     failure_message do |policy|
-      case actions.count
-      when 0
+      if actions.count == 0
         zero_actions_failure_message
       else
         "#{policy.class} expected to forbid #{actions}, but allowed " \
@@ -48,8 +47,7 @@ module Pundit
     end
 
     failure_message_when_negated do |policy|
-      case actions.count
-      when 0
+      if actions.count == 0
         zero_actions_failure_message
       else
         "#{policy.class} expected to permit #{actions}, but forbade " \
@@ -148,7 +146,7 @@ module Pundit
 
   RSpec::Matchers.define :permit_actions do |actions|
     match do |policy|
-      return false if actions.count < 2
+      return false if actions.count < 1
       @forbidden_actions = actions.reject do |action|
         policy.public_send("#{action}?")
       end
@@ -157,12 +155,11 @@ module Pundit
 
     attr_reader :forbidden_actions
 
-    zero_actions_failure_message = 'At least two actions must be ' \
-      'specified when using the permit_actions matcher.'
+    zero_actions_failure_message = 'At least one action must be specified ' \
+      'when using the permit_actions matcher.'
 
     failure_message do |policy|
-      case actions.count
-      when 0
+      if actions.count == 0
         zero_actions_failure_message
       else
         "#{policy.class} expected to permit #{actions}, but forbade " \
@@ -171,11 +168,8 @@ module Pundit
     end
 
     failure_message_when_negated do |policy|
-      case actions.count
-      when 0
+      if actions.count == 0
         zero_actions_failure_message
-      when 1
-        one_action_failure_message
       else
         "#{policy.class} expected to forbid #{actions}, but allowed " \
           "#{forbidden_actions} for #{policy.user.inspect}."
