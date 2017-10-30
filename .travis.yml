@@ -2,10 +2,14 @@ language: ruby
 before_install:
  - gem update --system
  - gem install bundler
-script: bundle exec rake
-rvm:
- - 2.4.1
- - jruby-1.7.26
+matrix:
+  include:
+    - rvm: 2.4.1
+    - script: bundle exec rake
+    - rvm: 2.4.1
+    - rvm: jruby-1.7.26
+      env:
+      - JRUBY_OPTS="--debug"
 notifications:
   email:
     on_failure: always
