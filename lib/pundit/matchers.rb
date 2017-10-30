@@ -60,7 +60,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} expected to permit #{actions}, but forbid " \
+        "#{policy.class} expected to permit #{actions}, but forbade " \
           "#{allowed_actions} for #{policy.user.inspect}."
       end
     end
@@ -179,7 +179,7 @@ module Pundit
       when 1
         one_action_failure_message
       else
-        "#{policy.class} expected to permit #{actions}, but forbid " \
+        "#{policy.class} expected to permit #{actions}, but forbade " \
           "#{forbidden_actions} for #{policy.user.inspect}."
       end
     end
