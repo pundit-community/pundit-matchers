@@ -10,6 +10,6 @@ Gem::Specification.new do |s|
   s.files       = ['lib/pundit/matchers.rb']
   s.homepage    = 'http://github.com/chrisalley/pundit-matchers'
   s.license     = 'MIT'
-  s.add_dependency 'pundit', '~> 1.1', '>= 1.1.0'
   s.add_dependency 'rspec-rails', '>= 3.0.0'
+  s.add_development_dependency 'pundit', '~> 1.1', '>= 1.1.0'
 end
