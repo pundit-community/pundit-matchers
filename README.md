@@ -42,6 +42,8 @@ Pundit Matchers relies on your policies having a `user` attribute, if your app c
 anything else like `account` you have to set a user alias
 
 ```ruby
+# Add this to your spec/spec_helper.rb or spec/rails_helper.rb file
+
 Pundit::Matchers.configure do |config|
   config.user_alias = :account
 end
