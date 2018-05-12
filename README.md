@@ -38,16 +38,19 @@ file:
 
 ## Configuration
 
-Pundit Matchers relies on your policies having a `user` attribute, if your app checks against
-anything else like `account` you have to set a user alias
+Pundit Matchers relies on your policies having a `user` attribute. If your app
+checks against a differently named "user" model (such as `account`) you will
+need to set a user alias. To add a user alias, add the following configuration
+to your app's `spec/spec_helper.rb` or `spec/rails_helper.rb` file:
 
 ```ruby
-# Add this to your spec/spec_helper.rb or spec/rails_helper.rb file
-
 Pundit::Matchers.configure do |config|
   config.user_alias = :account
 end
 ```
+
+The user alias is configured for the whole app and cannot be customised on a
+policy by policy basis.
 
 ## Matchers
 
