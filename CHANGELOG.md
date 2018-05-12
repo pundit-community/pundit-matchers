@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 1.5.0 (2018-05-12)
+
+- Add support for configuring a custom user alias globally.
+
 ## 1.4.1 (2017-10-31)
 
 - Fix `permit_actions` and `forbid_actions` matchers that were still not working
