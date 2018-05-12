@@ -36,6 +36,19 @@ file:
 
 `require 'pundit/matchers'`
 
+## Configuration
+
+Pundit Matchers relies on your policies having a `user` attribute, if your app checks against
+anything else like `account` you have to set a user alias
+
+```ruby
+# Add this to your spec/spec_helper.rb or spec/rails_helper.rb file
+
+Pundit::Matchers.configure do |config|
+  config.user_alias = :account
+end
+```
+
 ## Matchers
 
 The following RSpec matchers can now be used in your the Pundit policy spec
