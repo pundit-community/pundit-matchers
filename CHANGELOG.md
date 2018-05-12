@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 1.5.1 (2018-05-12)
+
+- Remove configuration from being in a seperate file (to get gem working again).
+
 ## 1.5.0 (2018-05-12)
 
 - Add support for configuring a custom user alias globally.
