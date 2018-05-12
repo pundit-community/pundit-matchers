@@ -1,8 +1,15 @@
 require 'rspec/core'
-require 'pundit/matchers/configuration'
 
 module Pundit
   module Matchers
+    class Configuration
+      attr_accessor :user_alias
+
+      def initialize
+        @user_alias = :user
+      end
+    end
+
     class << self
       def configure
         yield(configuration)
