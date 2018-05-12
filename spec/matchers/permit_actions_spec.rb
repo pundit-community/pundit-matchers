@@ -39,7 +39,7 @@ describe 'permit_actions matcher' do
       end
 
       subject { PermitActionsTestPolicy3.new }
-      it { is_expected.to permit_actions([:test1, :test2]) }
+      it { is_expected.to permit_actions(%i[test1 test2]) }
     end
 
     context 'test1? is permitted, test2? is forbidden' do
@@ -56,7 +56,7 @@ describe 'permit_actions matcher' do
       end
 
       subject { PermitActionsTestPolicy4.new }
-      it { is_expected.not_to permit_actions([:test1, :test2]) }
+      it { is_expected.not_to permit_actions(%i[test1 test2]) }
     end
 
     context 'test1? is forbidden, test2? is permitted' do
@@ -73,7 +73,7 @@ describe 'permit_actions matcher' do
       end
 
       subject { PermitActionsTestPolicy5.new }
-      it { is_expected.not_to permit_actions([:test1, :test2]) }
+      it { is_expected.not_to permit_actions(%i[test1 test2]) }
     end
 
     context 'test1? and test2? are both forbidden' do
@@ -90,7 +90,7 @@ describe 'permit_actions matcher' do
       end
 
       subject { PermitActionsTestPolicy6.new }
-      it { is_expected.not_to permit_actions([:test1, :test2]) }
+      it { is_expected.not_to permit_actions(%i[test1 test2]) }
     end
   end
 end

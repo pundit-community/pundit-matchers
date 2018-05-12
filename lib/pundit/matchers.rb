@@ -38,7 +38,7 @@ module Pundit
       'specified when using the forbid_actions matcher.'
 
     failure_message do |policy|
-      if actions.count == 0
+      if actions.count.zero?
         zero_actions_failure_message
       else
         "#{policy.class} expected to forbid #{actions}, but allowed " \
@@ -47,7 +47,7 @@ module Pundit
     end
 
     failure_message_when_negated do |policy|
-      if actions.count == 0
+      if actions.count.zero?
         zero_actions_failure_message
       else
         "#{policy.class} expected to permit #{actions}, but forbade " \
@@ -159,7 +159,7 @@ module Pundit
       'when using the permit_actions matcher.'
 
     failure_message do |policy|
-      if actions.count == 0
+      if actions.count.zero?
         zero_actions_failure_message
       else
         "#{policy.class} expected to permit #{actions}, but forbade " \
@@ -168,7 +168,7 @@ module Pundit
     end
 
     failure_message_when_negated do |policy|
-      if actions.count == 0
+      if actions.count.zero?
         zero_actions_failure_message
       else
         "#{policy.class} expected to forbid #{actions}, but allowed " \
