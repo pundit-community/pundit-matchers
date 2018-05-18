@@ -71,6 +71,8 @@ files (by convention, saved in the `spec/policies` directory).
   are permitted by the policy.
 * `permit_mass_assignment_of(:attribute_name)` Tests that mass assignment of the
   attribute, passed in as a parameter, is permitted by the policy.
+* `permit_mass_assignments_of([:attribute1, :attribute2])` Tests that mass assignment
+  of an array of attributes, passed in as a parameter, are permitted by the policy.
 
 ### Forbid Matchers
 
@@ -86,6 +88,8 @@ files (by convention, saved in the `spec/policies` directory).
   are not permitted by the policy.
 * `forbid_mass_assignment_of(:attribute_name)` Tests that mass assignment of the
   attribute, passed in as a parameter, is not permitted by the policy.
+* `forbid_mass_assignments_of([:attribute1, :attribute2])` Tests that mass assignment
+  of an array of attributes, passed in as a parameter, are not permitted by the policy.
 
 ## A Basic Example of a Policy Spec
 
@@ -271,11 +275,13 @@ end
 ## Testing the Mass Assignment of Attributes
 
 For policies that contain a `permitted_attributes` method (to authorise only
-particular attributes), Pundit Matchers provides two matchers to test for mass
+particular attributes), Pundit Matchers provides four matchers to test for mass
 assignment.
 
 * `permit_mass_assignment_of(:attribute_name)`
+* `permit_mass_assignments_of([:attribute1, :attribute2])`
 * `forbid_mass_assignment_of(:attribute_name)`
+* `forbid_mass_assignments_of([:attribute1, :attribute2])`
 
 Let's modify the earlier example which tests a policy where administrators are
 granted permission to create articles, but visitors are not authorised to do so.
@@ -313,7 +319,9 @@ by adding a `permitted_attributes_for_#{action}` method to your policy.
 Pundit Matchers supports testing of these methods via composable matchers.
 
 * `permit_mass_assignment_of(:attribute_name).for_action(:action_name)`
+* `permit_mass_assignments_of([:attribute1, :attribute2]).for_action(:action_name)`
 * `forbid_mass_assignment_of(:attribute_name).for_action(:action_name)`
+* `forbid_mass_assignments_of([:attribute1, :attribute2]).for_action(:action_name)`
 
 To illustrate this, we'll check for the mass assignment of a slug attribute in
 our spec. The policy is expected to allow visitors to set the slug attribute
