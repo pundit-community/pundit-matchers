@@ -1,5 +1,4 @@
 require 'rspec/core'
-require 'pry'
 
 describe 'forbid_mass_assignment_of matcher' do
   context 'when the foo and bar attributes are permitted' do
