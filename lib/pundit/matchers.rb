@@ -98,51 +98,10 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :forbid_mass_assignment_of do |attribute|
-    match do |policy|
-      if defined? @action
-        !policy.send("permitted_attributes_for_#{@action}").include? attribute
-      else
-        !policy.permitted_attributes.include? attribute
-      end
-    end
+  RSpec::Matchers.define :forbid_mass_assignment_of do |attributes|
+    # Map single object argument to an array, if necessary
+    attributes = attributes.is_a?(Array) ? attributes : [attributes]
 
-    chain :for_action do |action|
-      @action = action
-    end
-
-    failure_message do |policy|
-      if defined? @action
-        "#{policy.class} does not forbid the mass assignment of the " \
-          "#{attribute} attribute, when authorising the #{@action} action, " \
-          'for ' +
-          policy.public_send(Pundit::Matchers.configuration.user_alias)
-                .inspect + '.'
-      else
-        "#{policy.class} does not forbid the mass assignment of the " \
-          "#{attribute} attribute for " +
-          policy.public_send(Pundit::Matchers.configuration.user_alias)
-                .inspect + '.'
-      end
-    end
-
-    failure_message_when_negated do |policy|
-      if defined? @action
-        "#{policy.class} does not permit the mass assignment of the " \
-          "#{attribute} attribute, when authorising the #{@action} action, " \
-          'for ' +
-          policy.public_send(Pundit::Matchers.configuration.user_alias)
-                .inspect + '.'
-      else
-        "#{policy.class} does not permit the mass assignment of the " \
-          "#{attribute} attribute for " +
-          policy.public_send(Pundit::Matchers.configuration.user_alias)
-                .inspect + '.'
-      end
-    end
-  end
-
-  RSpec::Matchers.define :forbid_mass_assignments_of do |attributes|
     match do |policy|
       return false if attributes.count < 1
 
@@ -164,7 +123,7 @@ module Pundit
     end
 
     zero_attributes_failure_message = 'At least one attribute must be specified ' \
-      'when using the permit_mass_assignments_of matcher.'
+      'when using the forbid_mass_assignment_of matcher.'
 
     failure_message do |policy|
       if attributes.count.zero?
@@ -306,51 +265,10 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :permit_mass_assignment_of do |attribute|
-    match do |policy|
-      if defined? @action
-        policy.send("permitted_attributes_for_#{@action}").include? attribute
-      else
-        policy.permitted_attributes.include? attribute
-      end
-    end
+  RSpec::Matchers.define :permit_mass_assignment_of do |attributes|
+    # Map single object argument to an array, if necessary
+    attributes = attributes.is_a?(Array) ? attributes : [attributes]
 
-    chain :for_action do |action|
-      @action = action
-    end
-
-    failure_message do |policy|
-      if defined? @action
-        "#{policy.class} does not permit the mass assignment of the " \
-          "#{attribute} attribute, when authorising the #{@action} action, " \
-          'for ' +
-          policy.public_send(Pundit::Matchers.configuration.user_alias)
-                .inspect + '.'
-      else
-        "#{policy.class} does not permit the mass assignment of the " \
-          "#{attribute} attribute for " +
-          policy.public_send(Pundit::Matchers.configuration.user_alias)
-                .inspect + '.'
-      end
-    end
-
-    failure_message_when_negated do |policy|
-      if defined? @action
-        "#{policy.class} does not forbid the mass assignment of the " \
-          "#{attribute} attribute, when authorising the #{@action} action, " \
-          'for ' +
-          policy.public_send(Pundit::Matchers.configuration.user_alias)
-                .inspect + '.'
-      else
-        "#{policy.class} does not forbid the mass assignment of the " \
-          "#{attribute} attribute for " +
-          policy.public_send(Pundit::Matchers.configuration.user_alias)
-                .inspect + '.'
-      end
-    end
-  end
-
-  RSpec::Matchers.define :permit_mass_assignments_of do |attributes|
     match do |policy|
       return false if attributes.count < 1
 
@@ -372,7 +290,7 @@ module Pundit
     end
 
     zero_attributes_failure_message = 'At least one attribute must be specified ' \
-      'when using the permit_mass_assignments_of matcher.'
+      'when using the permit_mass_assignment_of matcher.'
 
     failure_message do |policy|
       if attributes.count.zero?

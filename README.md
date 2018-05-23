@@ -70,9 +70,8 @@ files (by convention, saved in the `spec/policies` directory).
 * `permit_edit_and_update_actions` Tests that both the edit and update actions
   are permitted by the policy.
 * `permit_mass_assignment_of(:attribute_name)` Tests that mass assignment of the
-  attribute, passed in as a parameter, is permitted by the policy.
-* `permit_mass_assignments_of([:attribute1, :attribute2])` Tests that mass assignment
-  of an array of attributes, passed in as a parameter, are permitted by the policy.
+  attribute(s), passed in as a single symbol parameter or an array of symbols,
+  is permitted by the policy.
 
 ### Forbid Matchers
 
@@ -87,9 +86,8 @@ files (by convention, saved in the `spec/policies` directory).
 * `forbid_edit_and_update_actions` Tests that both the edit and update actions
   are not permitted by the policy.
 * `forbid_mass_assignment_of(:attribute_name)` Tests that mass assignment of the
-  attribute, passed in as a parameter, is not permitted by the policy.
-* `forbid_mass_assignments_of([:attribute1, :attribute2])` Tests that mass assignment
-  of an array of attributes, passed in as a parameter, are not permitted by the policy.
+  attribute(s), passed in as a single symbol parameter or an array of symbols,
+  is not permitted by the policy.
 
 ## A Basic Example of a Policy Spec
 
@@ -275,13 +273,11 @@ end
 ## Testing the Mass Assignment of Attributes
 
 For policies that contain a `permitted_attributes` method (to authorise only
-particular attributes), Pundit Matchers provides four matchers to test for mass
+particular attributes), Pundit Matchers provides two matchers to test for mass
 assignment.
 
 * `permit_mass_assignment_of(:attribute_name)`
-* `permit_mass_assignments_of([:attribute1, :attribute2])`
 * `forbid_mass_assignment_of(:attribute_name)`
-* `forbid_mass_assignments_of([:attribute1, :attribute2])`
 
 Let's modify the earlier example which tests a policy where administrators are
 granted permission to create articles, but visitors are not authorised to do so.
@@ -312,6 +308,36 @@ describe ArticlePolicy do
 end
 ```
 
+## Testing the Mass Assignment of Multiple Attributes
+
+To test multiple attributes at once, the `permit_mass_assignment_of` and `forbid_mass_assignment_of`
+matchers can be used. Both matchers accept an array of attributes as a parameter.
+In the following example, visitors can only set the name of articles, while administrators
+can also set the description.
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:article) { Article.new }
+
+  context 'being a visitor' do
+    let(:user) { nil }
+
+    it { is_expected.to permit_mass_assignment_of([:name]) }
+    it { is_expected.to forbid_mass_assignment_of([:description]) }
+  end
+
+  context 'being an administrator' do
+    let(:user) { User.create(administrator: true) }
+
+    it { is_expected.to permit_mass_assignment_of([:name, :description]) }
+  end
+end
+```
+
 ## Testing the Mass Assignment of Attributes for Particular Actions
 
 Pundit allows you to permit different attributes based on the current action
@@ -319,9 +345,7 @@ by adding a `permitted_attributes_for_#{action}` method to your policy.
 Pundit Matchers supports testing of these methods via composable matchers.
 
 * `permit_mass_assignment_of(:attribute_name).for_action(:action_name)`
-* `permit_mass_assignments_of([:attribute1, :attribute2]).for_action(:action_name)`
 * `forbid_mass_assignment_of(:attribute_name).for_action(:action_name)`
-* `forbid_mass_assignments_of([:attribute1, :attribute2]).for_action(:action_name)`
 
 To illustrate this, we'll check for the mass assignment of a slug attribute in
 our spec. The policy is expected to allow visitors to set the slug attribute
