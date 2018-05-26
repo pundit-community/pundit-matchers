@@ -1,5 +1,10 @@
 # Pundit Matchers
 
+## 1.6.0 (2018-05-26)
+
+- Allow `permit_mass_assignment_of` and `forbid_mass_assignment_of` to accept
+  an array of attributes for testing the mass asignment of multiple attributes.
+
 ## 1.5.1 (2018-05-12)
 
 - Remove configuration from being in a seperate file (to get gem working again).
