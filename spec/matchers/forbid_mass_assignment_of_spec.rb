@@ -5,16 +5,16 @@ describe 'forbid_mass_assignment_of matcher' do
     before(:all) do
       class ForbidMassAssignmentOfPolicy1
         def permitted_attributes
-          [:foo, :bar]
+          %i[foo bar]
         end
       end
     end
 
     subject { ForbidMassAssignmentOfPolicy1.new }
-    it { is_expected.not_to forbid_mass_assignment_of([:foo, :bar]) }
-    it { is_expected.not_to forbid_mass_assignment_of([:foo]) }
+    it { is_expected.not_to forbid_mass_assignment_of(%i[foo bar]) }
+    it { is_expected.not_to forbid_mass_assignment_of(%i[foo]) }
     it { is_expected.not_to forbid_mass_assignment_of(:foo) }
-    it { is_expected.to forbid_mass_assignment_of([:baz]) }
+    it { is_expected.to forbid_mass_assignment_of(%i[baz]) }
     it { is_expected.to forbid_mass_assignment_of(:baz) }
   end
 
@@ -22,16 +22,16 @@ describe 'forbid_mass_assignment_of matcher' do
     before(:all) do
       class ForbidMassAssignmentOfPolicy2
         def permitted_attributes
-          [:foo]
+          %i[foo]
         end
       end
     end
 
     subject { ForbidMassAssignmentOfPolicy2.new }
-    it { is_expected.not_to forbid_mass_assignment_of([:foo, :bar]) }
-    it { is_expected.to forbid_mass_assignment_of([:bar]) }
+    it { is_expected.not_to forbid_mass_assignment_of(%i[foo bar]) }
+    it { is_expected.to forbid_mass_assignment_of(%i[bar]) }
     it { is_expected.to forbid_mass_assignment_of(:bar) }
-    it { is_expected.not_to forbid_mass_assignment_of([:foo]) }
+    it { is_expected.not_to forbid_mass_assignment_of(%i[foo]) }
     it { is_expected.not_to forbid_mass_assignment_of(:foo) }
   end
 
@@ -45,8 +45,8 @@ describe 'forbid_mass_assignment_of matcher' do
     end
 
     subject { ForbidMassAssignmentOfPolicy3.new }
-    it { is_expected.to forbid_mass_assignment_of([:foo, :bar]) }
-    it { is_expected.to forbid_mass_assignment_of([:foo]) }
+    it { is_expected.to forbid_mass_assignment_of(%i[foo bar]) }
+    it { is_expected.to forbid_mass_assignment_of(%i[foo]) }
     it { is_expected.to forbid_mass_assignment_of(:foo) }
     it { is_expected.to forbid_mass_assignment_of(:baz) }
   end
@@ -55,16 +55,21 @@ describe 'forbid_mass_assignment_of matcher' do
     before(:all) do
       class ForbidMassAssignmentOfTestPolicy4
         def permitted_attributes_for_test
-          [:foo, :bar]
+          %i[foo bar]
         end
       end
     end
 
     subject { ForbidMassAssignmentOfTestPolicy4.new }
-    it { is_expected.not_to forbid_mass_assignment_of([:foo, :bar]).for_action(:test) }
-    it { is_expected.not_to forbid_mass_assignment_of([:foo]).for_action(:test) }
+    it do
+      is_expected.not_to forbid_mass_assignment_of(%i[foo bar])
+        .for_action(:test)
+    end
+    it do
+      is_expected.not_to forbid_mass_assignment_of(%i[foo]).for_action(:test)
+    end
     it { is_expected.not_to forbid_mass_assignment_of(:foo).for_action(:test) }
-    it { is_expected.to forbid_mass_assignment_of([:baz]).for_action(:test) }
+    it { is_expected.to forbid_mass_assignment_of(%i[baz]).for_action(:test) }
     it { is_expected.to forbid_mass_assignment_of(:baz).for_action(:test) }
   end
 
@@ -72,20 +77,24 @@ describe 'forbid_mass_assignment_of matcher' do
     before(:all) do
       class ForbidMassAssignmentOfTestPolicy5
         def permitted_attributes_for_test
-          [:foo]
+          %i[foo]
         end
       end
     end
 
     subject { ForbidMassAssignmentOfTestPolicy5.new }
-    it { is_expected.not_to forbid_mass_assignment_of([:foo, :bar]).for_action(:test) }
+    it do
+      is_expected.not_to forbid_mass_assignment_of(%i[foo bar])
+        .for_action(:test)
+    end
     it { is_expected.not_to forbid_mass_assignment_of(:foo).for_action(:test) }
-    it { is_expected.to forbid_mass_assignment_of([:bar]).for_action(:test) }
-    it { is_expected.to forbid_mass_assignment_of([:baz]).for_action(:test) }
+    it { is_expected.to forbid_mass_assignment_of(%i[bar]).for_action(:test) }
+    it { is_expected.to forbid_mass_assignment_of(%i[baz]).for_action(:test) }
     it { is_expected.to forbid_mass_assignment_of(:baz).for_action(:test) }
   end
 
-  context 'when the foo and bar attributes are not permitted for the test action' do
+  context 'when the foo and bar attributes are not permitted for the test ' \
+    'action' do
     before(:all) do
       class ForbidMassAssignmentOfTestPolicy6
         def permitted_attributes_for_test
@@ -95,8 +104,10 @@ describe 'forbid_mass_assignment_of matcher' do
     end
 
     subject { ForbidMassAssignmentOfTestPolicy6.new }
-    it { is_expected.to forbid_mass_assignment_of([:foo, :bar]).for_action(:test) }
-    it { is_expected.to forbid_mass_assignment_of([:foo]).for_action(:test) }
+    it do
+      is_expected.to forbid_mass_assignment_of(%i[foo bar]).for_action(:test)
+    end
+    it { is_expected.to forbid_mass_assignment_of(%i[foo]).for_action(:test) }
     it { is_expected.to forbid_mass_assignment_of(:foo).for_action(:test) }
     it { is_expected.to forbid_mass_assignment_of(:baz).for_action(:test) }
   end
