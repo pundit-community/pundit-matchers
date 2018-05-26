@@ -70,7 +70,8 @@ files (by convention, saved in the `spec/policies` directory).
 * `permit_edit_and_update_actions` Tests that both the edit and update actions
   are permitted by the policy.
 * `permit_mass_assignment_of(:attribute_name)` Tests that mass assignment of the
-  attribute, passed in as a parameter, is permitted by the policy.
+  attribute(s), passed in as a single symbol parameter or an array of symbols,
+  is permitted by the policy.
 
 ### Forbid Matchers
 
@@ -85,7 +86,8 @@ files (by convention, saved in the `spec/policies` directory).
 * `forbid_edit_and_update_actions` Tests that both the edit and update actions
   are not permitted by the policy.
 * `forbid_mass_assignment_of(:attribute_name)` Tests that mass assignment of the
-  attribute, passed in as a parameter, is not permitted by the policy.
+  attribute(s), passed in as a single symbol parameter or an array of symbols,
+  is not permitted by the policy.
 
 ## A Basic Example of a Policy Spec
 
@@ -302,6 +304,36 @@ describe ArticlePolicy do
 
     it { is_expected.to permit_new_and_create_actions }
     it { is_expected.to permit_mass_assignment_of(:publish) }
+  end
+end
+```
+
+## Testing the Mass Assignment of Multiple Attributes
+
+To test multiple attributes at once, the `permit_mass_assignment_of` and `forbid_mass_assignment_of`
+matchers can be used. Both matchers accept an array of attributes as a parameter.
+In the following example, visitors can only set the name of articles, while administrators
+can also set the description.
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:article) { Article.new }
+
+  context 'being a visitor' do
+    let(:user) { nil }
+
+    it { is_expected.to permit_mass_assignment_of([:name]) }
+    it { is_expected.to forbid_mass_assignment_of([:description]) }
+  end
+
+  context 'being an administrator' do
+    let(:user) { User.create(administrator: true) }
+
+    it { is_expected.to permit_mass_assignment_of([:name, :description]) }
   end
 end
 ```
