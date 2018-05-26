@@ -3,7 +3,7 @@
 [![Gem Version][version-badge]][rubygems]
 [![Build Status][travis-badge]][travis]
 
-A set of RSpec matchers for testing [Pundit](https://github.com/elabs/pundit)
+A set of RSpec matchers for testing [Pundit][pundit-github]
 authorisation policies. The matcher syntax was inspired by
 [this excellent blog post](
   http://thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec
@@ -582,4 +582,5 @@ end
 [rubygems]: http://rubygems.org/gems/pundit-matchers
 [travis-badge]: http://img.shields.io/travis/chrisalley/pundit-matchers/master.svg
 [travis]: http://travis-ci.org/chrisalley/pundit-matchers
+[pundit-github]: https://github.com/varvet/pundit
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
