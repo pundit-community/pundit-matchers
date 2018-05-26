@@ -572,7 +572,14 @@ describe ArticlePolicy do
 end
 ```
 
+## Contributing
+
+* Use the [Ruby Style Guide][ruby-style-guide].
+* Run `bin/rubocop` before submitting a pull request with the aim of not
+  introducing any new Rubocop violations.
+
 [version-badge]: http://img.shields.io/gem/v/pundit-matchers.svg
 [rubygems]: http://rubygems.org/gems/pundit-matchers
 [travis-badge]: http://img.shields.io/travis/chrisalley/pundit-matchers/master.svg
 [travis]: http://travis-ci.org/chrisalley/pundit-matchers
+[ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
