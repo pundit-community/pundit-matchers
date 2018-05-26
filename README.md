@@ -69,9 +69,10 @@ files (by convention, saved in the `spec/policies` directory).
   are permitted by the policy.
 * `permit_edit_and_update_actions` Tests that both the edit and update actions
   are permitted by the policy.
-* `permit_mass_assignment_of(:attribute_name)` Tests that mass assignment of the
-  attribute(s), passed in as a single symbol parameter or an array of symbols,
-  is permitted by the policy.
+* `permit_mass_assignment_of(:attribute_name)` or
+  `permit_mass_assignment_of([:attribute1, :attribute2])` Tests that mass
+  assignment of the attribute(s), passed in as a single symbol parameter or an
+  array of symbols, are permitted by the policy.
 
 ### Forbid Matchers
 
@@ -85,9 +86,10 @@ files (by convention, saved in the `spec/policies` directory).
   are not permitted by the policy.
 * `forbid_edit_and_update_actions` Tests that both the edit and update actions
   are not permitted by the policy.
-* `forbid_mass_assignment_of(:attribute_name)` Tests that mass assignment of the
-  attribute(s), passed in as a single symbol parameter or an array of symbols,
-  is not permitted by the policy.
+* `forbid_mass_assignment_of(:attribute_name)` or
+  `forbid_mass_assignment_of([:attribute1, :attribute2])` Tests that mass
+  assignment of the attribute(s), passed in as a single symbol parameter or an
+  array of symbols, are not permitted by the policy.
 
 ## A Basic Example of a Policy Spec
 
