@@ -63,14 +63,14 @@ files (by convention, saved in the `spec/policies` directory).
   is permitted by the policy.
 * `permit_action(:action_name, *arguments)` Tests that an action and any
   optional arguments, passed in as parameters, are permitted by the policy.
-* `permit_actions([:action1, :action2])` Tests that an array of actions, passed
+* `permit_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are permitted by the policy.
 * `permit_new_and_create_actions` Tests that both the new and create actions
   are permitted by the policy.
 * `permit_edit_and_update_actions` Tests that both the edit and update actions
   are permitted by the policy.
 * `permit_mass_assignment_of(:attribute_name)` or
-  `permit_mass_assignment_of([:attribute1, :attribute2])` Tests that mass
+  `permit_mass_assignment_of(%i[attribute1 attribute2])` Tests that mass
   assignment of the attribute(s), passed in as a single symbol parameter or an
   array of symbols, are permitted by the policy.
 
@@ -80,14 +80,14 @@ files (by convention, saved in the `spec/policies` directory).
   is not permitted by the policy.
 * `forbid_action(:action_name, *arguments)` Tests that an action and any
   optional arguments, passed in as parameters, are not permitted by the policy.
-* `forbid_actions([:action1, :action2])` Tests that an array of actions, passed
+* `forbid_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are not permitted by the policy.
 * `forbid_new_and_create_actions` Tests that both the new and create actions
   are not permitted by the policy.
 * `forbid_edit_and_update_actions` Tests that both the edit and update actions
   are not permitted by the policy.
 * `forbid_mass_assignment_of(:attribute_name)` or
-  `forbid_mass_assignment_of([:attribute1, :attribute2])` Tests that mass
+  `forbid_mass_assignment_of(%i[attribute1 attribute2])` Tests that mass
   assignment of the attribute(s), passed in as a single symbol parameter or an
   array of symbols, are not permitted by the policy.
 
@@ -177,13 +177,13 @@ describe ArticlePolicy do
     let(:user) { nil }
 
     it { is_expected.to permit_action(:show) }
-    it { is_expected.to forbid_actions([:create, :update]) }
+    it { is_expected.to forbid_actions(%i[create update]) }
   end
 
   context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    it { is_expected.to permit_actions([:show, :create, :update]) }
+    it { is_expected.to permit_actions(%i[show create update]) }
   end
 end
 ```
@@ -312,10 +312,10 @@ end
 
 ## Testing the Mass Assignment of Multiple Attributes
 
-To test multiple attributes at once, the `permit_mass_assignment_of` and `forbid_mass_assignment_of`
-matchers can be used. Both matchers accept an array of attributes as a parameter.
-In the following example, visitors can only set the name of articles, while administrators
-can also set the description.
+To test multiple attributes at once, the `permit_mass_assignment_of` and
+`forbid_mass_assignment_of` matchers can be used. Both matchers accept an array
+of attributes as a parameter. In the following example, visitors can only set
+the name of articles, while administrators can also set the description.
 
 ```ruby
 require 'rails_helper'
@@ -328,14 +328,14 @@ describe ArticlePolicy do
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { is_expected.to permit_mass_assignment_of([:name]) }
-    it { is_expected.to forbid_mass_assignment_of([:description]) }
+    it { is_expected.to permit_mass_assignment_of(%i[name]) }
+    it { is_expected.to forbid_mass_assignment_of(%i[description]) }
   end
 
   context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    it { is_expected.to permit_mass_assignment_of([:name, :description]) }
+    it { is_expected.to permit_mass_assignment_of(%i[name description]) }
   end
 end
 ```
@@ -365,7 +365,7 @@ describe ArticlePolicy do
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { is_expected.to permit_actions([:create, :update]) }
+    it { is_expected.to permit_actions(%i[create update]) }
     it { is_expected.to forbid_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
@@ -374,7 +374,7 @@ describe ArticlePolicy do
   context 'being an administrator' do
     let(:user) { User.create(administrator: true) }
 
-    it { is_expected.to permit_actions([:create, :update]) }
+    it { is_expected.to permit_actions(%i[create update]) }
     it { is_expected.to permit_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
@@ -496,9 +496,8 @@ describe ArticlePolicy do
       expect(resolved_scope).not_to include(article)
     end
 
-    it { is_expected.to forbid_action(:show) }
+    it { is_expected.to forbid_actions(%i[show destroy]) }
     it { is_expected.to forbid_edit_and_update_actions }
-    it { is_expected.to forbid_action(:destroy) }
   end
 
   describe 'permitted attributes for visitor' do
@@ -543,7 +542,7 @@ describe ArticlePolicy do
       expect(resolved_scope).to include(article)
     end
 
-    it { is_expected.to permit_actions([:show, :destroy]) }
+    it { is_expected.to permit_actions(%i[show destroy]) }
     it { is_expected.to permit_edit_and_update_actions }
   end
 
@@ -554,7 +553,7 @@ describe ArticlePolicy do
       expect(resolved_scope).to include(article)
     end
 
-    it { is_expected.to permit_actions([:show, :destroy]) }
+    it { is_expected.to permit_actions(%i[show destroy]) }
     it { is_expected.to permit_edit_and_update_actions }
   end
 
