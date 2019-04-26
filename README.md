@@ -572,6 +572,12 @@ describe ArticlePolicy do
 end
 ```
 
+## Development
+
+Run RSpec: `docker build . && docker-compose run lib bin/rspec`
+
+Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
+
 ## Contributing
 
 * Use the [Ruby Style Guide][ruby-style-guide].
