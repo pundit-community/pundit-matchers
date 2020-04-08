@@ -213,6 +213,26 @@ module Pundit
       @forbidden_actions.empty?
     end
 
+    match_when_negated do |policy|
+      ::Kernel.warn 'Using expect { }.not_to permit_actions could produce confusing \
+        results. Please use `.to forbid_actions` instead. To clarify, \
+        `.not_to permit_actions` will look at all of the actions and checks \
+        if ANY actions fail, not if all actions fail. Therefore, you could \
+        result in something like this: \
+
+        it { is_expected.to permit_actions([:new, :create, :edit]) } \
+        it { is_expected.not_to permit_actions([:edit, :destroy]) } \
+
+        In this case, edit would be true and destroy would be false, but both \
+        tests would pass.'
+
+      return true if actions.count < 1
+      @forbidden_actions = actions.reject do |action|
+        policy.public_send("#{action}?")
+      end
+      !@forbidden_actions.empty?
+    end
+
     attr_reader :forbidden_actions
 
     zero_actions_failure_message = 'At least one action must be specified ' \

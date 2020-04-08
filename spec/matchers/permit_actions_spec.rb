@@ -1,6 +1,25 @@
 require 'rspec/core'
 
 describe 'permit_actions matcher' do
+  before { allow(::Kernel).to receive(:warn) }
+
+  context 'when using `not_to`' do
+    before do
+      class PermitActionsTestPolicy0
+      end
+    end
+
+    subject { PermitActionsTestPolicy0.new }
+
+    it "prints a warning message" do
+      expect(::Kernel).to receive(:warn) do |message|
+        expect(message).to match(/Please use `\.to forbid_actions` instead/)
+      end
+
+      expect(subject).not_to permit_actions([])
+    end
+  end
+
   context 'no actions are specified' do
     before do
       class PermitActionsTestPolicy1
