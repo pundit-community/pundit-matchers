@@ -43,7 +43,8 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :forbid_actions do |actions|
+  RSpec::Matchers.define :forbid_actions do |*actions|
+    actions.flatten!
     match do |policy|
       return false if actions.count < 1
       @allowed_actions = actions.select do |action|
@@ -204,7 +205,8 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :permit_actions do |actions|
+  RSpec::Matchers.define :permit_actions do |*actions|
+    actions.flatten!
     match do |policy|
       return false if actions.count < 1
       @forbidden_actions = actions.reject do |action|
