@@ -587,6 +587,6 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 [version-badge]: http://img.shields.io/gem/v/pundit-matchers.svg
 [rubygems]: http://rubygems.org/gems/pundit-matchers
 [travis-badge]: http://img.shields.io/travis/chrisalley/pundit-matchers/master.svg
-[travis]: http://travis-ci.org/chrisalley/pundit-matchers
+[travis]: https://travis-ci.com/github/chrisalley/pundit-matchers
 [pundit-github]: https://github.com/varvet/pundit
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
