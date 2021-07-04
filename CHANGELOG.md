@@ -1,5 +1,12 @@
 # Pundit Matchers
 
+## 1.7.0 (2021-07-04)
+
+- Update Ruby, Bundler, and gem versions used in development/test environments.
+- Show a warning when `is_expected.not_to permit_actions` is attempted.
+- Allow a series of parameters to be passed to `permit_actions` and
+  `forbid_actions`
+
 ## 1.6.0 (2018-05-26)
 
 - Allow `permit_mass_assignment_of` and `forbid_mass_assignment_of` to accept
