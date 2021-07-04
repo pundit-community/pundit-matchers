@@ -188,6 +188,16 @@ describe ArticlePolicy do
 end
 ```
 
+Optionally, you can pass the actions to the `permit_actions` and
+`forbid_actions` matchers as a series of parameters, rather than an array. The
+following examples are equivalent:
+
+```ruby
+it { is_expected.to permit_actions([:show, :create, :update]) }
+it { is_expected.to permit_actions(%i[show create update]) }
+it { is_expected.to permit_actions(:show, :create, :update) }
+```
+
 ## Testing New/Create and Edit/Update Pairs
 
 It common to write separate authorisation policies on a per action basis. A
