@@ -216,11 +216,11 @@ module Pundit
     end
 
     match_when_negated do |policy|
-      ::Kernel.warn 'Using expect { }.not_to permit_actions could produce confusing \
-        results. Please use `.to forbid_actions` instead. To clarify, \
-        `.not_to permit_actions` will look at all of the actions and checks \
-        if ANY actions fail, not if all actions fail. Therefore, you could \
-        result in something like this: \
+      ::Kernel.warn 'Using expect { }.not_to permit_actions could produce \
+        confusing results. Please use `.to forbid_actions` instead. To \
+        clarify, `.not_to permit_actions` will look at all of the actions and \
+        checks if ANY actions fail, not if all actions fail. Therefore, you \
+        could result in something like this: \
 
         it { is_expected.to permit_actions([:new, :create, :edit]) } \
         it { is_expected.not_to permit_actions([:edit, :destroy]) } \
