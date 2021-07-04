@@ -4,7 +4,7 @@ before_install:
  - gem install bundler
 script: bundle exec rake
 rvm:
- - 2.4.1
+ - 3.0.1
 notifications:
   email:
     on_failure: always
