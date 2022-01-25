@@ -429,37 +429,25 @@ describe ArticlePolicy do
     described_class::Scope.new(user, Article.all).resolve
   end
 
-  context 'being a visitor' do
-    let(:user) { nil }
+  let(:user) { nil }
 
-    context 'accessing a published article' do
-      let(:article) { Article.create(publish: true) }
+  context 'visitor accessing a published article' do
+    let(:article) { Article.create(publish: true) }
 
-      it 'includes article in resolved scope' do
-        expect(resolved_scope).to include(article)
-      end
-
-      it { is_expected.to permit_action(:show) }
+    it 'includes article in resolved scope' do
+      expect(resolved_scope).to include(article)
     end
+  end
 
-    context 'accessing an unpublished article' do
-      let(:article) { Article.create(publish: false) }
+  context 'visitor accessing an unpublished article' do
+    let(:article) { Article.create(publish: false) }
 
-      it 'excludes article from resolved scope' do
-        expect(resolved_scope).not_to include(article)
-      end
-
-      it { is_expected.to forbid_action(:show) }
+    it 'excludes article from resolved scope' do
+      expect(resolved_scope).not_to include(article)
     end
   end
 end
 ```
-
-The advantage of this approach is that it increases the readability of your
-specs. It allows you to place all of your specifications for authorising a
-particular context (user and record configuration) inside of a single context
-block; attempts to access a particular record via both actions and
-scopes are tested in the same part of the spec.
 
 ## Putting It All Together
 
@@ -588,6 +576,11 @@ describe ArticlePolicy do
   end
 end
 ```
+
+The advantage of this approach is that it increases the readability of your
+specs. It allows you to place all of your specifications for authorising a
+particular context (user and record configuration) inside of a single context
+block, with each spec file representing a wider context.
 
 ## Development
 
