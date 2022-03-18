@@ -54,7 +54,7 @@ policy by policy basis.
 
 ## Matchers
 
-The following RSpec matchers can now be used in your the Pundit policy spec
+The following RSpec matchers can now be used in your Pundit policy spec
 files (by convention, saved in the `spec/policies` directory).
 
 ### Permit Matchers
