@@ -5,9 +5,7 @@
 
 A set of RSpec matchers for testing [Pundit][pundit-github]
 authorisation policies. The matcher syntax was inspired by
-[this excellent blog post](
-  http://thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec
-)
+[this excellent blog post](http://thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec)
 from Thunderbolt Labs.
 
 ## Installation
@@ -59,34 +57,36 @@ files (by convention, saved in the `spec/policies` directory).
 
 ### Permit Matchers
 
-* `permit_action(:action_name)` Tests that an action, passed in as a parameter,
+- `permit_action(:action_name)` Tests that an action, passed in as a parameter,
   is permitted by the policy.
-* `permit_action(:action_name, *arguments)` Tests that an action and any
+- `permit_action(:action_name, *arguments)` Tests that an action and any
   optional arguments, passed in as parameters, are permitted by the policy.
-* `permit_actions(%i[action1 action2])` Tests that an array of actions, passed
+- `permit_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are permitted by the policy.
-* `permit_new_and_create_actions` Tests that both the new and create actions
+- `permit_new_and_create_actions` Tests that both the new and create actions
   are permitted by the policy.
-* `permit_edit_and_update_actions` Tests that both the edit and update actions
+- `permit_edit_and_update_actions` Tests that both the edit and update actions
   are permitted by the policy.
-* `permit_mass_assignment_of(:attribute_name)` or
+- `permit_all_actions` Tests that all actions in the policy are permitted.
+- `permit_mass_assignment_of(:attribute_name)` or
   `permit_mass_assignment_of(%i[attribute1 attribute2])` Tests that mass
   assignment of the attribute(s), passed in as a single symbol parameter or an
   array of symbols, are permitted by the policy.
 
 ### Forbid Matchers
 
-* `forbid_action(:action_name)` Tests that an action, passed in as a parameter,
+- `forbid_action(:action_name)` Tests that an action, passed in as a parameter,
   is not permitted by the policy.
-* `forbid_action(:action_name, *arguments)` Tests that an action and any
+- `forbid_action(:action_name, *arguments)` Tests that an action and any
   optional arguments, passed in as parameters, are not permitted by the policy.
-* `forbid_actions(%i[action1 action2])` Tests that an array of actions, passed
+- `forbid_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are not permitted by the policy.
-* `forbid_new_and_create_actions` Tests that both the new and create actions
+- `forbid_new_and_create_actions` Tests that both the new and create actions
   are not permitted by the policy.
-* `forbid_edit_and_update_actions` Tests that both the edit and update actions
+- `forbid_edit_and_update_actions` Tests that both the edit and update actions
   are not permitted by the policy.
-* `forbid_mass_assignment_of(:attribute_name)` or
+- `forbid_all_actions` Tests that all actions in the policy are forbidden.
+- `forbid_mass_assignment_of(:attribute_name)` or
   `forbid_mass_assignment_of(%i[attribute1 attribute2])` Tests that mass
   assignment of the attribute(s), passed in as a single symbol parameter or an
   array of symbols, are not permitted by the policy.
@@ -217,10 +217,10 @@ form unless that user can also update the associated record.
 Pundit Matchers provides four shortcut matchers to account for these common
 scenarios:
 
-* `permit_new_and_create_actions`
-* `permit_edit_and_update_actions`
-* `forbid_new_and_create_actions`
-* `forbid_edit_and_update_actions`
+- `permit_new_and_create_actions`
+- `permit_edit_and_update_actions`
+- `forbid_new_and_create_actions`
+- `forbid_edit_and_update_actions`
 
 The following example tests a policy which grants administrators permission to
 create articles, but does not authorise visitors to do the same.
@@ -243,6 +243,33 @@ describe ArticlePolicy do
     let(:user) { User.create(administrator: true) }
 
     it { is_expected.to permit_new_and_create_actions }
+  end
+end
+```
+
+## Testing All Actions
+
+As of Pundit Matchers 1.8, the `permit_all_actions` and `forbid_all_actions`
+matchers are also available. If all actions for a policy are expected to be
+permitted or forbidden you can write a single expectation that will check every
+action in the policy.
+
+```ruby
+class ArticlePolicy < ApplicationPolicy
+  subject { described_class.new(user, article) }
+
+  let(:article) { Article.new }
+
+   context 'being a visitor' do
+    let(:user) { nil }
+
+    it { is_expected.to forbid_all_actions }
+  end
+
+  context 'being an administrator' do
+    let(:user) { User.create(administrator: true) }
+
+    it { is_expected.to permit_all_actions }
   end
 end
 ```
@@ -295,12 +322,12 @@ For policies that contain a `permitted_attributes` method (to authorise only
 particular attributes), Pundit Matchers provides two matchers to test for mass
 assignment.
 
-* `permit_mass_assignment_of(:attribute_name)`
-* `forbid_mass_assignment_of(:attribute_name)`
+- `permit_mass_assignment_of(:attribute_name)`
+- `forbid_mass_assignment_of(:attribute_name)`
 
 Let's modify the earlier example which tests a policy where administrators are
 granted permission to create articles, but visitors are not authorised to do so.
-In this updated example, visitors *can* create articles but they cannot set the
+In this updated example, visitors _can_ create articles but they cannot set the
 publish flag.
 
 ```ruby
@@ -363,8 +390,8 @@ Pundit allows you to permit different attributes based on the current action
 by adding a `permitted_attributes_for_#{action}` method to your policy.
 Pundit Matchers supports testing of these methods via composable matchers.
 
-* `permit_mass_assignment_of(:attribute_name).for_action(:action_name)`
-* `forbid_mass_assignment_of(:attribute_name).for_action(:action_name)`
+- `permit_mass_assignment_of(:attribute_name).for_action(:action_name)`
+- `forbid_mass_assignment_of(:attribute_name).for_action(:action_name)`
 
 To illustrate this, we'll check for the mass assignment of a slug attribute in
 our spec. The policy is expected to allow visitors to set the slug attribute
@@ -399,12 +426,12 @@ describe ArticlePolicy do
 end
 ```
 
-Warning: Currently, Pundit Matchers does *not* automatically check if the
+Warning: Currently, Pundit Matchers does _not_ automatically check if the
 attribute is permitted by a `permitted_attributes_for_#{action}` method, so even
 if you include a `forbid_mass_assignment_of(:attribute)` expectation in the
-policy spec, it's entirely possible that the attribute *is* being permitted
+policy spec, it's entirely possible that the attribute _is_ being permitted
 through a `permitted_attributes_for_#{action}` method that is tested separately.
-For this reason, you should always explicitly test *all* implemented
+For this reason, you should always explicitly test _all_ implemented
 `permitted_attributes_for_#{action}` methods, as demonstrated in the example.
 
 ## Testing Resolved Scopes
@@ -501,8 +528,7 @@ describe ArticlePolicy do
       expect(resolved_scope).not_to include(article)
     end
 
-    it { is_expected.to forbid_actions(%i[show destroy]) }
-    it { is_expected.to forbid_edit_and_update_actions }
+    it { is_expected.to forbid_all_actions }
   end
 
   describe 'permitted attributes for visitor' do
@@ -547,8 +573,7 @@ describe ArticlePolicy do
       expect(resolved_scope).to include(article)
     end
 
-    it { is_expected.to permit_actions(%i[show destroy]) }
-    it { is_expected.to permit_edit_and_update_actions }
+    it { is_expected.to permit_all_actions }
   end
 
   context 'administrator accessing an unpublished article' do
@@ -558,8 +583,7 @@ describe ArticlePolicy do
       expect(resolved_scope).to include(article)
     end
 
-    it { is_expected.to permit_actions(%i[show destroy]) }
-    it { is_expected.to permit_edit_and_update_actions }
+    it { is_expected.to permit_all_actions }
   end
 
   describe 'permitted attributes for administrator' do
@@ -590,8 +614,8 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 
 ## Contributing
 
-* Use the [Ruby Style Guide][ruby-style-guide].
-* Run `bin/rubocop` before submitting a pull request with the aim of not
+- Use the [Ruby Style Guide][ruby-style-guide].
+- Run `bin/rubocop` before submitting a pull request with the aim of not
   introducing any new Rubocop violations.
 
 [version-badge]: http://img.shields.io/gem/v/pundit-matchers.svg
