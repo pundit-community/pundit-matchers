@@ -2,6 +2,12 @@ require 'rspec/core'
 
 module Pundit
   module Matchers
+    require 'pundit/matchers/utils/policy_info'
+    require 'pundit/matchers/utils/all_actions/forbidden_actions_error_formatter'
+    require 'pundit/matchers/utils/all_actions/forbidden_actions_matcher'
+    require 'pundit/matchers/utils/all_actions/permitted_actions_error_formatter'
+    require 'pundit/matchers/utils/all_actions/permitted_actions_matcher'
+
     class Configuration
       attr_accessor :user_alias
 
@@ -362,6 +368,30 @@ module Pundit
       "#{policy.class} does not forbid the new or create action for " +
         policy.public_send(Pundit::Matchers.configuration.user_alias)
               .inspect + '.'
+    end
+  end
+
+  RSpec::Matchers.define :permit_all_actions do
+    match do |policy|
+      @matcher = Pundit::Matchers::Utils::AllActions::PermittedActionsMatcher.new(policy)
+      @matcher.match?
+    end
+
+    failure_message do
+      formatter = Pundit::Matchers::Utils::AllActions::PermittedActionsErrorFormatter.new(@matcher)
+      formatter.message
+    end
+  end
+
+  RSpec::Matchers.define :forbid_all_actions do
+    match do |policy|
+      @matcher = Pundit::Matchers::Utils::AllActions::ForbiddenActionsMatcher.new(policy)
+      @matcher.match?
+    end
+
+    failure_message do
+      formatter = Pundit::Matchers::Utils::AllActions::ForbiddenActionsErrorFormatter.new(@matcher)
+      formatter.message
     end
   end
 end
