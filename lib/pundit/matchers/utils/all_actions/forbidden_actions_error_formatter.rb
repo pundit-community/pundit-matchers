@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pundit/matchers/utils/all_actions/error_message_formatter'
+require_relative 'error_message_formatter'
 
 module Pundit
   module Matchers

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pundit/matchers/utils/all_actions/actions_matcher'
+require_relative 'actions_matcher'
 
 module Pundit
   module Matchers
