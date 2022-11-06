@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 1.8.3 (2022-11-06)
+
+- Ensure that all files within the lib directory are loaded from the gem.
+
 ## 1.8.2 (2022-11-06)
 
 - Use `require_relative` to load new files so that they can be found from within

@@ -1,13 +1,14 @@
 Gem::Specification.new do |s|
   s.name        = 'pundit-matchers'
-  s.version     = '1.8.2'
+  s.version     = '1.8.3'
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.summary     = 'RSpec matchers for Pundit policies'
   s.description = 'A set of RSpec matchers for testing Pundit authorisation ' \
                   'policies'
   s.authors     = ['Chris Alley']
   s.email       = 'chris@chrisalley.info'
-  s.files       = ['lib/pundit/matchers.rb']
+  s.files       = Dir['lib/**/*']
+  s.require_paths = ['lib']
   s.homepage    = 'http://github.com/punditcommunity/pundit-matchers'
   s.license     = 'MIT'
   s.add_runtime_dependency 'rspec-rails', '>= 3.0.0'

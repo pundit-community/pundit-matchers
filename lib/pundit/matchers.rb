@@ -2,11 +2,11 @@ require 'rspec/core'
 
 module Pundit
   module Matchers
-    require_relative 'matchers/utils/policy_info'
-    require_relative 'matchers/utils/all_actions/forbidden_actions_error_formatter'
-    require_relative 'matchers/utils/all_actions/forbidden_actions_matcher'
-    require_relative 'matchers/utils/all_actions/permitted_actions_error_formatter'
-    require_relative 'matchers/utils/all_actions/permitted_actions_matcher'
+    require './matchers/utils/policy_info'
+    require './matchers/utils/all_actions/forbidden_actions_error_formatter'
+    require './matchers/utils/all_actions/forbidden_actions_matcher'
+    require './matchers/utils/all_actions/permitted_actions_error_formatter'
+    require './matchers/utils/all_actions/permitted_actions_matcher'
 
     class Configuration
       attr_accessor :user_alias
