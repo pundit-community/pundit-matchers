@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'pundit-matchers'
-  s.version     = '1.8.1'
+  s.version     = '1.8.2'
   s.date        = Time.now.strftime('%Y-%m-%d')
   s.summary     = 'RSpec matchers for Pundit policies'
   s.description = 'A set of RSpec matchers for testing Pundit authorisation ' \
