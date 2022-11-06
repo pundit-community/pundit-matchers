@@ -15,7 +15,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 1.7.0'
+  gem 'pundit-matchers', '~> 1.8.0'
 end
 ```
 
@@ -620,7 +620,7 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 
 [version-badge]: http://img.shields.io/gem/v/pundit-matchers.svg
 [rubygems]: http://rubygems.org/gems/pundit-matchers
-[travis-badge]: http://img.shields.io/travis/chrisalley/pundit-matchers/master.svg
-[travis]: https://travis-ci.com/github/chrisalley/pundit-matchers
+[travis-badge]: http://img.shields.io/travis/punditcommunity/pundit-matchers/master.svg
+[travis]: https://travis-ci.com/github/punditcommunity/pundit-matchers
 [pundit-github]: https://github.com/varvet/pundit
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide

@@ -1,5 +1,11 @@
 # Pundit Matchers
 
+## 1.8.0 (2022-11-06)
+
+- Add `permit_all_actions` and `forbid_all_actions` matchers.
+- Add Contributor Covenant Code of Conduct.
+- Move code repository to a new GitHub organisation.
+
 ## 1.7.0 (2021-07-04)
 
 - Update Ruby, Bundler, and gem versions used in development/test environments.
