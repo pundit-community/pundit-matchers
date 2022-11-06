@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 1.8.1 (2022-11-06)
+
+- Add back open-ended dependency on rspec-rails >= 3 (removed in v1.8.0).
+
 ## 1.8.0 (2022-11-06)
 
 - Add `permit_all_actions` and `forbid_all_actions` matchers.
