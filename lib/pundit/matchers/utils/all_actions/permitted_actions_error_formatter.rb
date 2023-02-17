@@ -18,7 +18,7 @@ module Pundit
 
           private
 
-          attr_reader :matcher, :expected_kind, :actual_kind
+          attr_reader :matcher, :expected_kind, :opposite_kind
         end
       end
     end
