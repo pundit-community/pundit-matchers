@@ -620,7 +620,7 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 
 [version-badge]: http://img.shields.io/gem/v/pundit-matchers.svg
 [rubygems]: http://rubygems.org/gems/pundit-matchers
-[travis-badge]: http://img.shields.io/travis/punditcommunity/pundit-matchers/master.svg
-[travis]: https://travis-ci.com/github/punditcommunity/pundit-matchers
+[travis-badge]: https://app.travis-ci.com/punditcommunity/pundit-matchers.svg?branch=main
+[travis]: https://app.travis-ci.com/github/punditcommunity/pundit-matchers
 [pundit-github]: https://github.com/varvet/pundit
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
