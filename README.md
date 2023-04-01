@@ -105,7 +105,7 @@ require 'rails_helper'
 describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
-  let(:article) { Article.create }
+  let(:article) { Article.new }
 
   context 'being a visitor' do
     let(:user) { nil }
@@ -115,7 +115,7 @@ describe ArticlePolicy do
   end
 
   context 'being an administrator' do
-    let(:user) { User.create(administrator: true) }
+    let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_actions([:show, :destroy]) }
   end
@@ -146,7 +146,7 @@ containing a `user_id` attribute which matches the user's ID:
 
 ```ruby
 let(:user) { User.create }
-let(:article) { Article.create(user_id: user.id) }
+let(:article) { Article.new(user_id: user.id) }
 
 it { is_expected.to permit_action(:destroy) }
 ```
@@ -181,7 +181,7 @@ describe ArticlePolicy do
   end
 
   context 'being an administrator' do
-    let(:user) { User.create(administrator: true) }
+    let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_actions(%i[show create update]) }
   end
@@ -240,7 +240,7 @@ describe ArticlePolicy do
   end
 
   context 'being an administrator' do
-    let(:user) { User.create(administrator: true) }
+    let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_new_and_create_actions }
   end
@@ -267,7 +267,7 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   context 'being an administrator' do
-    let(:user) { User.create(administrator: true) }
+    let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_all_actions }
   end
@@ -300,7 +300,7 @@ describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:user) { nil }
-  let(:article) { Article.create }
+  let(:article) { Article.new }
 
   context 'comment is spam' do
     let(:comment) { Comment.new(spam: true) }
@@ -346,7 +346,7 @@ describe ArticlePolicy do
   end
 
   context 'being an administrator' do
-    let(:user) { User.create(administrator: true) }
+    let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_new_and_create_actions }
     it { is_expected.to permit_mass_assignment_of(:publish) }
@@ -377,7 +377,7 @@ describe ArticlePolicy do
   end
 
   context 'being an administrator' do
-    let(:user) { User.create(administrator: true) }
+    let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_mass_assignment_of(%i[name description]) }
   end
@@ -416,7 +416,7 @@ describe ArticlePolicy do
   end
 
   context 'being an administrator' do
-    let(:user) { User.create(administrator: true) }
+    let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_actions(%i[create update]) }
     it { is_expected.to permit_mass_assignment_of(:slug) }
@@ -558,7 +558,7 @@ describe ArticlePolicy do
     described_class::Scope.new(user, Article.all).resolve
   end
 
-  let(:user) { User.create(administrator: true) }
+  let(:user) { User.new(administrator: true) }
 
   context 'administrator creating a new article' do
     let(:article) { Article.new }
