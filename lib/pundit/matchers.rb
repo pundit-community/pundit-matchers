@@ -8,6 +8,9 @@ module Pundit
     require_relative 'matchers/utils/all_actions/permitted_actions_error_formatter'
     require_relative 'matchers/utils/all_actions/permitted_actions_matcher'
 
+    require_relative 'matchers/utils/only_actions/permitted_actions_error_formatter'
+    require_relative 'matchers/utils/only_actions/permitted_actions_matcher'
+
     class Configuration
       attr_accessor :user_alias
 
@@ -379,6 +382,18 @@ module Pundit
 
     failure_message do
       formatter = Pundit::Matchers::Utils::AllActions::PermittedActionsErrorFormatter.new(@matcher)
+      formatter.message
+    end
+  end
+
+  RSpec::Matchers.define :permit_only_actions do |actions|
+    match do |policy|
+      @matcher = Pundit::Matchers::Utils::OnlyActions::PermittedActionsMatcher.new(policy, actions)
+      @matcher.match?
+    end
+
+    failure_message do
+      formatter = Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormatter.new(@matcher)
       formatter.message
     end
   end
