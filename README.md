@@ -5,7 +5,7 @@
 
 A set of RSpec matchers for testing [Pundit][pundit-github]
 authorisation policies. The matcher syntax was inspired by
-[this excellent blog post](http://thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec)
+[this excellent blog post](https://www.thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec/)
 from Thunderbolt Labs.
 
 ## Installation
@@ -618,9 +618,9 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 - Run `bin/rubocop` before submitting a pull request with the aim of not
   introducing any new Rubocop violations.
 
-[version-badge]: http://img.shields.io/gem/v/pundit-matchers.svg
-[rubygems]: http://rubygems.org/gems/pundit-matchers
-[travis-badge]: http://img.shields.io/travis/punditcommunity/pundit-matchers/master.svg
-[travis]: https://travis-ci.com/github/punditcommunity/pundit-matchers
+[version-badge]: https://img.shields.io/gem/v/pundit-matchers.svg
+[rubygems]: https://rubygems.org/gems/pundit-matchers
+[travis-badge]: https://app.travis-ci.com/punditcommunity/pundit-matchers.svg?branch=main
+[travis]: https://app.travis-ci.com/github/punditcommunity/pundit-matchers
 [pundit-github]: https://github.com/varvet/pundit
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
