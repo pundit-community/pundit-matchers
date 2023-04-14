@@ -1,7 +1,9 @@
 source 'http://rubygems.org'
 
 group :development, :test do
-  gem 'rake', '~> 13.0.6'
-  gem 'rspec', '~> 3.11.0'
-  gem 'rubocop', '~> 1.36.0', require: false
+  gem 'rake', '~> 13.0'
+  gem 'rspec', '~> 3.12'
+  gem 'rubocop', '~> 1.50', require: false
+  gem 'rubocop-rake', '~> 0.6.0', require: false
+  gem 'rubocop-rspec', '~> 2.19', require: false
 end
