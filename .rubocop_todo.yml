@@ -30,8 +30,6 @@ Gemspec/RequiredRubyVersion:
 Layout/EmptyLineAfterGuardClause:
   Exclude:
     - 'lib/pundit/matchers.rb'
-    - 'spec/matchers/forbid_action_spec.rb'
-    - 'spec/matchers/permit_action_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, IndentationWidth.
@@ -40,35 +38,6 @@ Layout/LineEndStringConcatenationIndentation:
   Exclude:
     - 'lib/pundit/matchers.rb'
     - 'lib/pundit/matchers/utils/all_actions/error_message_formatter.rb'
-    - 'spec/matchers/forbid_mass_assignment_of_spec.rb'
-    - 'spec/matchers/permit_mass_assignment_of_spec.rb'
-
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: enums
-Lint/ConstantDefinitionInBlock:
-  Exclude:
-    - 'spec/matchers/forbid_action_spec.rb'
-    - 'spec/matchers/forbid_actions_spec.rb'
-    - 'spec/matchers/forbid_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/forbid_mass_assignment_of_spec.rb'
-    - 'spec/matchers/forbid_new_and_create_actions_spec.rb'
-    - 'spec/matchers/permit_action_spec.rb'
-    - 'spec/matchers/permit_actions_spec.rb'
-    - 'spec/matchers/permit_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/permit_mass_assignment_of_spec.rb'
-    - 'spec/matchers/permit_new_and_create_actions_spec.rb'
-
-# Configuration parameters: AllowComments.
-Lint/EmptyClass:
-  Exclude:
-    - 'spec/matchers/forbid_actions_spec.rb'
-    - 'spec/matchers/permit_actions_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'spec/spec_helper.rb'
 
 # Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns, inherit_mode.
 # AllowedMethods: refine
@@ -78,30 +47,6 @@ Metrics/BlockLength:
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ModuleLength:
   Max: 294
-
-RSpec/BeforeAfterAll:
-  Exclude:
-    - 'spec/spec_helper.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/support/**/*.rb'
-    - 'spec/matchers/forbid_mass_assignment_of_spec.rb'
-    - 'spec/matchers/permit_mass_assignment_of_spec.rb'
-
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/matchers/configuration_spec.rb'
-    - 'spec/matchers/forbid_action_spec.rb'
-    - 'spec/matchers/forbid_actions_spec.rb'
-    - 'spec/matchers/forbid_all_actions_spec.rb'
-    - 'spec/matchers/forbid_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/forbid_new_and_create_actions_spec.rb'
-    - 'spec/matchers/permit_action_spec.rb'
-    - 'spec/matchers/permit_actions_spec.rb'
-    - 'spec/matchers/permit_all_actions_spec.rb'
-    - 'spec/matchers/permit_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/permit_new_and_create_actions_spec.rb'
 
 # Configuration parameters: IgnoredMetadata.
 RSpec/DescribeClass:
@@ -124,40 +69,6 @@ RSpec/DescribeClass:
     - 'spec/matchers/permit_mass_assignment_of_spec.rb'
     - 'spec/matchers/permit_new_and_create_actions_spec.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: SkipBlocks, EnforcedStyle.
-# SupportedStyles: described_class, explicit
-RSpec/DescribedClass:
-  Exclude:
-    - 'spec/matchers/configuration_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Exclude:
-    - 'spec/matchers/forbid_mass_assignment_of_spec.rb'
-    - 'spec/matchers/permit_mass_assignment_of_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterHook:
-  Exclude:
-    - 'spec/matchers/configuration_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/EmptyLineAfterSubject:
-  Exclude:
-    - 'spec/matchers/forbid_action_spec.rb'
-    - 'spec/matchers/forbid_actions_spec.rb'
-    - 'spec/matchers/forbid_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/forbid_mass_assignment_of_spec.rb'
-    - 'spec/matchers/forbid_new_and_create_actions_spec.rb'
-    - 'spec/matchers/permit_action_spec.rb'
-    - 'spec/matchers/permit_actions_spec.rb'
-    - 'spec/matchers/permit_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/permit_mass_assignment_of_spec.rb'
-    - 'spec/matchers/permit_new_and_create_actions_spec.rb'
-
 # Configuration parameters: Include, CustomTransform, IgnoreMethods, SpecSuffixOnly.
 # Include: **/*_spec*rb*, **/spec/**/*
 RSpec/FilePath:
@@ -169,59 +80,8 @@ RSpec/FilePath:
     - 'spec/matchers/utils/all_actions/permitted_actions_matcher_spec.rb'
     - 'spec/matchers/utils/policy_info_spec.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: single_line_only, single_statement_only, disallow, require_implicit
-RSpec/ImplicitSubject:
-  Exclude:
-    - 'spec/matchers/forbid_mass_assignment_of_spec.rb'
-    - 'spec/matchers/permit_mass_assignment_of_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/LeadingSubject:
-  Exclude:
-    - 'spec/matchers/forbid_action_spec.rb'
-    - 'spec/matchers/forbid_actions_spec.rb'
-    - 'spec/matchers/forbid_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/forbid_mass_assignment_of_spec.rb'
-    - 'spec/matchers/forbid_new_and_create_actions_spec.rb'
-    - 'spec/matchers/permit_action_spec.rb'
-    - 'spec/matchers/permit_actions_spec.rb'
-    - 'spec/matchers/permit_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/permit_mass_assignment_of_spec.rb'
-    - 'spec/matchers/permit_new_and_create_actions_spec.rb'
-
-RSpec/LeakyConstantDeclaration:
-  Exclude:
-    - 'spec/matchers/forbid_action_spec.rb'
-    - 'spec/matchers/forbid_actions_spec.rb'
-    - 'spec/matchers/forbid_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/forbid_mass_assignment_of_spec.rb'
-    - 'spec/matchers/forbid_new_and_create_actions_spec.rb'
-    - 'spec/matchers/permit_action_spec.rb'
-    - 'spec/matchers/permit_actions_spec.rb'
-    - 'spec/matchers/permit_edit_and_update_actions_spec.rb'
-    - 'spec/matchers/permit_mass_assignment_of_spec.rb'
-    - 'spec/matchers/permit_new_and_create_actions_spec.rb'
-
-# Configuration parameters: .
-# SupportedStyles: have_received, receive
-RSpec/MessageSpies:
-  EnforcedStyle: receive
-
 RSpec/MultipleExpectations:
-  Max: 3
-
-# Configuration parameters: EnforcedStyle, IgnoreSharedExamples.
-# SupportedStyles: always, named_only
-RSpec/NamedSubject:
-  Exclude:
-    - 'spec/matchers/permit_actions_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Style/BlockComments:
-  Exclude:
-    - 'spec/spec_helper.rb'
+  Max: 2
 
 # Configuration parameters: AllowedConstants.
 Style/Documentation:
@@ -234,12 +94,11 @@ Style/Documentation:
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: always, always_true, never
 Style/FrozenStringLiteralComment:
-  Enabled: false
-
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantConstantBase:
   Exclude:
-    - 'spec/matchers/permit_actions_spec.rb'
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'lib/pundit/matchers.rb'
+    - 'pundit-matchers.gemspec'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/RedundantSelfAssignmentBranch:
@@ -251,10 +110,3 @@ Style/RedundantSelfAssignmentBranch:
 Style/StringConcatenation:
   Exclude:
     - 'lib/pundit/matchers.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Exclude:
-    - 'spec/matchers/permit_actions_spec.rb'

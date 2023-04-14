@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 require 'rspec/core'
 
 describe 'forbid_new_and_create_actions matcher' do
-  context 'new? and create? are both permitted' do
-    before do
-      class ForbidNewAndCreateActionsTestPolicy1
+  subject(:policy) { policy_class.new }
+
+  context 'when new? and create? are both permitted' do
+    let(:policy_class) do
+      Class.new do
         def new?
           true
         end
@@ -14,13 +18,12 @@ describe 'forbid_new_and_create_actions matcher' do
       end
     end
 
-    subject { ForbidNewAndCreateActionsTestPolicy1.new }
     it { is_expected.not_to forbid_new_and_create_actions }
   end
 
-  context 'new? is permitted, create? is forbidden' do
-    before do
-      class ForbidNewAndCreateActionsTestPolicy2
+  context 'when new? is permitted, create? is forbidden' do
+    let(:policy_class) do
+      Class.new do
         def new?
           true
         end
@@ -31,13 +34,12 @@ describe 'forbid_new_and_create_actions matcher' do
       end
     end
 
-    subject { ForbidNewAndCreateActionsTestPolicy2.new }
     it { is_expected.not_to forbid_new_and_create_actions }
   end
 
-  context 'new? is forbidden, create? is permitted' do
-    before do
-      class ForbidNewAndCreateActionsTestPolicy3
+  context 'when new? is forbidden, create? is permitted' do
+    let(:policy_class) do
+      Class.new do
         def new?
           false
         end
@@ -48,13 +50,12 @@ describe 'forbid_new_and_create_actions matcher' do
       end
     end
 
-    subject { ForbidNewAndCreateActionsTestPolicy3.new }
     it { is_expected.not_to forbid_new_and_create_actions }
   end
 
-  context 'new? and create? are both forbidden' do
-    before do
-      class ForbidNewAndCreateActionsTestPolicy4
+  context 'when new? and create? are both forbidden' do
+    let(:policy_class) do
+      Class.new do
         def new?
           false
         end
@@ -65,7 +66,6 @@ describe 'forbid_new_and_create_actions matcher' do
       end
     end
 
-    subject { ForbidNewAndCreateActionsTestPolicy4.new }
     it { is_expected.to forbid_new_and_create_actions }
   end
 end
