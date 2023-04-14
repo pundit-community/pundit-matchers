@@ -1,7 +1,7 @@
 # Pundit Matchers
 
 [![Gem Version][version-badge]][rubygems]
-[![Build Status][travis-badge]][travis]
+[![Test][github-actions-test-badge]][github-actions-test]
 
 A set of RSpec matchers for testing [Pundit][pundit-github]
 authorisation policies. The matcher syntax was inspired by
@@ -620,7 +620,7 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 
 [version-badge]: https://img.shields.io/gem/v/pundit-matchers.svg
 [rubygems]: https://rubygems.org/gems/pundit-matchers
-[travis-badge]: https://app.travis-ci.com/punditcommunity/pundit-matchers.svg?branch=main
-[travis]: https://app.travis-ci.com/github/punditcommunity/pundit-matchers
+[github-actions-test]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/test.yml
+[github-actions-test-badge]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/test.yml/badge.svg
 [pundit-github]: https://github.com/varvet/pundit
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
