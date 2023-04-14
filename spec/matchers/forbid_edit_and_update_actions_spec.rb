@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 require 'rspec/core'
 
 describe 'forbid_edit_and_update_actions matcher' do
-  context 'edit? and update? are both permitted' do
-    before do
-      class ForbidEditAndUpdateActionsTestPolicy1
+  subject(:policy) { policy_class.new }
+
+  context 'when edit? and update? are both permitted' do
+    let(:policy_class) do
+      Class.new do
         def edit?
           true
         end
@@ -14,13 +18,12 @@ describe 'forbid_edit_and_update_actions matcher' do
       end
     end
 
-    subject { ForbidEditAndUpdateActionsTestPolicy1.new }
     it { is_expected.not_to forbid_edit_and_update_actions }
   end
 
-  context 'edit? is permitted, update? is forbidden' do
-    before do
-      class ForbidEditAndUpdateActionsTestPolicy2
+  context 'when edit? is permitted, update? is forbidden' do
+    let(:policy_class) do
+      Class.new do
         def edit?
           true
         end
@@ -31,13 +34,12 @@ describe 'forbid_edit_and_update_actions matcher' do
       end
     end
 
-    subject { ForbidEditAndUpdateActionsTestPolicy2.new }
     it { is_expected.not_to forbid_edit_and_update_actions }
   end
 
-  context 'edit? is forbidden, update? is permitted' do
-    before do
-      class ForbidEditAndUpdateActionsTestPolicy3
+  context 'when edit? is forbidden, update? is permitted' do
+    let(:policy_class) do
+      Class.new do
         def edit?
           false
         end
@@ -48,13 +50,12 @@ describe 'forbid_edit_and_update_actions matcher' do
       end
     end
 
-    subject { ForbidEditAndUpdateActionsTestPolicy3.new }
     it { is_expected.not_to forbid_edit_and_update_actions }
   end
 
-  context 'edit? and update? are both forbidden' do
-    before do
-      class ForbidEditAndUpdateActionsTestPolicy4
+  context 'when edit? and update? are both forbidden' do
+    let(:policy_class) do
+      Class.new do
         def edit?
           false
         end
@@ -65,7 +66,6 @@ describe 'forbid_edit_and_update_actions matcher' do
       end
     end
 
-    subject { ForbidEditAndUpdateActionsTestPolicy4.new }
     it { is_expected.to forbid_edit_and_update_actions }
   end
 end

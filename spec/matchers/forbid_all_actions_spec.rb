@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 require 'rspec/core'
 
 describe 'forbid_all_actions matcher' do
-  subject { policy_class.new }
+  subject(:policy) { policy_class.new }
 
-  context 'no actions are specified' do
+  context 'when no actions are specified' do
     let(:policy_class) { Class.new }
 
     it { is_expected.to forbid_all_actions }
   end
 
-  context 'one action is permitted' do
+  context 'when one action is permitted' do
     let(:policy_class) do
       Class.new do
         def test?
@@ -21,8 +23,8 @@ describe 'forbid_all_actions matcher' do
     it { is_expected.not_to forbid_all_actions }
   end
 
-  context 'more than one action is specified' do
-    context 'test1? and test2? are permitted' do
+  context 'when more than one action is specified' do
+    context 'when test1? and test2? are permitted' do
       let(:policy_class) do
         Class.new do
           def test1?
@@ -38,7 +40,7 @@ describe 'forbid_all_actions matcher' do
       it { is_expected.not_to forbid_all_actions }
     end
 
-    context 'test1? is permitted, test2? is forbidden' do
+    context 'when test1? is permitted, test2? is forbidden' do
       let(:policy_class) do
         Class.new do
           def test1?
@@ -54,7 +56,7 @@ describe 'forbid_all_actions matcher' do
       it { is_expected.not_to forbid_all_actions }
     end
 
-    context 'test1? is forbidden, test2? is permitted' do
+    context 'when test1? is forbidden, test2? is permitted' do
       let(:policy_class) do
         Class.new do
           def test1?
@@ -70,7 +72,7 @@ describe 'forbid_all_actions matcher' do
       it { is_expected.not_to forbid_all_actions }
     end
 
-    context 'test1? and test2? are both forbidden' do
+    context 'when test1? and test2? are both forbidden' do
       let(:policy_class) do
         Class.new do
           def test1?
