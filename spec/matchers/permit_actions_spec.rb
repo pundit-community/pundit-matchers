@@ -1,52 +1,49 @@
+# frozen_string_literal: true
+
 require 'rspec/core'
 
 describe 'permit_actions matcher' do
-  before { allow(::Kernel).to receive(:warn) }
+  subject(:policy) { policy_class.new }
+
+  before { allow(Kernel).to receive(:warn) }
 
   context 'when using `not_to`' do
-    before do
-      class PermitActionsTestPolicy0
-      end
+    let(:policy_class) do
+      Class.new
     end
 
-    subject { PermitActionsTestPolicy0.new }
+    it 'prints a warning message' do
+      expect(policy).not_to permit_actions([])
 
-    it "prints a warning message" do
-      expect(::Kernel).to receive(:warn) do |message|
-        expect(message).to match(/Please use `\.to forbid_actions` instead/)
-      end
-
-      expect(subject).not_to permit_actions([])
+      expect(Kernel).to have_received(:warn)
+        .with(/Please use `\.to forbid_actions` instead/)
     end
   end
 
-  context 'no actions are specified' do
-    before do
-      class PermitActionsTestPolicy1
-      end
+  context 'when no actions are specified' do
+    let(:policy_class) do
+      Class.new
     end
 
-    subject { PermitActionsTestPolicy1.new }
     it { is_expected.not_to permit_actions([]) }
   end
 
-  context 'one action is specified' do
-    before do
-      class PermitActionsTestPolicy2
+  context 'when one action is specified' do
+    let(:policy_class) do
+      Class.new do
         def test?
           true
         end
       end
     end
 
-    subject { PermitActionsTestPolicy2.new }
     it { is_expected.to permit_actions([:test]) }
   end
 
-  context 'more than one action is specified' do
-    context 'test1? and test2? are permitted' do
-      before do
-        class PermitActionsTestPolicy3
+  context 'when more than one action is specified' do
+    context 'when test1? and test2? are permitted' do
+      let(:policy_class) do
+        Class.new do
           def test1?
             true
           end
@@ -57,13 +54,12 @@ describe 'permit_actions matcher' do
         end
       end
 
-      subject { PermitActionsTestPolicy3.new }
       it { is_expected.to permit_actions(%i[test1 test2]) }
     end
 
-    context 'test1? is permitted, test2? is forbidden' do
-      before do
-        class PermitActionsTestPolicy4
+    context 'when test1? is permitted, test2? is forbidden' do
+      let(:policy_class) do
+        Class.new do
           def test1?
             true
           end
@@ -74,13 +70,12 @@ describe 'permit_actions matcher' do
         end
       end
 
-      subject { PermitActionsTestPolicy4.new }
       it { is_expected.not_to permit_actions(%i[test1 test2]) }
     end
 
-    context 'test1? is forbidden, test2? is permitted' do
-      before do
-        class PermitActionsTestPolicy5
+    context 'when test1? is forbidden, test2? is permitted' do
+      let(:policy_class) do
+        Class.new do
           def test1?
             false
           end
@@ -91,13 +86,12 @@ describe 'permit_actions matcher' do
         end
       end
 
-      subject { PermitActionsTestPolicy5.new }
       it { is_expected.not_to permit_actions(%i[test1 test2]) }
     end
 
-    context 'test1? and test2? are both forbidden' do
-      before do
-        class PermitActionsTestPolicy6
+    context 'when test1? and test2? are both forbidden' do
+      let(:policy_class) do
+        Class.new do
           def test1?
             false
           end
@@ -108,7 +102,6 @@ describe 'permit_actions matcher' do
         end
       end
 
-      subject { PermitActionsTestPolicy6.new }
       it { is_expected.not_to permit_actions(%i[test1 test2]) }
     end
   end

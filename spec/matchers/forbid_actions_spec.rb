@@ -1,33 +1,34 @@
+# frozen_string_literal: true
+
 require 'rspec/core'
 
 describe 'forbid_actions matcher' do
-  context 'no actions are specified' do
-    before do
-      class ForbidActionsTestPolicy1
-      end
+  subject(:policy) { policy_class.new }
+
+  context 'when no actions are specified' do
+    let(:policy_class) do
+      Class.new
     end
 
-    subject { ForbidActionsTestPolicy1.new }
     it { is_expected.not_to forbid_actions([]) }
   end
 
-  context 'one action is specified' do
-    before do
-      class ForbidActionsTestPolicy2
+  context 'when one action is specified' do
+    let(:policy_class) do
+      Class.new do
         def test?
           true
         end
       end
     end
 
-    subject { ForbidActionsTestPolicy2.new }
     it { is_expected.not_to forbid_actions([:test]) }
   end
 
-  context 'more than one action is specified' do
-    context 'test1? and test2? are permitted' do
-      before do
-        class ForbidActionsTestPolicy3
+  context 'when more than one action is specified' do
+    context 'when test1? and test2? are permitted' do
+      let(:policy_class) do
+        Class.new do
           def test1?
             true
           end
@@ -38,13 +39,12 @@ describe 'forbid_actions matcher' do
         end
       end
 
-      subject { ForbidActionsTestPolicy3.new }
       it { is_expected.not_to forbid_actions(%i[test1 test2]) }
     end
 
-    context 'test1? is permitted, test2? is forbidden' do
-      before do
-        class ForbidActionsTestPolicy4
+    context 'when test1? is permitted, test2? is forbidden' do
+      let(:policy_class) do
+        Class.new do
           def test1?
             true
           end
@@ -55,13 +55,12 @@ describe 'forbid_actions matcher' do
         end
       end
 
-      subject { ForbidActionsTestPolicy4.new }
       it { is_expected.not_to forbid_actions(%i[test1 test2]) }
     end
 
-    context 'test1? is forbidden, test2? is permitted' do
-      before do
-        class ForbidActionsTestPolicy5
+    context 'when test1? is forbidden, test2? is permitted' do
+      let(:policy_class) do
+        Class.new do
           def test1?
             false
           end
@@ -72,13 +71,12 @@ describe 'forbid_actions matcher' do
         end
       end
 
-      subject { ForbidActionsTestPolicy5.new }
       it { is_expected.not_to forbid_actions(%i[test1 test2]) }
     end
 
-    context 'test1? and test2? are both forbidden' do
-      before do
-        class ForbidActionsTestPolicy6
+    context 'when test1? and test2? are both forbidden' do
+      let(:policy_class) do
+        Class.new do
           def test1?
             false
           end
@@ -89,7 +87,6 @@ describe 'forbid_actions matcher' do
         end
       end
 
-      subject { ForbidActionsTestPolicy6.new }
       it { is_expected.to forbid_actions(%i[test1 test2]) }
     end
   end

@@ -2,6 +2,7 @@
 
 [![Gem Version][version-badge]][rubygems]
 [![Test][github-actions-test-badge]][github-actions-test]
+[![RuboCop][github-actions-rubocop-badge]][github-actions-rubocop]
 
 A set of RSpec matchers for testing [Pundit][pundit-github]
 authorisation policies. The matcher syntax was inspired by
@@ -622,5 +623,7 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 [rubygems]: https://rubygems.org/gems/pundit-matchers
 [github-actions-test]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/test.yml
 [github-actions-test-badge]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/test.yml/badge.svg
+[github-actions-rubocop]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml
+[github-actions-rubocop-badge]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml/badge.svg
 [pundit-github]: https://github.com/varvet/pundit
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
