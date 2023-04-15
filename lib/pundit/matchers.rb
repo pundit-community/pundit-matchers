@@ -53,6 +53,7 @@ module Pundit
     actions.flatten!
     match do |policy|
       return false if actions.count < 1
+
       @allowed_actions = actions.select do |action|
         policy.public_send("#{action}?")
       end
@@ -62,14 +63,14 @@ module Pundit
     attr_reader :allowed_actions
 
     zero_actions_failure_message = 'At least one action must be ' \
-      'specified when using the forbid_actions matcher.'
+                                   'specified when using the forbid_actions matcher.'
 
     failure_message do |policy|
       if actions.count.zero?
         zero_actions_failure_message
       else
         "#{policy.class} expected to forbid #{actions}, but allowed " \
-          "#{allowed_actions} for " +
+        "#{allowed_actions} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       end
@@ -80,7 +81,7 @@ module Pundit
         zero_actions_failure_message
       else
         "#{policy.class} expected to permit #{actions}, but forbade " \
-          "#{allowed_actions} for " +
+        "#{allowed_actions} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       end
@@ -107,7 +108,7 @@ module Pundit
 
   RSpec::Matchers.define :forbid_mass_assignment_of do |attributes|
     # Map single object argument to an array, if necessary
-    attributes = attributes.is_a?(Array) ? attributes : [attributes]
+    attributes = [attributes] unless attributes.is_a?(Array)
 
     match do |policy|
       return false if attributes.count < 1
@@ -130,22 +131,22 @@ module Pundit
     end
 
     zero_attributes_failure_message = 'At least one attribute must be ' \
-      'specified when using the forbid_mass_assignment_of matcher.'
+                                      'specified when using the forbid_mass_assignment_of matcher.'
 
     failure_message do |policy|
       if attributes.count.zero?
         zero_attributes_failure_message
       elsif defined? @action
         "#{policy.class} expected to forbid the mass assignment of the " \
-          "attributes #{attributes} when authorising the #{@action} action, " \
-          'but allowed the mass assignment of the attributes ' \
-          "#{allowed_attributes} for " +
+        "attributes #{attributes} when authorising the #{@action} action, " \
+        'but allowed the mass assignment of the attributes ' \
+        "#{allowed_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       else
         "#{policy.class} expected to forbid the mass assignment of the " \
-          "attributes #{attributes}, but allowed the mass assignment of " \
-          "the attributes #{allowed_attributes} for " +
+        "attributes #{attributes}, but allowed the mass assignment of " \
+        "the attributes #{allowed_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       end
@@ -156,15 +157,15 @@ module Pundit
         zero_attributes_failure_message
       elsif defined? @action
         "#{policy.class} expected to permit the mass assignment of the " \
-          "attributes #{attributes} when authorising the #{@action} action, " \
-          'but permitted the mass assignment of the attributes ' \
-          "#{allowed_attributes} for " +
+        "attributes #{attributes} when authorising the #{@action} action, " \
+        'but permitted the mass assignment of the attributes ' \
+        "#{allowed_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       else
         "#{policy.class} expected to permit the mass assignment of the " \
-          "attributes #{attributes}, but permitted the mass assignment of " \
-          "the attributes #{allowed_attributes} for " +
+        "attributes #{attributes}, but permitted the mass assignment of " \
+        "the attributes #{allowed_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       end
@@ -215,6 +216,7 @@ module Pundit
     actions.flatten!
     match do |policy|
       return false if actions.count < 1
+
       @forbidden_actions = actions.reject do |action|
         policy.public_send("#{action}?")
       end
@@ -235,6 +237,7 @@ module Pundit
         tests would pass.'
 
       return true if actions.count < 1
+
       @forbidden_actions = actions.reject do |action|
         policy.public_send("#{action}?")
       end
@@ -244,14 +247,14 @@ module Pundit
     attr_reader :forbidden_actions
 
     zero_actions_failure_message = 'At least one action must be specified ' \
-      'when using the permit_actions matcher.'
+                                   'when using the permit_actions matcher.'
 
     failure_message do |policy|
       if actions.count.zero?
         zero_actions_failure_message
       else
         "#{policy.class} expected to permit #{actions}, but forbade " \
-          "#{forbidden_actions} for " +
+        "#{forbidden_actions} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       end
@@ -262,7 +265,7 @@ module Pundit
         zero_actions_failure_message
       else
         "#{policy.class} expected to forbid #{actions}, but allowed " \
-          "#{forbidden_actions} for " +
+        "#{forbidden_actions} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       end
@@ -289,7 +292,7 @@ module Pundit
 
   RSpec::Matchers.define :permit_mass_assignment_of do |attributes|
     # Map single object argument to an array, if necessary
-    attributes = attributes.is_a?(Array) ? attributes : [attributes]
+    attributes = [attributes] unless attributes.is_a?(Array)
 
     match do |policy|
       return false if attributes.count < 1
@@ -312,22 +315,22 @@ module Pundit
     end
 
     zero_attributes_failure_message = 'At least one attribute must be ' \
-      'specified when using the permit_mass_assignment_of matcher.'
+                                      'specified when using the permit_mass_assignment_of matcher.'
 
     failure_message do |policy|
       if attributes.count.zero?
         zero_attributes_failure_message
       elsif defined? @action
         "#{policy.class} expected to permit the mass assignment of the " \
-          "attributes #{attributes} when authorising the #{@action} action, " \
-          'but forbade the mass assignment of the attributes ' \
-          "#{forbidden_attributes} for " +
+        "attributes #{attributes} when authorising the #{@action} action, " \
+        'but forbade the mass assignment of the attributes ' \
+        "#{forbidden_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       else
         "#{policy.class} expected to permit the mass assignment of the " \
-          "attributes #{attributes}, but forbade the mass assignment of the " \
-          "attributes #{forbidden_attributes} for " +
+        "attributes #{attributes}, but forbade the mass assignment of the " \
+        "attributes #{forbidden_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       end
@@ -338,15 +341,15 @@ module Pundit
         zero_attributes_failure_message
       elsif defined? @action
         "#{policy.class} expected to forbid the mass assignment of the " \
-          "attributes #{attributes} when authorising the #{@action} action, " \
-          'but forbade the mass assignment of the attributes ' \
-          "#{forbidden_attributes} for " +
+        "attributes #{attributes} when authorising the #{@action} action, " \
+        'but forbade the mass assignment of the attributes ' \
+        "#{forbidden_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       else
         "#{policy.class} expected to forbid the mass assignment of the " \
-          "attributes #{attributes}, but forbade the mass assignment of the " \
-          "attributes #{forbidden_attributes} for " +
+        "attributes #{attributes}, but forbade the mass assignment of the " \
+        "attributes #{forbidden_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       end

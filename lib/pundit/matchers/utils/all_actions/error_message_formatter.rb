@@ -14,7 +14,7 @@ module Pundit
         module ErrorMessageFormatter
           def message
             "#{policy_name} expected to have all actions #{expected_kind}, " \
-            "but #{mismatches_are(missed_expected_actions)} #{opposite_kind}"
+              "but #{mismatches_are(missed_expected_actions)} #{opposite_kind}"
           end
 
           private
