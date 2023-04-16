@@ -1,5 +1,14 @@
 # Pundit Matchers
 
+## 1.9.0 (2023-04-16)
+
+- Fix attribute reader name used by `permit_all_actions` matcher.
+- Migrate from Travis CI to GitHub Actions (test and rubocop actions)
+- Improve Rubocop configuration / fix offenses
+- Add SimpleCov code coverage
+- Update development dependencies
+- Readme improvements
+
 ## 1.8.4 (2022-11-06)
 
 - Use `require_relative` to load new files so that they can be found from within
