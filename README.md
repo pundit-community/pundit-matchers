@@ -16,7 +16,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 1.9'
+  gem 'pundit-matchers', '~> 2.0'
 end
 ```
 
@@ -24,9 +24,10 @@ And then execute the following command:
 
 `bundle`
 
-Pundit Matchers requires that both the
-[rspec-rails](https://rubygems.org/gems/rspec-rails) and
-[pundit](https://rubygems.org/gems/pundit) gems are also installed.
+As of Pundit Matchers 2, Ruby 3 is a requirement. Pundit Matchers also requires that both the
+[rspec-rails](https://rubygems.org/gems/rspec-rails) (v3.0+) and
+[pundit](https://rubygems.org/gems/pundit) (v1.1+) gems are installed. We will drop support for
+older versions of these gems in Pundit Matchers 3.
 
 ## Setup
 
@@ -276,6 +277,13 @@ end
 ```
 
 ## Testing Actions With Arguments
+
+Warning: this feature is deprecated and will be removed in Pundit Matchers 3.
+Pundit does not support passing additional arguments to policies in Pundit 2. To
+pass extra information besides the user and record to a policy action, you
+should set up a
+[user context](https://github.com/varvet/pundit#additional-context) in the
+controller.
 
 Sometimes you may have a custom policy action which accepts one or more
 arguments. Pundit Matchers allows you to specify a number of optional arguments

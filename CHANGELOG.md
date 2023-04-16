@@ -1,5 +1,14 @@
 # Pundit Matchers
 
+## 2.0.0 (2023-04-16)
+
+- Drop support for Ruby 2. Please upgrade your Rails application to use Ruby 3.
+- Add support for Ruby 3 keyword arguments (`**kwargs`) for use with `permit_action` and
+  `forbid_action`.
+- Target Ruby 3 in GitHub Actions.
+- Deprecate support for older versions of `rspec-rails` and `pundit` in Readme.
+- Deprecate support for optional arguments to `permit_action` and `forbid_action`.
+
 ## 1.9.0 (2023-04-16)
 
 - Fix attribute reader name used by `permit_all_actions` matcher.
