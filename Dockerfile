@@ -6,7 +6,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends
 
 COPY Gemfile* /lib/
 WORKDIR /lib
-RUN gem install bundler:2.3.22
+RUN gem install bundler:2.4.12
 RUN bundle install
 
 COPY . /lib
