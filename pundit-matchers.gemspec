@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 Gem::Specification.new do |s|
   s.name        = 'pundit-matchers'
   s.version     = '2.0.0'
-  s.date        = Time.now.strftime('%Y-%m-%d')
   s.summary     = 'RSpec matchers for Pundit policies'
   s.description = 'A set of RSpec matchers for testing Pundit authorisation ' \
                   'policies'
@@ -14,4 +15,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rspec-rails', '>= 3.0.0'
   s.add_development_dependency 'pundit', '~> 1.1', '>= 1.1.0'
   s.metadata['rubygems_mfa_required'] = 'true'
+  s.required_ruby_version = '>= 3.0'
 end
