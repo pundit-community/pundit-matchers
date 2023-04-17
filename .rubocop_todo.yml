@@ -13,13 +13,6 @@ Gemspec/DeprecatedAttributeAssignment:
   Exclude:
     - 'pundit-matchers.gemspec'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: Severity, Include.
-# Include: **/*.gemspec
-Gemspec/RequireMFA:
-  Exclude:
-    - 'pundit-matchers.gemspec'
-
 # Configuration parameters: Severity, Include.
 # Include: **/*.gemspec
 Gemspec/RequiredRubyVersion:

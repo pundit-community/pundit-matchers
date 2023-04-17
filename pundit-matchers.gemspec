@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.add_runtime_dependency 'rspec-rails', '>= 3.0.0'
   s.add_development_dependency 'pundit', '~> 1.1', '>= 1.1.0'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end
