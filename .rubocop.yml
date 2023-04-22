@@ -11,3 +11,11 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'vendor/bundle/**/*'
+
+RSpec/DescribeClass:
+  Exclude:
+    - '**/spec/matchers/**/*'
+
+RSpec/FilePath:
+  Exclude:
+    - '**/spec/matchers/**/*'

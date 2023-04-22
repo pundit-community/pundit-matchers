@@ -14,8 +14,10 @@ module Pundit
         module ErrorMessageFormatter
           def message
             "#{policy_name} expected to have only actions #{matcher.expected_actions} #{expected_kind}, but " \
-            "#{"#{mismatches_are(missed_expected_actions)} #{opposite_kind} and " unless missed_expected_actions.empty?}" \
-            "#{mismatches_are(unexpected_actions)} #{expected_kind} too"
+              "#{unless missed_expected_actions.empty?
+                   "#{mismatches_are(missed_expected_actions)} #{opposite_kind} and "
+                 end}" \
+              "#{mismatches_are(unexpected_actions)} #{expected_kind} too"
           end
 
           private
