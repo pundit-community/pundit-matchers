@@ -38,14 +38,17 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormat
     subject(:message) { error_message_formatter.message }
 
     it 'includes unexpected actions in message' do
-      expect(message).to eq('DummyPolicy expected to have only actions [:create] permitted, but [:update] is permitted too')
+      expect(message).to eq(
+        'DummyPolicy expected to have only actions [:create] permitted, ' \
+        'but [:update] is permitted too'
+      )
     end
   end
 
   context 'when an expectation is not met' do
-    let(:policy) { policy_class.new(true, false) }
-
     subject(:message) { error_message_formatter.message }
+
+    let(:policy) { policy_class.new(true, false) }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(

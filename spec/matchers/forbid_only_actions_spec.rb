@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rspec/core'
 
 describe 'forbid_only_actions matcher' do
   subject { policy_class.new }
 
-  context 'one action is forbidden' do
+  context 'when one action is forbidden' do
     let(:policy_class) do
       Class.new do
         def test?
@@ -15,8 +17,8 @@ describe 'forbid_only_actions matcher' do
     it { is_expected.to forbid_only_actions([:test]) }
   end
 
-  context 'more than one action is specified' do
-    context 'test1? and test2? are forbidden' do
+  context 'when more than one action is specified' do
+    context 'when test1? and test2? are forbidden' do
       let(:policy_class) do
         Class.new do
           def test1?
@@ -33,8 +35,8 @@ describe 'forbid_only_actions matcher' do
         end
       end
 
-      it { is_expected.to forbid_only_actions([:test1, :test2]) }
-      it { is_expected.to forbid_only_actions([:test2, :test1]) }
+      it { is_expected.to forbid_only_actions(%i[test1 test2]) }
+      it { is_expected.to forbid_only_actions(%i[test2 test1]) }
       it { is_expected.not_to forbid_only_actions([:test1]) }
       it { is_expected.not_to forbid_only_actions([:test3]) }
     end

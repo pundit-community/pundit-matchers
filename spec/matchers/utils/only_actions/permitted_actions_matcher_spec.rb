@@ -25,17 +25,11 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::PermittedActionsMatcher do
   end
 
   let(:policy) { policy_class.new(true, true) }
-  let(:expected_actions) { [:create, :update] }
+  let(:expected_actions) { %i[create update] }
 
   describe '#match?' do
     context 'when policy only allows expected actions' do
       it { is_expected.to be_match }
-
-      context 'when expected actions are not ordered' do
-        let(:expected_actions) { [:update, :create] }
-
-        it { is_expected.to be_match }
-      end
     end
 
     context 'when policy allows unexpected actions' do
@@ -48,6 +42,12 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::PermittedActionsMatcher do
       let(:expected_actions) { [:update] }
 
       it { is_expected.not_to be_match }
+    end
+
+    it 'does not consider action order' do
+      expect(
+        described_class.new(policy, expected_actions.reverse)
+      ).to be_match
     end
   end
 

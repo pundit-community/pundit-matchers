@@ -38,14 +38,17 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsErrorFormat
     subject(:message) { error_message_formatter.message }
 
     it 'includes unexpected actions in message' do
-      expect(message).to eq('DummyPolicy expected to have only actions [:create] forbidden, but [:update] is forbidden too')
+      expect(message).to eq(
+        'DummyPolicy expected to have only actions [:create] forbidden, ' \
+        'but [:update] is forbidden too'
+      )
     end
   end
 
   context 'when an expectation is not met' do
-    let(:policy) { policy_class.new(false, true) }
-
     subject(:message) { error_message_formatter.message }
+
+    let(:policy) { policy_class.new(false, true) }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(
