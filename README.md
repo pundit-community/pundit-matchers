@@ -65,6 +65,8 @@ files (by convention, saved in the `spec/policies` directory).
   optional arguments, passed in as parameters, are permitted by the policy.
 - `permit_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are permitted by the policy.
+- `permit_only_actions(%i[action1 action2])` Tests that an array of actions,
+  passed in as a parameter, are the only actions permitted by the policy.
 - `permit_new_and_create_actions` Tests that both the new and create actions
   are permitted by the policy.
 - `permit_edit_and_update_actions` Tests that both the edit and update actions
@@ -83,6 +85,8 @@ files (by convention, saved in the `spec/policies` directory).
   optional arguments, passed in as parameters, are not permitted by the policy.
 - `forbid_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are not permitted by the policy.
+- `forbid_only_actions(%i[action1 action2])` Tests that an array of actions,
+  passed in as a parameter, are the only actions forbidden by the policy.
 - `forbid_new_and_create_actions` Tests that both the new and create actions
   are not permitted by the policy.
 - `forbid_edit_and_update_actions` Tests that both the edit and update actions
