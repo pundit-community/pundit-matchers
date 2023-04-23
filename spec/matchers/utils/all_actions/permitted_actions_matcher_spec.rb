@@ -8,8 +8,9 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::PermittedActionsMatcher do
   end
 
   let(:policy_class) do
-    Class.new do
+    Class.new(DummyPolicy) do
       def initialize(update, create)
+        super
         @update = update
         @create = create
       end

@@ -7,7 +7,7 @@ describe 'forbid_edit_and_update_actions matcher' do
 
   context 'when edit? and update? are both permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def edit?
           true
         end
@@ -23,7 +23,7 @@ describe 'forbid_edit_and_update_actions matcher' do
 
   context 'when edit? is permitted, update? is forbidden' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def edit?
           true
         end
@@ -39,7 +39,7 @@ describe 'forbid_edit_and_update_actions matcher' do
 
   context 'when edit? is forbidden, update? is permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def edit?
           false
         end
@@ -55,7 +55,7 @@ describe 'forbid_edit_and_update_actions matcher' do
 
   context 'when edit? and update? are both forbidden' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def edit?
           false
         end

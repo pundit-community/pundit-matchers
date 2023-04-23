@@ -7,7 +7,7 @@ describe 'forbid_new_and_create_actions matcher' do
 
   context 'when new? and create? are both permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def new?
           true
         end
@@ -23,7 +23,7 @@ describe 'forbid_new_and_create_actions matcher' do
 
   context 'when new? is permitted, create? is forbidden' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def new?
           true
         end
@@ -39,7 +39,7 @@ describe 'forbid_new_and_create_actions matcher' do
 
   context 'when new? is forbidden, create? is permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def new?
           false
         end
@@ -55,7 +55,7 @@ describe 'forbid_new_and_create_actions matcher' do
 
   context 'when new? and create? are both forbidden' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def new?
           false
         end

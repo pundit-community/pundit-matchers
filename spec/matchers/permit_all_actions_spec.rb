@@ -13,7 +13,7 @@ describe 'permit_all_actions matcher' do
 
   context 'when one action is permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def test?
           true
         end
@@ -26,7 +26,7 @@ describe 'permit_all_actions matcher' do
   context 'when more than one action is specified' do
     context 'when test1? and test2? are permitted' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test1?
             true
           end
@@ -42,7 +42,7 @@ describe 'permit_all_actions matcher' do
 
     context 'when test1? is permitted, test2? is forbidden' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test1?
             true
           end
@@ -58,7 +58,7 @@ describe 'permit_all_actions matcher' do
 
     context 'when test1? is forbidden, test2? is permitted' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test1?
             false
           end
@@ -74,7 +74,7 @@ describe 'permit_all_actions matcher' do
 
     context 'when test1? and test2? are both forbidden' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test1?
             false
           end

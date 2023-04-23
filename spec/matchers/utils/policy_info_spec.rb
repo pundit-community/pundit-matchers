@@ -6,7 +6,7 @@ RSpec.describe Pundit::Matchers::Utils::PolicyInfo do
   subject(:policy_info) { described_class.new(policy) }
 
   let(:policy_class) do
-    Class.new do
+    Class.new(DummyPolicy) do
       def update?
         false
       end

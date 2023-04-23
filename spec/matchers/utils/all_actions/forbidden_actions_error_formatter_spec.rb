@@ -12,12 +12,9 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::ForbiddenActionsErrorFormatt
   end
 
   let(:policy_class) do
-    Class.new do
-      def self.name
-        'DummyPolicy'
-      end
-
+    Class.new(DummyPolicy) do
       def initialize(update, create)
+        super
         @update = update
         @create = create
       end

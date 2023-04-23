@@ -7,7 +7,7 @@ describe 'forbid_mass_assignment_of matcher' do
 
   context 'when the foo and bar attributes are permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def permitted_attributes
           %i[foo bar]
         end
@@ -23,7 +23,7 @@ describe 'forbid_mass_assignment_of matcher' do
 
   context 'when only the foo attribute is permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def permitted_attributes
           %i[foo]
         end
@@ -39,7 +39,7 @@ describe 'forbid_mass_assignment_of matcher' do
 
   context 'when the foo and bar attributes are not permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def permitted_attributes
           []
         end
@@ -54,7 +54,7 @@ describe 'forbid_mass_assignment_of matcher' do
 
   context 'when the foo and bar attributes are permitted for the test action' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def permitted_attributes_for_test
           %i[foo bar]
         end
@@ -77,7 +77,7 @@ describe 'forbid_mass_assignment_of matcher' do
 
   context 'when only the foo attribute is permitted for the test action' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def permitted_attributes_for_test
           %i[foo]
         end
@@ -98,7 +98,7 @@ describe 'forbid_mass_assignment_of matcher' do
   context 'when the foo and bar attributes are not permitted for the test ' \
           'action' do
     let(:policy_class) do
-      Class.new do
+      Class.new(DummyPolicy) do
         def permitted_attributes_for_test
           []
         end

@@ -8,7 +8,7 @@ describe 'permit_action matcher' do
   context 'when no arguments are specified' do
     context 'when test? is permitted' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test?
             true
           end
@@ -20,7 +20,7 @@ describe 'permit_action matcher' do
 
     context 'when test? is forbidden' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test?
             false
           end
@@ -34,7 +34,7 @@ describe 'permit_action matcher' do
   context 'when one argument is specified' do
     context 'when test? with optional argument is permitted' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test?(argument)
             raise unless argument == 'argument'
 
@@ -48,7 +48,7 @@ describe 'permit_action matcher' do
 
     context 'when test? with optional argument is forbidden' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test?(argument)
             raise unless argument == 'argument'
 
@@ -64,7 +64,7 @@ describe 'permit_action matcher' do
   context 'when more than one argument is specified' do
     context 'when test? with optional arguments is permitted' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test?(one, two, three)
             raise unless one == 'one' && two == 'two' && three == 'three'
 
@@ -78,7 +78,7 @@ describe 'permit_action matcher' do
 
     context 'when test? with optional arguments is forbidden' do
       let(:policy_class) do
-        Class.new do
+        Class.new(DummyPolicy) do
           def test?(one, two, three)
             raise unless one == 'one' && two == 'two' && three == 'three'
 
