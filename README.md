@@ -61,6 +61,7 @@ files (by convention, saved in the `spec/policies` directory).
 
 - `permit_only_actions(%i[action1 action2])` Tests that an array of actions,
   passed in as a parameter, are the only actions permitted by the policy.
+- `permit_all_actions` Tests that all actions in the policy are permitted.
 - `permit_action(:action_name)` Tests that an action, passed in as a parameter,
   is permitted by the policy.
 - `permit_action(:action_name, *arguments)` Tests that an action and any
@@ -71,7 +72,6 @@ files (by convention, saved in the `spec/policies` directory).
   are permitted by the policy.
 - `permit_edit_and_update_actions` Tests that both the edit and update actions
   are permitted by the policy.
-- `permit_all_actions` Tests that all actions in the policy are permitted.
 - `permit_mass_assignment_of(:attribute_name)` or
   `permit_mass_assignment_of(%i[attribute1 attribute2])` Tests that mass
   assignment of the attribute(s), passed in as a single symbol parameter or an
@@ -81,6 +81,7 @@ files (by convention, saved in the `spec/policies` directory).
 
 - `forbid_only_actions(%i[action1 action2])` Tests that an array of actions,
   passed in as a parameter, are the only actions forbidden by the policy.
+- `forbid_all_actions` Tests that all actions in the policy are forbidden.
 - `forbid_action(:action_name)` Tests that an action, passed in as a parameter,
   is not permitted by the policy.
 - `forbid_action(:action_name, *arguments)` Tests that an action and any
@@ -91,7 +92,6 @@ files (by convention, saved in the `spec/policies` directory).
   are not permitted by the policy.
 - `forbid_edit_and_update_actions` Tests that both the edit and update actions
   are not permitted by the policy.
-- `forbid_all_actions` Tests that all actions in the policy are forbidden.
 - `forbid_mass_assignment_of(:attribute_name)` or
   `forbid_mass_assignment_of(%i[attribute1 attribute2])` Tests that mass
   assignment of the attribute(s), passed in as a single symbol parameter or an
@@ -101,9 +101,8 @@ files (by convention, saved in the `spec/policies` directory).
 
 The following example shows how to structure a Pundit policy spec (in this
 example, the spec would be located in `spec/policies/article_policy_spec.rb`)
-which authorises administrators to view and destroy articles, while visitors
-are only authorised to access the show action and are forbidden to destroy
-articles.
+which authorises administrators to view and manage articles, while visitors
+are only authorised to have read only access.
 
 ```ruby
 require 'rails_helper'
@@ -116,14 +115,13 @@ describe ArticlePolicy do
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { is_expected.to permit_action(:show) }
-    it { is_expected.to forbid_action(:destroy) }
+    it { is_expected.to permit_only_actions(%i[index show]) }
   end
 
   context 'being an administrator' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_actions([:show, :destroy]) }
+    it { is_expected.to permit_all_actions }
   end
 end
 ```
@@ -164,12 +162,23 @@ outcome of an authorisation attempt using different configurations of
 user/record pairs based on application state. These variations should be
 organised into separate RSpec context blocks, as in the previous example.
 
-## Testing Multiple Actions
+## Testing For an Allow List of Permitted Actions
 
-To test multiple actions at once the `permit_actions` and `forbid_actions`
-matchers can be used. Both matchers accept an array of actions as a parameter.
-In the following example, visitors can only view articles, while administrators
-can also create and update articles.
+As of Pundit Matchers 2.1, the recommended approach is to use an explicit
+allow list of actions permitted by the policy (`permit_only_actions`) which
+will cause the test to fail if other actions in the policy are not forbidden.
+
+Using allow lists ensures for comprehensiveness so that any actions that
+shouldn't be permitted don't slip through the cracks in practice, for example
+due to developer oversight. The [OWASP Top 10 - 2021][owasp-top-10] recommends
+that access control enforces policy so that users cannot act outside of their
+intended permissions. It was discovered that 94% of applications that were
+tested had some form of [broken access control][broken-access-control] with an
+average incidence rate of 3.81%.
+
+The following example tests a policy that authorises visitors to view articles
+only, while administrators can create and update articles (but are forbidden
+from deleting them):
 
 ```ruby
 require 'rails_helper'
@@ -182,14 +191,146 @@ describe ArticlePolicy do
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { is_expected.to permit_action(:show) }
-    it { is_expected.to forbid_actions(%i[create update]) }
+    it { is_expected.to permit_only_actions(%i[index show]) }
   end
 
   context 'being an administrator' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_actions(%i[show create update]) }
+    it { is_expected.to permit_only_actions(%i[index show create update]) }
+  end
+end
+```
+
+This approach would be robust in the following scenario:
+
+* `ArticlePolicy` is created with `index`, `create`, and `destroy` actions.
+* The policy is tested with `permit_only_actions(%i[index create destroy])`
+* After several months, a developer adds a `publish` action, which would
+  automatically be tested to be forbidden since it is not in the allow list of
+  permitted actions.
+
+The opposite approach is to test for the only actions that are forbidden with
+the `forbid_only_actions` matcher:
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:article) { Article.new }
+
+  context 'being a visitor' do
+    let(:user) { nil }
+
+    it { is_expected.to forbid_only_actions(%i[create update destroy]) }
+  end
+
+  context 'being an administrator' do
+    let(:user) { User.new(administrator: true) }
+
+    it { is_expected.to forbid_only_actions(%i[destroy]) }
+  end
+end
+```
+
+You can use both `permit_only_actions` and `forbid_only_actions` in the same
+context. However, this approach would test the policy twice. In terms of minimum
+clearance, using just the `permit_only_actions` matcher would be sufficient.
+The other advantage with `permit_only_actions` is that it does require knowledge
+of the whole policy.
+
+## Testing All Actions
+
+In some cases, the allow list of permitted or forbidden actions will encompass
+all of the actions in the policy. As a shorthand, the `permit_all_actions` and
+`forbid_all_actions` matchers are also available. If all actions for a policy
+are expected to be permitted or forbidden you can write a single expectation
+that will check every action in the policy.
+
+```ruby
+class ArticlePolicy < ApplicationPolicy
+  subject { described_class.new(user, article) }
+
+  let(:article) { Article.new }
+
+   context 'being a visitor' do
+    let(:user) { nil }
+
+    it { is_expected.to forbid_all_actions }
+  end
+
+  context 'being an administrator' do
+    let(:user) { User.new(administrator: true) }
+
+    it { is_expected.to permit_all_actions }
+  end
+end
+```
+
+## Testing a Single Action
+
+While it is recommended to use `permit_only_actions`, sometimes you may want to
+test that a single action is authorised without testing other actions in the
+policy. This may be because you are only concerned about testing a particular
+context, for example testing whether a user can publish an article:
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:user) { User.create }
+
+  context 'user updating an article that they authored' do
+    let(:article) { Article.create(user_id: user.id) }
+
+    it { is_expected.to permit_action(:update) }
+  end
+
+  context 'user updating an article that they did not author' do
+    let(:article) { Article.create(user_id: nil) }
+
+    it { is_expected.to forbid_action(:update) }
+  end
+end
+```
+
+## Testing Multiple Actions
+
+To test multiple actions at once the `permit_actions` and `forbid_actions`
+matchers can be used. Both matchers accept an array of actions as a parameter.
+
+While it is recommended to use `permit_only_actions` over these more permissive
+matchers, they are useful for documenting the intent for a particular context;
+if you use the `forbid_actions` matchers it is a good idea to test using
+`permit_only_actions` matchers in addition to it for comprehensiveness.
+
+In the following example, visitors can view articles, while administrators
+can also manage (but not delete) articles.
+
+```ruby
+require 'rails_helper'
+
+describe ArticlePolicy do
+  subject { described_class.new(user, article) }
+
+  let(:article) { Article.new }
+
+  context 'being a visitor' do
+    let(:user) { nil }
+
+    it { is_expected.to permit_only_actions(%i[index show]) }
+    it { is_expected.to forbid_actions(%i[create update destroy]) }
+  end
+
+  context 'being an administrator' do
+    let(:user) { User.new(administrator: true) }
+
+    it { is_expected.to permit_only_actions(%i[index show create update]) }
+    it { is_expected.to forbid_actions(%i[destroy]) }
   end
 end
 ```
@@ -199,9 +340,9 @@ Optionally, you can pass the actions to the `permit_actions` and
 following examples are equivalent:
 
 ```ruby
-it { is_expected.to permit_actions([:show, :create, :update]) }
-it { is_expected.to permit_actions(%i[show create update]) }
-it { is_expected.to permit_actions(:show, :create, :update) }
+it { is_expected.to forbid_actions([:show, :create, :update]) }
+it { is_expected.to forbid_actions(%i[show create update]) }
+it { is_expected.to forbid_actions(:show, :create, :update) }
 ```
 
 Warning: it is recommended to always use `is_expected.to` rather than
@@ -249,33 +390,6 @@ describe ArticlePolicy do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_new_and_create_actions }
-  end
-end
-```
-
-## Testing All Actions
-
-As of Pundit Matchers 1.8, the `permit_all_actions` and `forbid_all_actions`
-matchers are also available. If all actions for a policy are expected to be
-permitted or forbidden you can write a single expectation that will check every
-action in the policy.
-
-```ruby
-class ArticlePolicy < ApplicationPolicy
-  subject { described_class.new(user, article) }
-
-  let(:article) { Article.new }
-
-   context 'being a visitor' do
-    let(:user) { nil }
-
-    it { is_expected.to forbid_all_actions }
-  end
-
-  context 'being an administrator' do
-    let(:user) { User.new(administrator: true) }
-
-    it { is_expected.to permit_all_actions }
   end
 end
 ```
@@ -422,7 +536,7 @@ describe ArticlePolicy do
   context 'being a visitor' do
     let(:user) { nil }
 
-    it { is_expected.to permit_actions(%i[create update]) }
+    it { is_expected.to permit_only_actions(%i[create update]) }
     it { is_expected.to forbid_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
@@ -431,7 +545,7 @@ describe ArticlePolicy do
   context 'being an administrator' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_actions(%i[create update]) }
+    it { is_expected.to permit_only_actions(%i[create update]) }
     it { is_expected.to permit_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
@@ -529,9 +643,7 @@ describe ArticlePolicy do
       expect(resolved_scope).to include(article)
     end
 
-    it { is_expected.to permit_action(:show) }
-    it { is_expected.to forbid_edit_and_update_actions }
-    it { is_expected.to forbid_action(:destroy) }
+    it { is_expected.to permit_only_actions(%i[index show]) }
   end
 
   context 'visitor accessing an unpublished article' do
@@ -638,4 +750,6 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 [github-actions-rubocop]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml
 [github-actions-rubocop-badge]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml/badge.svg
 [pundit-github]: https://github.com/varvet/pundit
+[owasp-top-10]: https://owasp.org/Top10/
+[broken-access-control]: https://owasp.org/Top10/A01_2021-Broken_Access_Control/
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
