@@ -196,7 +196,7 @@ describe ArticlePolicy do
   context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_only_actions(%i[index show create update]) }
+    it { is_expected.to permit_only_actions(%i[index show new create edit update]) }
   end
 end
 ```
@@ -223,7 +223,7 @@ describe ArticlePolicy do
   context 'with visitors' do
     let(:user) { nil }
 
-    it { is_expected.to forbid_only_actions(%i[create update destroy]) }
+    it { is_expected.to forbid_only_actions(%i[new create edit update destroy]) }
   end
 
   context 'with administrators' do
@@ -328,7 +328,7 @@ describe ArticlePolicy do
   context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_only_actions(%i[index show create update]) }
+    it { is_expected.to permit_only_actions(%i[index show new create edit update]) }
     it { is_expected.to forbid_actions(%i[destroy]) }
   end
 end
@@ -535,7 +535,7 @@ describe ArticlePolicy do
   context 'with visitors' do
     let(:user) { nil }
 
-    it { is_expected.to permit_only_actions(%i[create update]) }
+    it { is_expected.to permit_only_actions(%i[new create edit update]) }
     it { is_expected.to forbid_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
@@ -544,7 +544,7 @@ describe ArticlePolicy do
   context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_only_actions(%i[create update]) }
+    it { is_expected.to permit_only_actions(%i[new create edit update]) }
     it { is_expected.to permit_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
