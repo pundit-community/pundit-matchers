@@ -6,8 +6,7 @@
 
 A set of RSpec matchers for testing [Pundit][pundit-github]
 authorisation policies. The matcher syntax was inspired by
-[this excellent blog post](https://www.thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec/)
-from Thunderbolt Labs.
+[this excellent blog post][thunderbolt-labs] from Thunderbolt Labs.
 
 ## Installation
 
@@ -24,9 +23,9 @@ And then execute the following command:
 
 `bundle`
 
-As of Pundit Matchers 2, Ruby 3 is a requirement. Pundit Matchers also requires that both the
-[rspec-rails](https://rubygems.org/gems/rspec-rails) (v3.0+) and
-[pundit](https://rubygems.org/gems/pundit) (v1.1+) gems are installed. We will drop support for
+As of Pundit Matchers 2, Ruby 3 is a requirement. Pundit Matchers also requires
+that both the [rspec-rails][rspec-rails-rubygems] (v3.0+) and
+[pundit][pundit-rubygems] (v1.1+) gems are installed. We will drop support for
 older versions of these gems in Pundit Matchers 3.
 
 ## Setup
@@ -750,6 +749,9 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 [github-actions-rubocop]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml
 [github-actions-rubocop-badge]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml/badge.svg
 [pundit-github]: https://github.com/varvet/pundit
+[thunderbolt-labs]: https://www.thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec/
+[rspec-rails-rubygems]: https://rubygems.org/gems/rspec-rails
+[pundit-rubygems]: https://rubygems.org/gems/pundit
 [owasp-top-10]: https://owasp.org/Top10/
 [broken-access-control]: https://owasp.org/Top10/A01_2021-Broken_Access_Control/
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
