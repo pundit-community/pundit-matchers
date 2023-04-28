@@ -1,13 +1,22 @@
 # Pundit Matchers
 
+## 2.1.0 (2023-04-28)
+
+- Introduce `permit_only_actions` and `forbid_only_actions` matchers.
+- Readme improvements, with `permit_only_actions` being the recommended matcher.
+- Require multifactor authentication to publish gem.
+- Enforce Ruby 3 in Gemfile (Ruby 2 support was dropped in the 2.0.0 release).
+- Add rubocop-performance.
+
 ## 2.0.0 (2023-04-16)
 
 - Drop support for Ruby 2. Please upgrade your Rails application to use Ruby 3.
-- Add support for Ruby 3 keyword arguments (`**kwargs`) for use with `permit_action` and
-  `forbid_action`.
+- Add support for Ruby 3 keyword arguments (`**kwargs`) for use with
+  `permit_action` and `forbid_action`.
 - Target Ruby 3 in GitHub Actions.
 - Deprecate support for older versions of `rspec-rails` and `pundit` in Readme.
-- Deprecate support for optional arguments to `permit_action` and `forbid_action`.
+- Deprecate support for optional arguments to `permit_action` and
+  `forbid_action`.
 
 ## 1.9.0 (2023-04-16)
 
