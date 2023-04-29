@@ -74,7 +74,7 @@ module Pundit
       if actions.count.zero?
         zero_actions_failure_message
       else
-        "#{policy.class} expected to forbid #{actions}, but allowed " \
+        "#{policy.class} expected to forbid #{actions}, but permitted " \
         "#{allowed_actions} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
@@ -144,13 +144,13 @@ module Pundit
       elsif defined? @action
         "#{policy.class} expected to forbid the mass assignment of the " \
         "attributes #{attributes} when authorising the #{@action} action, " \
-        'but allowed the mass assignment of the attributes ' \
+        'but permitted the mass assignment of the attributes ' \
         "#{allowed_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
       else
         "#{policy.class} expected to forbid the mass assignment of the " \
-        "attributes #{attributes}, but allowed the mass assignment of " \
+        "attributes #{attributes}, but permitted the mass assignment of " \
         "the attributes #{allowed_attributes} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
@@ -269,7 +269,7 @@ module Pundit
       if actions.count.zero?
         zero_actions_failure_message
       else
-        "#{policy.class} expected to forbid #{actions}, but allowed " \
+        "#{policy.class} expected to forbid #{actions}, but permitted " \
         "#{forbidden_actions} for " +
           policy.public_send(Pundit::Matchers.configuration.user_alias)
                 .inspect + '.'
