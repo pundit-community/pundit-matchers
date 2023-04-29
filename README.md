@@ -111,13 +111,13 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context 'being a visitor' do
+  context 'with visitors' do
     let(:user) { nil }
 
     it { is_expected.to permit_only_actions(%i[index show]) }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_all_actions }
@@ -187,16 +187,16 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context 'being a visitor' do
+  context 'with visitors' do
     let(:user) { nil }
 
     it { is_expected.to permit_only_actions(%i[index show]) }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_only_actions(%i[index show create update]) }
+    it { is_expected.to permit_only_actions(%i[index show new create edit update]) }
   end
 end
 ```
@@ -220,13 +220,13 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context 'being a visitor' do
+  context 'with visitors' do
     let(:user) { nil }
 
-    it { is_expected.to forbid_only_actions(%i[create update destroy]) }
+    it { is_expected.to forbid_only_actions(%i[new create edit update destroy]) }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to forbid_only_actions(%i[destroy]) }
@@ -254,13 +254,13 @@ class ArticlePolicy < ApplicationPolicy
 
   let(:article) { Article.new }
 
-   context 'being a visitor' do
+   context 'with visitors' do
     let(:user) { nil }
 
     it { is_expected.to forbid_all_actions }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_all_actions }
@@ -283,13 +283,13 @@ describe ArticlePolicy do
 
   let(:user) { User.create }
 
-  context 'user updating an article that they authored' do
+  context 'when user updates an article that they authored' do
     let(:article) { Article.create(user_id: user.id) }
 
     it { is_expected.to permit_action(:update) }
   end
 
-  context 'user updating an article that they did not author' do
+  context 'when user updates an article that they did not author' do
     let(:article) { Article.create(user_id: nil) }
 
     it { is_expected.to forbid_action(:update) }
@@ -318,17 +318,17 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context 'being a visitor' do
+  context 'with visitors' do
     let(:user) { nil }
 
     it { is_expected.to permit_only_actions(%i[index show]) }
     it { is_expected.to forbid_actions(%i[create update destroy]) }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_only_actions(%i[index show create update]) }
+    it { is_expected.to permit_only_actions(%i[index show new create edit update]) }
     it { is_expected.to forbid_actions(%i[destroy]) }
   end
 end
@@ -379,13 +379,13 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context 'being a visitor' do
+  context 'with visitors' do
     let(:user) { nil }
 
     it { is_expected.to forbid_new_and_create_actions }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_new_and_create_actions }
@@ -428,13 +428,13 @@ describe ArticlePolicy do
   let(:user) { nil }
   let(:article) { Article.new }
 
-  context 'comment is spam' do
+  context 'when comment is spam' do
     let(:comment) { Comment.new(spam: true) }
 
     it { is_expected.to forbid_action(:create_comment, comment) }
   end
 
-  context 'comment is not spam' do
+  context 'when comment is not spam' do
     let(:comment) { Comment.new(spam: false) }
 
     it { is_expected.to permit_action(:create_comment, comment) }
@@ -464,14 +464,14 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context 'being a visitor' do
+  context 'with visitors' do
     let(:user) { nil }
 
     it { is_expected.to permit_new_and_create_actions }
     it { is_expected.to forbid_mass_assignment_of(:publish) }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_new_and_create_actions }
@@ -495,14 +495,14 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context 'being a visitor' do
+  context 'with visitors' do
     let(:user) { nil }
 
     it { is_expected.to permit_mass_assignment_of(%i[name]) }
     it { is_expected.to forbid_mass_assignment_of(%i[description]) }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_mass_assignment_of(%i[name description]) }
@@ -532,19 +532,19 @@ describe ArticlePolicy do
 
   let(:article) { Article.new }
 
-  context 'being a visitor' do
+  context 'with visitors' do
     let(:user) { nil }
 
-    it { is_expected.to permit_only_actions(%i[create update]) }
+    it { is_expected.to permit_only_actions(%i[new create edit update]) }
     it { is_expected.to forbid_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
   end
 
-  context 'being an administrator' do
+  context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_only_actions(%i[create update]) }
+    it { is_expected.to permit_only_actions(%i[new create edit update]) }
     it { is_expected.to permit_mass_assignment_of(:slug) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
     it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
@@ -584,7 +584,7 @@ describe ArticlePolicy do
 
   let(:user) { nil }
 
-  context 'visitor accessing a published article' do
+  context 'when visitor accesses a published article' do
     let(:article) { Article.create(publish: true) }
 
     it 'includes article in resolved scope' do
@@ -592,7 +592,7 @@ describe ArticlePolicy do
     end
   end
 
-  context 'visitor accessing an unpublished article' do
+  context 'when visitor accesses an unpublished article' do
     let(:article) { Article.create(publish: false) }
 
     it 'excludes article from resolved scope' do
@@ -629,13 +629,13 @@ describe ArticlePolicy do
 
   let(:user) { nil }
 
-  context 'visitor creating a new article' do
+  context 'when visitor creates a new article' do
     let(:article) { Article.new }
 
     it { is_expected.to permit_new_and_create_actions }
   end
 
-  context 'visitor accessing a published article' do
+  context 'when visitor accesses a published article' do
     let(:article) { Article.create(publish: true) }
 
     it 'includes article in resolved scope' do
@@ -645,7 +645,7 @@ describe ArticlePolicy do
     it { is_expected.to permit_only_actions(%i[index show]) }
   end
 
-  context 'visitor accessing an unpublished article' do
+  context 'when visitor accesses an unpublished article' do
     let(:article) { Article.create(publish: false) }
 
     it 'excludes article from resolved scope' do
@@ -684,13 +684,13 @@ describe ArticlePolicy do
 
   let(:user) { User.new(administrator: true) }
 
-  context 'administrator creating a new article' do
+  context 'when administrator creates a new article' do
     let(:article) { Article.new }
 
     it { is_expected.to permit_new_and_create_actions }
   end
 
-  context 'administrator accessing a published article' do
+  context 'when administrator accesses a published article' do
     let(:article) { Article.create(publish: true) }
 
     it 'includes article in resolved scope' do
@@ -700,7 +700,7 @@ describe ArticlePolicy do
     it { is_expected.to permit_all_actions }
   end
 
-  context 'administrator accessing an unpublished article' do
+  context 'when administrator accesses an unpublished article' do
     let(:article) { Article.create(publish: false) }
 
     it 'includes article in resolved scope' do
