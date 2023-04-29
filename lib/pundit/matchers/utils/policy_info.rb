@@ -14,7 +14,7 @@ module Pundit
         def actions
           @actions ||= begin
             policy_methods = @policy.public_methods - Object.instance_methods
-            policy_methods.grep(/\?$/).map { |policy_method| policy_method.to_s.sub(/\?$/, '').to_sym }
+            policy_methods.grep(/\?$/).sort.map { |policy_method| policy_method.to_s.delete_suffix('?').to_sym }
           end
         end
 
