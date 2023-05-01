@@ -106,7 +106,7 @@ are only authorised to have read only access.
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
@@ -182,7 +182,7 @@ from deleting them):
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
@@ -215,7 +215,7 @@ the `forbid_only_actions` matcher:
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
@@ -278,7 +278,7 @@ context, for example testing whether a user can publish an article:
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:user) { User.create }
@@ -313,7 +313,7 @@ can also manage (but not delete) articles.
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
@@ -374,7 +374,7 @@ create articles, but does not authorise visitors to do the same.
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
@@ -422,7 +422,7 @@ matcher.
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:user) { nil }
@@ -459,7 +459,7 @@ publish flag.
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
@@ -490,7 +490,7 @@ the name of articles, while administrators can also set the description.
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
@@ -527,7 +527,7 @@ permitted to set the slug when either creating or updating the article.
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
@@ -575,7 +575,7 @@ a resolved scope you could write your policy spec as follows:
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:resolved_scope) do
@@ -620,7 +620,7 @@ the files by published status or policy action.
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:resolved_scope) do
@@ -675,7 +675,7 @@ end
 ```ruby
 require 'rails_helper'
 
-describe ArticlePolicy do
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:resolved_scope) do
