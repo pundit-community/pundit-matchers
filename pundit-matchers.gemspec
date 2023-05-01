@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = 'chris@chrisalley.info'
   s.files       = Dir['lib/**/*']
   s.require_paths = ['lib']
-  s.homepage    = 'http://github.com/punditcommunity/pundit-matchers'
+  s.homepage    = 'https://github.com/punditcommunity/pundit-matchers'
   s.license     = 'MIT'
   s.add_runtime_dependency 'rspec-rails', '>= 3.0.0'
   s.add_development_dependency 'pundit', '~> 1.1', '>= 1.1.0'
