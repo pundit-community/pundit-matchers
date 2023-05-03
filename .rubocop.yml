@@ -8,6 +8,8 @@ require:
 AllCops:
   NewCops: enable
   TargetRubyVersion: 3.0
+  DisplayStyleGuide: true
+  ExtraDetails: true
   Exclude:
     - 'bin/**/*'
     - 'vendor/bundle/**/*'
