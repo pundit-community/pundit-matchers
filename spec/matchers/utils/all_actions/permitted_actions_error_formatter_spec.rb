@@ -41,4 +41,37 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::PermittedActionsErrorFormatt
       expect(message).to eq('DummyPolicy expected to have all actions permitted, but [:create] is forbidden')
     end
   end
+
+  context 'when multiple expectations are not met' do
+    subject(:message) { error_message_formatter.message }
+
+    let(:policy_class) do
+      Class.new do
+        def self.name
+          'DummyPolicy'
+        end
+
+        def update?
+          false
+        end
+
+        def create?
+          true
+        end
+
+        def destroy?
+          false
+        end
+      end
+    end
+
+    let(:policy) { policy_class.new }
+
+    it 'includes unexpected actions in message' do
+      expect(message).to eq(
+        'DummyPolicy expected to have all actions permitted, ' \
+        'but [:destroy, :update] are forbidden'
+      )
+    end
+  end
 end

@@ -57,4 +57,37 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormat
       )
     end
   end
+
+  context 'when multiple expectations are not met' do
+    subject(:message) { error_message_formatter.message }
+
+    let(:policy_class) do
+      Class.new do
+        def self.name
+          'DummyPolicy'
+        end
+
+        def update?
+          true
+        end
+
+        def create?
+          true
+        end
+
+        def destroy?
+          true
+        end
+      end
+    end
+
+    let(:policy) { policy_class.new }
+
+    it 'includes unexpected actions in message' do
+      expect(message).to eq(
+        'DummyPolicy expected to have only actions [:create] permitted, ' \
+        'but [:destroy, :update] are permitted too'
+      )
+    end
+  end
 end
