@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe 'forbid_only_actions matcher' do
+RSpec.describe 'forbid_only_actions matcher' do
   subject { policy_class.new }
 
   context 'when one action is forbidden' do

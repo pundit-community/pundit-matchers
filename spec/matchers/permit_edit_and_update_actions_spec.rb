@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe 'permit_edit_and_update_actions matcher' do
+RSpec.describe 'permit_edit_and_update_actions matcher' do
   subject(:policy) { policy_class.new }
 
   context 'when edit? and update? are both permitted' do

@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe 'permit_only_actions matcher' do
+RSpec.describe 'permit_only_actions matcher' do
   subject { policy_class.new }
 
   context 'when one action is permitted' do

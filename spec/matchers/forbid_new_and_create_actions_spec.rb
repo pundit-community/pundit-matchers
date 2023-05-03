@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe 'forbid_new_and_create_actions matcher' do
+RSpec.describe 'forbid_new_and_create_actions matcher' do
   subject(:policy) { policy_class.new }
 
   context 'when new? and create? are both permitted' do

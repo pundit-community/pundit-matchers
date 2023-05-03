@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe Pundit::Matchers, '.configuration#user_alias' do
+RSpec.describe Pundit::Matchers, '.configuration#user_alias' do
   subject { described_class.configuration.user_alias }
 
   context 'with default value' do

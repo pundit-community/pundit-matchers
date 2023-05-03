@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe 'permit_actions matcher' do
+RSpec.describe 'permit_actions matcher' do
   subject(:policy) { policy_class.new }
 
   before { allow(Kernel).to receive(:warn) }

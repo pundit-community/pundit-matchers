@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe 'forbid_mass_assignment_of matcher' do
+RSpec.describe 'forbid_mass_assignment_of matcher' do
   subject(:policy) { policy_class.new }
 
   context 'when the foo and bar attributes are permitted' do

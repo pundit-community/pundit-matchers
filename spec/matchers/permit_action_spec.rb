@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe 'permit_action matcher' do
+RSpec.describe 'permit_action matcher' do
   subject(:policy) { policy_class.new }
 
   context 'when no arguments are specified' do
