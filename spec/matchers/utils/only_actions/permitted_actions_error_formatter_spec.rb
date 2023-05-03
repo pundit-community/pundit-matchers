@@ -11,35 +11,15 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormat
     Pundit::Matchers::Utils::OnlyActions::PermittedActionsMatcher.new(policy, [:create])
   end
 
-  let(:policy_class) do
-    Class.new do
-      def self.name
-        'DummyPolicy'
-      end
-
-      def initialize(update, create)
-        @update = update
-        @create = create
-      end
-
-      def update?
-        @update
-      end
-
-      def create?
-        @create
-      end
-    end
-  end
-
-  let(:policy) { policy_class.new(true, true) }
+  let(:policy_class) { TestCreateUpdatePolicy }
+  let(:policy) { policy_class.new(create: true, update: true) }
 
   describe '#message' do
     subject(:message) { error_message_formatter.message }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(
-        'DummyPolicy expected to have only actions [:create] permitted, ' \
+        'TestPolicy expected to have only actions [:create] permitted, ' \
         'but [:update] is permitted too'
       )
     end
@@ -48,11 +28,11 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormat
   context 'when an expectation is not met' do
     subject(:message) { error_message_formatter.message }
 
-    let(:policy) { policy_class.new(true, false) }
+    let(:policy) { policy_class.new(update: true) }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(
-        'DummyPolicy expected to have only actions [:create] permitted, ' \
+        'TestPolicy expected to have only actions [:create] permitted, ' \
         'but [:create] is forbidden and [:update] is permitted too'
       )
     end
@@ -62,11 +42,7 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormat
     subject(:message) { error_message_formatter.message }
 
     let(:policy_class) do
-      Class.new do
-        def self.name
-          'DummyPolicy'
-        end
-
+      Class.new(TestPolicy) do
         def update?
           true
         end
@@ -85,7 +61,7 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormat
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(
-        'DummyPolicy expected to have only actions [:create] permitted, ' \
+        'TestPolicy expected to have only actions [:create] permitted, ' \
         'but [:destroy, :update] are permitted too'
       )
     end

@@ -11,35 +11,15 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsErrorFormat
     Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher.new(policy, [:create])
   end
 
-  let(:policy_class) do
-    Class.new do
-      def self.name
-        'DummyPolicy'
-      end
-
-      def initialize(update, create)
-        @update = update
-        @create = create
-      end
-
-      def update?
-        @update
-      end
-
-      def create?
-        @create
-      end
-    end
-  end
-
-  let(:policy) { policy_class.new(false, false) }
+  let(:policy_class) { TestCreateUpdatePolicy }
+  let(:policy) { policy_class.new }
 
   describe '#message' do
     subject(:message) { error_message_formatter.message }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(
-        'DummyPolicy expected to have only actions [:create] forbidden, ' \
+        'TestPolicy expected to have only actions [:create] forbidden, ' \
         'but [:update] is forbidden too'
       )
     end
@@ -48,11 +28,11 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsErrorFormat
   context 'when an expectation is not met' do
     subject(:message) { error_message_formatter.message }
 
-    let(:policy) { policy_class.new(false, true) }
+    let(:policy) { policy_class.new(create: true) }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(
-        'DummyPolicy expected to have only actions [:create] forbidden, ' \
+        'TestPolicy expected to have only actions [:create] forbidden, ' \
         'but [:create] is permitted and [:update] is forbidden too'
       )
     end

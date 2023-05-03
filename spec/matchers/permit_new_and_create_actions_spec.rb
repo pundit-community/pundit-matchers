@@ -7,7 +7,7 @@ RSpec.describe 'permit_new_and_create_actions matcher' do
 
   context 'when new? and create? are both permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(TestPolicy) do
         def new?
           true
         end
@@ -19,11 +19,18 @@ RSpec.describe 'permit_new_and_create_actions matcher' do
     end
 
     it { is_expected.to permit_new_and_create_actions }
+
+    it 'provides a user friendly negated failure message' do
+      expect do
+        expect(policy).not_to permit_new_and_create_actions
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                         'TestPolicy does not forbid the new or create action for "user".')
+    end
   end
 
   context 'when new? is permitted, create? is forbidden' do
     let(:policy_class) do
-      Class.new do
+      Class.new(TestPolicy) do
         def new?
           true
         end
@@ -35,11 +42,18 @@ RSpec.describe 'permit_new_and_create_actions matcher' do
     end
 
     it { is_expected.not_to permit_new_and_create_actions }
+
+    it 'provides a user friendly failure message' do
+      expect do
+        expect(policy).to permit_new_and_create_actions
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                         'TestPolicy does not permit the new or create action for "user".')
+    end
   end
 
   context 'when new? is forbidden, create? is permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(TestPolicy) do
         def new?
           false
         end
@@ -55,7 +69,7 @@ RSpec.describe 'permit_new_and_create_actions matcher' do
 
   context 'when new? and create? are both forbidden' do
     let(:policy_class) do
-      Class.new do
+      Class.new(TestPolicy) do
         def new?
           false
         end

@@ -7,24 +7,8 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::ForbiddenActionsMatcher do
     described_class.new(policy)
   end
 
-  let(:policy_class) do
-    Class.new do
-      def initialize(update, create)
-        @update = update
-        @create = create
-      end
-
-      def update?
-        @update
-      end
-
-      def create?
-        @create
-      end
-    end
-  end
-
-  let(:policy) { policy_class.new(false, false) }
+  let(:policy_class) { TestCreateUpdatePolicy }
+  let(:policy) { policy_class.new }
 
   describe '#match?' do
     context 'when policy forbids all actions' do
@@ -32,13 +16,13 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::ForbiddenActionsMatcher do
     end
 
     context 'when policy allows all actions' do
-      let(:policy) { policy_class.new(true, true) }
+      let(:policy) { policy_class.new(create: true, update: true) }
 
       it { is_expected.not_to be_match }
     end
 
     context 'when policy allows some actions' do
-      let(:policy) { policy_class.new(true, false) }
+      let(:policy) { policy_class.new(update: true) }
 
       it { is_expected.not_to be_match }
     end
@@ -52,7 +36,7 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::ForbiddenActionsMatcher do
     end
 
     context 'when policy allows all actions' do
-      let(:policy) { policy_class.new(true, true) }
+      let(:policy) { policy_class.new(create: true, update: true) }
 
       it 'returns actions which are permitted' do
         expect(missed_expected_actions).to match_array(%i[create update])
@@ -60,7 +44,7 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::ForbiddenActionsMatcher do
     end
 
     context 'when policy allows some actions' do
-      let(:policy) { policy_class.new(true, false) }
+      let(:policy) { policy_class.new(update: true) }
 
       it 'returns actions which are permitted' do
         expect(missed_expected_actions).to match_array(%i[update])

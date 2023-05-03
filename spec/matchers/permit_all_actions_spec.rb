@@ -13,7 +13,7 @@ RSpec.describe 'permit_all_actions matcher' do
 
   context 'when one action is permitted' do
     let(:policy_class) do
-      Class.new do
+      Class.new(TestPolicy) do
         def test?
           true
         end
@@ -26,7 +26,7 @@ RSpec.describe 'permit_all_actions matcher' do
   context 'when more than one action is specified' do
     context 'when test1? and test2? are permitted' do
       let(:policy_class) do
-        Class.new do
+        Class.new(TestPolicy) do
           def test1?
             true
           end
@@ -42,7 +42,7 @@ RSpec.describe 'permit_all_actions matcher' do
 
     context 'when test1? is permitted, test2? is forbidden' do
       let(:policy_class) do
-        Class.new do
+        Class.new(TestPolicy) do
           def test1?
             true
           end
@@ -54,11 +54,19 @@ RSpec.describe 'permit_all_actions matcher' do
       end
 
       it { is_expected.not_to permit_all_actions }
+
+      it 'provides a user friendly failure message' do
+        expect do
+          expect(policy).to permit_all_actions
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                           'TestPolicy expected to have all actions permitted, ' \
+                           'but [:test2] is forbidden')
+      end
     end
 
     context 'when test1? is forbidden, test2? is permitted' do
       let(:policy_class) do
-        Class.new do
+        Class.new(TestPolicy) do
           def test1?
             false
           end
@@ -74,7 +82,7 @@ RSpec.describe 'permit_all_actions matcher' do
 
     context 'when test1? and test2? are both forbidden' do
       let(:policy_class) do
-        Class.new do
+        Class.new(TestPolicy) do
           def test1?
             false
           end
