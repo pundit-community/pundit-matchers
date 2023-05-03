@@ -2,7 +2,7 @@
 
 require 'rspec/core'
 
-describe 'forbid_actions matcher' do
+RSpec.describe 'forbid_actions matcher' do
   subject(:policy) { policy_class.new }
 
   context 'when no actions are specified' do
