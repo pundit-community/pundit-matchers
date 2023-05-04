@@ -249,7 +249,7 @@ are expected to be permitted or forbidden you can write a single expectation
 that will check every action in the policy.
 
 ```ruby
-class ArticlePolicy < ApplicationPolicy
+RSpec.describe ArticlePolicy do
   subject { described_class.new(user, article) }
 
   let(:article) { Article.new }
