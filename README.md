@@ -398,8 +398,7 @@ end
 Warning: this feature is deprecated and will be removed in Pundit Matchers 3.
 Pundit does not support passing additional arguments to policies in Pundit 2. To
 pass extra information besides the user and record to a policy action, you
-should set up a
-[user context](https://github.com/varvet/pundit#additional-context) in the
+should set up a [user context][pundit-github-additional-context] in the
 controller.
 
 Sometimes you may have a custom policy action which accepts one or more
@@ -754,4 +753,5 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 [pundit-rubygems]: https://rubygems.org/gems/pundit
 [owasp-top-10]: https://owasp.org/Top10/
 [broken-access-control]: https://owasp.org/Top10/A01_2021-Broken_Access_Control/
+[pundit-github-additional-context]: https://github.com/varvet/pundit#additional-context
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
