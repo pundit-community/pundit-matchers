@@ -32,25 +32,25 @@ module Pundit
         @configuration ||= Pundit::Matchers::Configuration.new
       end
     end
+  end
 
-    RSpec::Matchers.define :forbid_action do |action, *args, **kwargs|
-      match do |policy|
-        if args.any?
-          !policy.public_send("#{action}?", *args, **kwargs)
-        else
-          !policy.public_send("#{action}?", **kwargs)
-        end
+  RSpec::Matchers.define :forbid_action do |action, *args, **kwargs|
+    match do |policy|
+      if args.any?
+        !policy.public_send("#{action}?", *args, **kwargs)
+      else
+        !policy.public_send("#{action}?", **kwargs)
       end
+    end
 
-      failure_message do |policy|
-        "#{policy.class} does not forbid #{action} for " \
-          "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-      end
+    failure_message do |policy|
+      "#{policy.class} does not forbid #{action} for " \
+        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
+    end
 
-      failure_message_when_negated do |policy|
-        "#{policy.class} does not permit #{action} for " \
-          "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-      end
+    failure_message_when_negated do |policy|
+      "#{policy.class} does not permit #{action} for " \
+        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
     end
   end
 
