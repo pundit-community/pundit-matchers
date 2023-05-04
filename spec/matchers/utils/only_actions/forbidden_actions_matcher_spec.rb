@@ -7,24 +7,8 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher do
     described_class.new(policy, expected_actions)
   end
 
-  let(:policy_class) do
-    Class.new do
-      def initialize(update, create)
-        @update = update
-        @create = create
-      end
-
-      def update?
-        @update
-      end
-
-      def create?
-        @create
-      end
-    end
-  end
-
-  let(:policy) { policy_class.new(false, false) }
+  let(:policy_class) { TestCreateUpdatePolicy }
+  let(:policy) { policy_class.new }
   let(:expected_actions) { %i[create update] }
 
   describe '#match?' do
@@ -59,7 +43,7 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher do
     end
 
     context 'when policy allows expected actions' do
-      let(:policy) { policy_class.new(false, true) }
+      let(:policy) { policy_class.new(create: true) }
 
       it 'returns actions which are forbidden' do
         expect(missed_expected_actions).to match_array(%i[create])
@@ -83,7 +67,7 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher do
     end
 
     context 'when policy allows expected actions' do
-      let(:policy) { policy_class.new(false, false) }
+      let(:policy) { policy_class.new }
 
       it { is_expected.to be_empty }
     end
