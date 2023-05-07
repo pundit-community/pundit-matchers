@@ -4,16 +4,14 @@ require 'rspec/core'
 
 module Pundit
   module Matchers
-    require_relative 'matchers/utils/only_actions/forbidden_actions_error_formatter'
-    require_relative 'matchers/utils/only_actions/forbidden_actions_matcher'
-    require_relative 'matchers/utils/only_actions/permitted_actions_error_formatter'
-    require_relative 'matchers/utils/only_actions/permitted_actions_matcher'
-
     require_relative 'matchers/forbid_actions'
     require_relative 'matchers/permit_actions'
 
     require_relative 'matchers/forbid_all_actions'
     require_relative 'matchers/permit_all_actions'
+
+    require_relative 'matchers/forbid_only_actions'
+    require_relative 'matchers/permit_only_actions'
 
     class Configuration
       attr_accessor :user_alias
@@ -39,6 +37,8 @@ module Pundit
     config.include Pundit::Matchers::ForbidActions
     config.include Pundit::Matchers::ForbidAllActions
     config.include Pundit::Matchers::PermitAllActions
+    config.include Pundit::Matchers::ForbidOnlyActions
+    config.include Pundit::Matchers::PermitOnlyActions
   end
 
   RSpec::Matchers.define :forbid_mass_assignment_of do |attributes|
@@ -162,30 +162,6 @@ module Pundit
           "attributes #{forbidden_attributes} for " \
           "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
       end
-    end
-  end
-
-  RSpec::Matchers.define :permit_only_actions do |actions|
-    match do |policy|
-      @matcher = Pundit::Matchers::Utils::OnlyActions::PermittedActionsMatcher.new(policy, actions)
-      @matcher.match?
-    end
-
-    failure_message do
-      formatter = Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormatter.new(@matcher)
-      formatter.message
-    end
-  end
-
-  RSpec::Matchers.define :forbid_only_actions do |actions|
-    match do |policy|
-      @matcher = Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher.new(policy, actions)
-      @matcher.match?
-    end
-
-    failure_message do
-      formatter = Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsErrorFormatter.new(@matcher)
-      formatter.message
     end
   end
 end

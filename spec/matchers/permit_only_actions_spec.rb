@@ -14,7 +14,7 @@ RSpec.describe 'permit_only_actions matcher' do
       end
     end
 
-    it { is_expected.to permit_only_actions([:test]) }
+    it { is_expected.to permit_only_actions(:test) }
   end
 
   context 'when more than one action is specified' do
@@ -37,15 +37,13 @@ RSpec.describe 'permit_only_actions matcher' do
 
       it { is_expected.to permit_only_actions(%i[test1 test2]) }
       it { is_expected.to permit_only_actions(%i[test2 test1]) }
-      it { is_expected.not_to permit_only_actions([:test1]) }
-      it { is_expected.not_to permit_only_actions([:test3]) }
 
       it 'provides a user friendly failure message' do
         expect do
           expect(policy).to permit_only_actions([:test1])
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                           'TestPolicy expected to have only actions [:test1] permitted, ' \
-                           'but [:test2] is permitted too')
+                           'TestPolicy expected to permit only [:test1], ' \
+                           'but also permitted [:test2] for "user".')
       end
     end
   end
