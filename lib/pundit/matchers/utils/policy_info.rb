@@ -23,7 +23,15 @@ module Pundit
         end
 
         def forbidden_actions
-          actions - permitted_actions
+          @forbidden_actions ||= actions - permitted_actions
+        end
+
+        def to_s
+          policy.class.to_s
+        end
+
+        def user
+          @user ||= policy.public_send(Pundit::Matchers.configuration.user_alias)
         end
       end
     end

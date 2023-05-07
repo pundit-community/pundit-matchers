@@ -23,6 +23,8 @@ module Pundit
 
       class PermitActionsMatcher < Pundit::Matchers::ActionsMatcher
         def matches?(policy)
+          raise ArgumentError, 'At least one action must be specified' if expected_actions.count < 1
+
           super
 
           @actual_actions = expected_actions.reject do |action|
