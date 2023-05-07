@@ -27,7 +27,9 @@ module Pundit
 
           super
 
-          @actual_actions = expected_actions & policy_info.permitted_actions
+          @actual_actions = expected_actions.select do |action|
+            policy.public_send(:"#{action}?")
+          end
 
           actual_actions.empty?
         end
