@@ -9,11 +9,11 @@
 # Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns, inherit_mode.
 # AllowedMethods: refine
 Metrics/BlockLength:
-  Max: 54
+  Max: 50
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ModuleLength:
-  Max: 314
+  Max: 149
 
 RSpec/MultipleExpectations:
   Max: 2
@@ -24,3 +24,7 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'lib/pundit/matchers.rb'
+    - 'lib/pundit/matchers/actions_matcher.rb'
+    - 'lib/pundit/matchers/forbid_actions.rb'
+    - 'lib/pundit/matchers/permit_actions.rb'
+    - 'lib/pundit/matchers/utils/utils.rb'

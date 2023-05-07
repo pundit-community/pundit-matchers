@@ -15,6 +15,9 @@ module Pundit
     require_relative 'matchers/utils/only_actions/permitted_actions_error_formatter'
     require_relative 'matchers/utils/only_actions/permitted_actions_matcher'
 
+    require_relative 'matchers/forbid_actions'
+    require_relative 'matchers/permit_actions'
+
     class Configuration
       attr_accessor :user_alias
 
@@ -34,77 +37,9 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :forbid_action do |action, *args, **kwargs|
-    match do |policy|
-      if args.any?
-        !policy.public_send("#{action}?", *args, **kwargs)
-      else
-        !policy.public_send("#{action}?", **kwargs)
-      end
-    end
-
-    failure_message do |policy|
-      "#{policy.class} does not forbid #{action} for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-
-    failure_message_when_negated do |policy|
-      "#{policy.class} does not permit #{action} for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-  end
-
-  RSpec::Matchers.define :forbid_actions do |*actions|
-    actions.flatten!
-    match do |policy|
-      return false if actions.count < 1
-
-      @allowed_actions = actions.select do |action|
-        policy.public_send("#{action}?")
-      end
-      @allowed_actions.empty?
-    end
-
-    attr_reader :allowed_actions
-
-    zero_actions_failure_message = 'At least one action must be ' \
-                                   'specified when using the forbid_actions matcher.'
-
-    failure_message do |policy|
-      if actions.count.zero?
-        zero_actions_failure_message
-      else
-        "#{policy.class} expected to forbid #{actions}, but permitted " \
-          "#{allowed_actions} for " \
-          "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-      end
-    end
-
-    failure_message_when_negated do |policy|
-      if actions.count.zero?
-        zero_actions_failure_message
-      else
-        "#{policy.class} expected to permit #{actions}, but forbade " \
-          "#{allowed_actions} for " \
-          "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-      end
-    end
-  end
-
-  RSpec::Matchers.define :forbid_edit_and_update_actions do
-    match do |policy|
-      !policy.edit? && !policy.update?
-    end
-
-    failure_message do |policy|
-      "#{policy.class} does not forbid the edit or update action for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-
-    failure_message_when_negated do |policy|
-      "#{policy.class} does not permit the edit or update action for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
+  ::RSpec.configure do |config|
+    config.include Pundit::Matchers::PermitActions
+    config.include Pundit::Matchers::ForbidActions
   end
 
   RSpec::Matchers.define :forbid_mass_assignment_of do |attributes|
@@ -169,116 +104,6 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :forbid_new_and_create_actions do
-    match do |policy|
-      !policy.new? && !policy.create?
-    end
-
-    failure_message do |policy|
-      "#{policy.class} does not forbid the new or create action for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-
-    failure_message_when_negated do |policy|
-      "#{policy.class} does not permit the new or create action for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-  end
-
-  RSpec::Matchers.define :permit_action do |action, *args, **kwargs|
-    match do |policy|
-      if args.any?
-        policy.public_send("#{action}?", *args, **kwargs)
-      else
-        policy.public_send("#{action}?", **kwargs)
-      end
-    end
-
-    failure_message do |policy|
-      "#{policy.class} does not permit #{action} for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-
-    failure_message_when_negated do |policy|
-      "#{policy.class} does not forbid #{action} for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-  end
-
-  RSpec::Matchers.define :permit_actions do |*actions|
-    actions.flatten!
-    match do |policy|
-      return false if actions.count < 1
-
-      @forbidden_actions = actions.reject do |action|
-        policy.public_send("#{action}?")
-      end
-      @forbidden_actions.empty?
-    end
-
-    match_when_negated do |policy|
-      ::Kernel.warn 'Using expect { }.not_to permit_actions could produce \
-        confusing results. Please use `.to forbid_actions` instead. To \
-        clarify, `.not_to permit_actions` will look at all of the actions and \
-        checks if ANY actions fail, not if all actions fail. Therefore, you \
-        could result in something like this: \
-
-        it { is_expected.to permit_actions([:new, :create, :edit]) } \
-        it { is_expected.not_to permit_actions([:edit, :destroy]) } \
-
-        In this case, edit would be true and destroy would be false, but both \
-        tests would pass.'
-
-      return true if actions.count < 1
-
-      @forbidden_actions = actions.reject do |action|
-        policy.public_send("#{action}?")
-      end
-      !@forbidden_actions.empty?
-    end
-
-    attr_reader :forbidden_actions
-
-    zero_actions_failure_message = 'At least one action must be specified ' \
-                                   'when using the permit_actions matcher.'
-
-    failure_message do |policy|
-      if actions.count.zero?
-        zero_actions_failure_message
-      else
-        "#{policy.class} expected to permit #{actions}, but forbade " \
-          "#{forbidden_actions} for " \
-          "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-      end
-    end
-
-    failure_message_when_negated do |policy|
-      if actions.count.zero?
-        zero_actions_failure_message
-      else
-        "#{policy.class} expected to forbid #{actions}, but permitted " \
-          "#{forbidden_actions} for " \
-          "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-      end
-    end
-  end
-
-  RSpec::Matchers.define :permit_edit_and_update_actions do
-    match do |policy|
-      policy.edit? && policy.update?
-    end
-
-    failure_message do |policy|
-      "#{policy.class} does not permit the edit or update action for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-
-    failure_message_when_negated do |policy|
-      "#{policy.class} does not forbid the edit or update action for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-  end
-
   RSpec::Matchers.define :permit_mass_assignment_of do |attributes|
     # Map single object argument to an array, if necessary
     attributes = [attributes] unless attributes.is_a?(Array)
@@ -338,22 +163,6 @@ module Pundit
           "attributes #{forbidden_attributes} for " \
           "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
       end
-    end
-  end
-
-  RSpec::Matchers.define :permit_new_and_create_actions do
-    match do |policy|
-      policy.new? && policy.create?
-    end
-
-    failure_message do |policy|
-      "#{policy.class} does not permit the new or create action for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
-    end
-
-    failure_message_when_negated do |policy|
-      "#{policy.class} does not forbid the new or create action for " \
-        "#{policy.public_send(Pundit::Matchers.configuration.user_alias).inspect}."
     end
   end
 
