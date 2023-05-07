@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/punditcommunity/pundit-matchers'
   s.license     = 'MIT'
   s.add_runtime_dependency 'rspec-rails', '>= 3.0.0'
-  s.add_development_dependency 'pundit', '~> 1.1', '>= 1.1.0'
+  s.add_development_dependency 'pundit', '>= 2.0'
   s.metadata['rubygems_mfa_required'] = 'true'
   s.required_ruby_version = '>= 3.0'
 end

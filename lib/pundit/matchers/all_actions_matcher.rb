@@ -7,12 +7,8 @@ module Pundit
     class AllActionsMatcher < ActionsMatcher
       private
 
-      def actions_text
-        verb
-      end
-
-      def expected_actions_text
-        'all actions'
+      def description
+        "#{verb} all actions"
       end
     end
   end

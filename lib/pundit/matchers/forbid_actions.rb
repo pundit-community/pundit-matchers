@@ -23,8 +23,6 @@ module Pundit
 
       class ForbidActionsMatcher < Pundit::Matchers::ActionsMatcher
         def matches?(policy)
-          raise ArgumentError, 'At least one action must be specified' if expected_actions.count < 1
-
           super
 
           @actual_actions = expected_actions.select do |action|
@@ -35,6 +33,12 @@ module Pundit
         end
 
         private
+
+        def check_arguments!
+          super
+
+          raise ArgumentError, ARGUMENTS_REQUIRED_ERROR if expected_actions.count < 1
+        end
 
         def verb
           'forbid'

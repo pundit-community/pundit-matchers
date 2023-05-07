@@ -14,8 +14,9 @@ module Pundit
           super
 
           @actual_actions = policy_info.forbidden_actions - expected_actions
+          @unexpected_actions = policy_info.permitted_actions & expected_actions
 
-          actual_actions.empty?
+          actual_actions.empty? && unexpected_actions.empty?
         end
 
         private
@@ -24,8 +25,12 @@ module Pundit
           'forbid'
         end
 
-        def other_verb
+        def unexpected_verb
           'permitted'
+        end
+
+        def other_verb
+          'forbade'
         end
       end
     end

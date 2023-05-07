@@ -13,7 +13,7 @@ module Pundit
         def matches?(policy)
           super
 
-          @actual_actions = policy_info.actions & policy_info.forbidden_actions
+          @actual_actions = policy_info.actions - policy_info.permitted_actions
 
           actual_actions.empty?
         end
