@@ -10,7 +10,7 @@ module Pundit
       end
 
       def description
-        "#{verb} #{actions_text} #{expected_actions}"
+        "#{actions_text} #{expected_actions}"
       end
 
       def does_not_match?(*)
@@ -23,7 +23,7 @@ module Pundit
       end
 
       def failure_message
-        message = +"#{policy_info} expected to #{verb} #{expected_actions},"
+        message = +"#{policy_info} expected to #{verb} #{expected_actions_text},"
         message <<
           if actual_actions.empty?
             " but did not #{verb} actions"
@@ -40,10 +40,14 @@ module Pundit
 
       def actions_text
         if expected_actions.count > 1
-          'actions'
+          "#{verb} actions"
         else
-          'action'
+          "#{verb} action"
         end
+      end
+
+      def expected_actions_text
+        expected_actions
       end
 
       def verb

@@ -4,16 +4,16 @@ require_relative 'all_actions_matcher'
 
 module Pundit
   module Matchers
-    module ForbidAllActions
-      def forbid_all_actions
-        ForbidAllActionsMatcher.new
+    module PermitAllActions
+      def permit_all_actions
+        PermitAllActionsMatcher.new
       end
 
-      class ForbidAllActionsMatcher < Pundit::Matchers::AllActionsMatcher
+      class PermitAllActionsMatcher < Pundit::Matchers::AllActionsMatcher
         def matches?(policy)
           super
 
-          @actual_actions = policy_info.actions & policy_info.permitted_actions
+          @actual_actions = policy_info.actions & policy_info.forbidden_actions
 
           actual_actions.empty?
         end
@@ -21,11 +21,11 @@ module Pundit
         private
 
         def verb
-          'forbid'
+          'permit'
         end
 
         def other_verb
-          'permitted'
+          'forbade'
         end
       end
     end

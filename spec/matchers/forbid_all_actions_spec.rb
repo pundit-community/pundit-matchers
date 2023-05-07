@@ -20,14 +20,12 @@ RSpec.describe 'forbid_all_actions matcher' do
       end
     end
 
-    it { is_expected.not_to forbid_all_actions }
-
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to forbid_all_actions
       end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy expected to have all actions forbidden, ' \
-                         'but [:test] is permitted')
+                         'TestPolicy expected to forbid all actions, ' \
+                         'but permitted [:test] for "user".')
     end
   end
 
@@ -45,7 +43,13 @@ RSpec.describe 'forbid_all_actions matcher' do
         end
       end
 
-      it { is_expected.not_to forbid_all_actions }
+      it 'provides a user friendly failure message' do
+        expect do
+          expect(policy).to forbid_all_actions
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                           'TestPolicy expected to forbid all actions, ' \
+                           'but permitted [:test1, :test2] for "user".')
+      end
     end
 
     context 'when test1? is permitted, test2? is forbidden' do
@@ -61,7 +65,13 @@ RSpec.describe 'forbid_all_actions matcher' do
         end
       end
 
-      it { is_expected.not_to forbid_all_actions }
+      it 'provides a user friendly failure message' do
+        expect do
+          expect(policy).to forbid_all_actions
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                           'TestPolicy expected to forbid all actions, ' \
+                           'but permitted [:test1] for "user".')
+      end
     end
 
     context 'when test1? is forbidden, test2? is permitted' do
@@ -77,7 +87,13 @@ RSpec.describe 'forbid_all_actions matcher' do
         end
       end
 
-      it { is_expected.not_to forbid_all_actions }
+      it 'provides a user friendly failure message' do
+        expect do
+          expect(policy).to forbid_all_actions
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                           'TestPolicy expected to forbid all actions, ' \
+                           'but permitted [:test2] for "user".')
+      end
     end
 
     context 'when test1? and test2? are both forbidden' do

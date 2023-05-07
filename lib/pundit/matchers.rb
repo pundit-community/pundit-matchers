@@ -4,12 +4,6 @@ require 'rspec/core'
 
 module Pundit
   module Matchers
-    require_relative 'matchers/utils/policy_info'
-    require_relative 'matchers/utils/all_actions/forbidden_actions_error_formatter'
-    require_relative 'matchers/utils/all_actions/forbidden_actions_matcher'
-    require_relative 'matchers/utils/all_actions/permitted_actions_error_formatter'
-    require_relative 'matchers/utils/all_actions/permitted_actions_matcher'
-
     require_relative 'matchers/utils/only_actions/forbidden_actions_error_formatter'
     require_relative 'matchers/utils/only_actions/forbidden_actions_matcher'
     require_relative 'matchers/utils/only_actions/permitted_actions_error_formatter'
@@ -17,6 +11,9 @@ module Pundit
 
     require_relative 'matchers/forbid_actions'
     require_relative 'matchers/permit_actions'
+
+    require_relative 'matchers/forbid_all_actions'
+    require_relative 'matchers/permit_all_actions'
 
     class Configuration
       attr_accessor :user_alias
@@ -40,6 +37,8 @@ module Pundit
   ::RSpec.configure do |config|
     config.include Pundit::Matchers::PermitActions
     config.include Pundit::Matchers::ForbidActions
+    config.include Pundit::Matchers::ForbidAllActions
+    config.include Pundit::Matchers::PermitAllActions
   end
 
   RSpec::Matchers.define :forbid_mass_assignment_of do |attributes|
@@ -166,18 +165,6 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :permit_all_actions do
-    match do |policy|
-      @matcher = Pundit::Matchers::Utils::AllActions::PermittedActionsMatcher.new(policy)
-      @matcher.match?
-    end
-
-    failure_message do
-      formatter = Pundit::Matchers::Utils::AllActions::PermittedActionsErrorFormatter.new(@matcher)
-      formatter.message
-    end
-  end
-
   RSpec::Matchers.define :permit_only_actions do |actions|
     match do |policy|
       @matcher = Pundit::Matchers::Utils::OnlyActions::PermittedActionsMatcher.new(policy, actions)
@@ -186,18 +173,6 @@ module Pundit
 
     failure_message do
       formatter = Pundit::Matchers::Utils::OnlyActions::PermittedActionsErrorFormatter.new(@matcher)
-      formatter.message
-    end
-  end
-
-  RSpec::Matchers.define :forbid_all_actions do
-    match do |policy|
-      @matcher = Pundit::Matchers::Utils::AllActions::ForbiddenActionsMatcher.new(policy)
-      @matcher.match?
-    end
-
-    failure_message do
-      formatter = Pundit::Matchers::Utils::AllActions::ForbiddenActionsErrorFormatter.new(@matcher)
       formatter.message
     end
   end
