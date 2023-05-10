@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 3.0.0 (unreleased)
+
+- Drop RSpec < 3.12 and Pundit < 2 compatibility
+
 ## 2.1.0 (2023-04-28)
 
 - Introduce `permit_only_actions` and `forbid_only_actions` matchers.
