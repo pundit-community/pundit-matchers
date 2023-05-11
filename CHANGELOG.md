@@ -1,5 +1,15 @@
 # Pundit Matchers
 
+## 2.2.0 (2023-05-11)
+
+- Error message improvements. Replace "allow" with "permit" in error messages.
+- Ensure that policy actions are returned in a deterministic order.
+- Move `forbid_action` matcher outside of class scope.
+- Improve code coverage in tests.
+- Use modern default configuration for specs.
+- Improvements to RuboCop config.
+- Improvements to Readme examples.
+
 ## 2.1.0 (2023-04-28)
 
 - Introduce `permit_only_actions` and `forbid_only_actions` matchers.
