@@ -15,7 +15,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 2.2'
+  gem 'pundit-matchers', '~> 3.0'
 end
 ```
 
@@ -23,10 +23,12 @@ And then execute the following command:
 
 `bundle`
 
-As of Pundit Matchers 2, Ruby 3 is a requirement. Pundit Matchers also requires
-that both the [rspec-rails][rspec-rails-rubygems] (v3.0+) and
-[pundit][pundit-rubygems] (v1.1+) gems are installed. We will drop support for
-older versions of these gems in Pundit Matchers 3.
+Pundit Matchers expects that the application you're testing is using a
+software stack consisting of:
+
+- Ruby 3+
+- Pundit 2+
+- RSpec 3.12+
 
 ## Setup
 
@@ -63,8 +65,6 @@ files (by convention, saved in the `spec/policies` directory).
 - `permit_all_actions` Tests that all actions in the policy are permitted.
 - `permit_action(:action_name)` Tests that an action, passed in as a parameter,
   is permitted by the policy.
-- `permit_action(:action_name, *arguments)` Tests that an action and any
-  optional arguments, passed in as parameters, are permitted by the policy.
 - `permit_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are permitted by the policy.
 - `permit_new_and_create_actions` Tests that both the new and create actions
@@ -83,8 +83,6 @@ files (by convention, saved in the `spec/policies` directory).
 - `forbid_all_actions` Tests that all actions in the policy are forbidden.
 - `forbid_action(:action_name)` Tests that an action, passed in as a parameter,
   is not permitted by the policy.
-- `forbid_action(:action_name, *arguments)` Tests that an action and any
-  optional arguments, passed in as parameters, are not permitted by the policy.
 - `forbid_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are not permitted by the policy.
 - `forbid_new_and_create_actions` Tests that both the new and create actions
@@ -389,54 +387,6 @@ RSpec.describe ArticlePolicy do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_new_and_create_actions }
-  end
-end
-```
-
-## Testing Actions With Arguments
-
-Warning: this feature is deprecated and will be removed in Pundit Matchers 3.
-Pundit does not support passing additional arguments to policies in Pundit 2. To
-pass extra information besides the user and record to a policy action, you
-should set up a [user context][pundit-github-additional-context] in the
-controller.
-
-Sometimes you may have a custom policy action which accepts one or more
-arguments. Pundit Matchers allows you to specify a number of optional arguments
-to the `permit_action` and `forbid_action` matchers so that actions with
-arguments can be tested. For example, you might have a policy with a
-`create_comment?` method that takes the comment as an argument, like this:
-
-```ruby
-class ArticlePolicy < ApplicationPolicy
-  def create_comment?(comment)
-    true unless comment.spam
-  end
-end
-```
-
-To test this, we can simply pass the comment to the permit or forbid action
-matcher.
-
-```ruby
-require 'rails_helper'
-
-RSpec.describe ArticlePolicy do
-  subject { described_class.new(user, article) }
-
-  let(:user) { nil }
-  let(:article) { Article.new }
-
-  context 'when comment is spam' do
-    let(:comment) { Comment.new(spam: true) }
-
-    it { is_expected.to forbid_action(:create_comment, comment) }
-  end
-
-  context 'when comment is not spam' do
-    let(:comment) { Comment.new(spam: false) }
-
-    it { is_expected.to permit_action(:create_comment, comment) }
   end
 end
 ```
@@ -749,9 +699,6 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 [github-actions-rubocop-badge]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml/badge.svg
 [pundit-github]: https://github.com/varvet/pundit
 [thunderbolt-labs]: https://www.thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec/
-[rspec-rails-rubygems]: https://rubygems.org/gems/rspec-rails
-[pundit-rubygems]: https://rubygems.org/gems/pundit
 [owasp-top-10]: https://owasp.org/Top10/
 [broken-access-control]: https://owasp.org/Top10/A01_2021-Broken_Access_Control/
-[pundit-github-additional-context]: https://github.com/varvet/pundit#additional-context
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide

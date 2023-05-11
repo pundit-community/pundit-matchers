@@ -1,4 +1,7 @@
 *.gem
+.byebug_history
 .DS_Store
+.yardoc
 coverage
+doc
 spec/examples.txt
