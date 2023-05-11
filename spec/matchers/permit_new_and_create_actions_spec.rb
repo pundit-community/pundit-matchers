@@ -23,8 +23,7 @@ RSpec.describe 'permit_new_and_create_actions matcher' do
     it 'provides a user friendly negated failure message' do
       expect do
         expect(policy).not_to permit_new_and_create_actions
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy does not forbid the new or create action for "user".')
+      end.to fail_with('TestPolicy does not forbid the new or create action for "user".')
     end
   end
 
@@ -46,8 +45,7 @@ RSpec.describe 'permit_new_and_create_actions matcher' do
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to permit_new_and_create_actions
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy does not permit the new or create action for "user".')
+      end.to fail_with('TestPolicy does not permit the new or create action for "user".')
     end
   end
 

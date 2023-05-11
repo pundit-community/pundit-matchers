@@ -30,8 +30,7 @@ RSpec.describe 'permit_actions matcher' do
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to permit_actions([])
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'At least one action must be specified when using the permit_actions matcher.')
+      end.to fail_with('At least one action must be specified when using the permit_actions matcher.')
     end
   end
 
@@ -82,17 +81,15 @@ RSpec.describe 'permit_actions matcher' do
       it 'provides a user friendly failure message' do
         expect do
           expect(policy).to permit_actions(%i[test2])
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                           'TestPolicy expected to permit [:test2], ' \
-                           'but forbade [:test2] for "user".')
+        end.to fail_with('TestPolicy expected to permit [:test2], ' \
+                         'but forbade [:test2] for "user".')
       end
 
       it 'provides a user friendly negated failure message' do
         expect do
           expect(policy).not_to permit_actions(%i[test1])
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                           'TestPolicy expected to forbid [:test1], ' \
-                           'but permitted [] for "user".')
+        end.to fail_with('TestPolicy expected to forbid [:test1], ' \
+                         'but permitted [] for "user".')
       end
     end
 

@@ -58,9 +58,8 @@ RSpec.describe 'permit_all_actions matcher' do
       it 'provides a user friendly failure message' do
         expect do
           expect(policy).to permit_all_actions
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                           'TestPolicy expected to have all actions permitted, ' \
-                           'but [:test2] is forbidden')
+        end.to fail_with('TestPolicy expected to have all actions permitted, ' \
+                         'but [:test2] is forbidden')
       end
     end
 
