@@ -24,25 +24,22 @@ RSpec.describe 'permit_mass_assignment_of matcher' do
       it 'provides a user friendly failure message' do
         expect do
           expect(policy).to permit_mass_assignment_of([])
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                           'At least one attribute must be specified when using the permit_mass_assignment_of matcher.')
+        end.to fail_with('At least one attribute must be specified when using the permit_mass_assignment_of matcher.')
       end
     end
 
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to permit_mass_assignment_of(:baz)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy expected to permit the mass assignment of the attributes [:baz], ' \
-                         'but forbade the mass assignment of the attributes [:baz] for "user".')
+      end.to fail_with('TestPolicy expected to permit the mass assignment of the attributes [:baz], ' \
+                       'but forbade the mass assignment of the attributes [:baz] for "user".')
     end
 
     it 'provides a user friendly negated failure message' do
       expect do
         expect(policy).not_to permit_mass_assignment_of(:bar)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy expected to forbid the mass assignment of the attributes [:bar], ' \
-                         'but forbade the mass assignment of the attributes [] for "user".')
+      end.to fail_with('TestPolicy expected to forbid the mass assignment of the attributes [:bar], ' \
+                       'but forbade the mass assignment of the attributes [] for "user".')
     end
   end
 
@@ -102,19 +99,17 @@ RSpec.describe 'permit_mass_assignment_of matcher' do
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to permit_mass_assignment_of(:baz).for_action(:test)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy expected to permit the mass assignment of the attributes [:baz] ' \
-                         'when authorising the test action, ' \
-                         'but forbade the mass assignment of the attributes [:baz] for "user".')
+      end.to fail_with('TestPolicy expected to permit the mass assignment of the attributes [:baz] ' \
+                       'when authorising the test action, ' \
+                       'but forbade the mass assignment of the attributes [:baz] for "user".')
     end
 
     it 'provides a user friendly negated failure message' do
       expect do
         expect(policy).not_to permit_mass_assignment_of(:bar).for_action(:test)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy expected to forbid the mass assignment of the attributes [:bar] ' \
-                         'when authorising the test action, ' \
-                         'but forbade the mass assignment of the attributes [] for "user".')
+      end.to fail_with('TestPolicy expected to forbid the mass assignment of the attributes [:bar] ' \
+                       'when authorising the test action, ' \
+                       'but forbade the mass assignment of the attributes [] for "user".')
     end
   end
 

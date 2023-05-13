@@ -43,9 +43,8 @@ RSpec.describe 'permit_only_actions matcher' do
       it 'provides a user friendly failure message' do
         expect do
           expect(policy).to permit_only_actions([:test1])
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                           'TestPolicy expected to have only actions [:test1] permitted, ' \
-                           'but [:test2] is permitted too')
+        end.to fail_with('TestPolicy expected to have only actions [:test1] permitted, ' \
+                         'but [:test2] is permitted too')
       end
     end
   end

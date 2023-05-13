@@ -19,8 +19,7 @@ RSpec.describe 'forbid_action matcher' do
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to forbid_action(:test)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy does not forbid test for "user".')
+      end.to fail_with('TestPolicy does not forbid test for "user".')
     end
   end
 
@@ -38,8 +37,7 @@ RSpec.describe 'forbid_action matcher' do
     it 'provides a user friendly negated failure message' do
       expect do
         expect(policy).not_to forbid_action(:test)
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy does not permit test for "user".')
+      end.to fail_with('TestPolicy does not permit test for "user".')
     end
   end
 end

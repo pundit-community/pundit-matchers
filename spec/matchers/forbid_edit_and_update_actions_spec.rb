@@ -23,8 +23,7 @@ RSpec.describe 'forbid_edit_and_update_actions matcher' do
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to forbid_edit_and_update_actions
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy does not forbid the edit or update action for "user".')
+      end.to fail_with('TestPolicy does not forbid the edit or update action for "user".')
     end
   end
 
@@ -78,8 +77,7 @@ RSpec.describe 'forbid_edit_and_update_actions matcher' do
     it 'provides a user friendly negated failure message' do
       expect do
         expect(policy).not_to forbid_edit_and_update_actions
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy does not permit the edit or update action for "user".')
+      end.to fail_with('TestPolicy does not permit the edit or update action for "user".')
     end
   end
 end

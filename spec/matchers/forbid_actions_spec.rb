@@ -15,8 +15,7 @@ RSpec.describe 'forbid_actions matcher' do
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to forbid_actions([])
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'At least one action must be specified when using the forbid_actions matcher.')
+      end.to fail_with('At least one action must be specified when using the forbid_actions matcher.')
     end
   end
 
@@ -34,9 +33,8 @@ RSpec.describe 'forbid_actions matcher' do
     it 'provides a user friendly failure message' do
       expect do
         expect(policy).to forbid_actions([:test])
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                         'TestPolicy expected to forbid [:test], ' \
-                         'but permitted [:test] for "user".')
+      end.to fail_with('TestPolicy expected to forbid [:test], ' \
+                       'but permitted [:test] for "user".')
     end
   end
 
@@ -107,9 +105,8 @@ RSpec.describe 'forbid_actions matcher' do
       it 'provides a user friendly negated failure message' do
         expect do
           expect(policy).not_to forbid_actions(%i[test1 test2])
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                           'TestPolicy expected to permit [:test1, :test2], ' \
-                           'but forbade [] for "user".')
+        end.to fail_with('TestPolicy expected to permit [:test1, :test2], ' \
+                         'but forbade [] for "user".')
       end
     end
   end
