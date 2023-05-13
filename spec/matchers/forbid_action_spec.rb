@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe 'forbid_action matcher' do
   context 'when test? is permitted' do
     subject(:policy) { policy_factory(test?: true) }

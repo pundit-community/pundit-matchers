@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe 'permit_actions matcher' do
   before { allow(Kernel).to receive(:warn) }
 

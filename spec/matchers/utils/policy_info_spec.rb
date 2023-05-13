@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe Pundit::Matchers::Utils::PolicyInfo do
   subject(:policy_info) { described_class.new(policy) }
 

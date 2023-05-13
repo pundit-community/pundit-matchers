@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe Pundit::Matchers::Utils::AllActions::ForbiddenActionsErrorFormatter do
   subject(:error_message_formatter) do
     described_class.new(matcher)

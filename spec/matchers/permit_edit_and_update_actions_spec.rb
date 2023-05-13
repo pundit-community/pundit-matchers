@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe 'permit_edit_and_update_actions matcher' do
   context 'when edit? and update? are both permitted' do
     subject(:policy) { policy_factory(edit?: true, update?: true) }
