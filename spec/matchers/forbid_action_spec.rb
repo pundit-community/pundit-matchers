@@ -3,16 +3,8 @@
 require 'rspec/core'
 
 RSpec.describe 'forbid_action matcher' do
-  subject(:policy) { policy_class.new }
-
   context 'when test? is permitted' do
-    let(:policy_class) do
-      Class.new(TestPolicy) do
-        def test?
-          true
-        end
-      end
-    end
+    subject(:policy) { policy_factory(test?: true) }
 
     it { is_expected.not_to forbid_action(:test) }
 
@@ -24,13 +16,7 @@ RSpec.describe 'forbid_action matcher' do
   end
 
   context 'when test? is forbidden' do
-    let(:policy_class) do
-      Class.new(TestPolicy) do
-        def test?
-          false
-        end
-      end
-    end
+    subject(:policy) { policy_factory(test?: false) }
 
     it { is_expected.to forbid_action(:test) }
 

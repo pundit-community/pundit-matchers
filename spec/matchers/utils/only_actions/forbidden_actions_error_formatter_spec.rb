@@ -11,11 +11,10 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsErrorFormat
     Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher.new(policy, [:create])
   end
 
-  let(:policy_class) { TestCreateUpdatePolicy }
-  let(:policy) { policy_class.new }
-
   describe '#message' do
     subject(:message) { error_message_formatter.message }
+
+    let(:policy) { policy_factory(create?: false, update?: false) }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(
@@ -28,7 +27,7 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsErrorFormat
   context 'when an expectation is not met' do
     subject(:message) { error_message_formatter.message }
 
-    let(:policy) { policy_class.new(create: true) }
+    let(:policy) { policy_factory(create?: true, update?: false) }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(

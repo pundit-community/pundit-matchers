@@ -3,14 +3,10 @@
 require 'rspec/core'
 
 RSpec.describe 'permit_actions matcher' do
-  subject(:policy) { policy_class.new }
-
   before { allow(Kernel).to receive(:warn) }
 
   context 'when using `not_to`' do
-    let(:policy_class) do
-      Class.new
-    end
+    subject(:policy) { policy_factory }
 
     it 'prints a warning message' do
       expect(policy).not_to permit_actions([])
@@ -21,9 +17,7 @@ RSpec.describe 'permit_actions matcher' do
   end
 
   context 'when no actions are specified' do
-    let(:policy_class) do
-      Class.new
-    end
+    subject(:policy) { policy_factory }
 
     it { is_expected.not_to permit_actions([]) }
 
@@ -35,46 +29,20 @@ RSpec.describe 'permit_actions matcher' do
   end
 
   context 'when one action is specified' do
-    let(:policy_class) do
-      Class.new(TestPolicy) do
-        def test?
-          true
-        end
-      end
-    end
+    subject(:policy) { policy_factory(test?: true) }
 
     it { is_expected.to permit_actions([:test]) }
   end
 
   context 'when more than one action is specified' do
     context 'when test1? and test2? are permitted' do
-      let(:policy_class) do
-        Class.new(TestPolicy) do
-          def test1?
-            true
-          end
-
-          def test2?
-            true
-          end
-        end
-      end
+      subject(:policy) { policy_factory(test1?: true, test2?: true) }
 
       it { is_expected.to permit_actions(%i[test1 test2]) }
     end
 
     context 'when test1? is permitted, test2? is forbidden' do
-      let(:policy_class) do
-        Class.new(TestPolicy) do
-          def test1?
-            true
-          end
-
-          def test2?
-            false
-          end
-        end
-      end
+      subject(:policy) { policy_factory(test1?: true, test2?: false) }
 
       it { is_expected.not_to permit_actions(%i[test1 test2]) }
 
@@ -94,33 +62,13 @@ RSpec.describe 'permit_actions matcher' do
     end
 
     context 'when test1? is forbidden, test2? is permitted' do
-      let(:policy_class) do
-        Class.new(TestPolicy) do
-          def test1?
-            false
-          end
-
-          def test2?
-            true
-          end
-        end
-      end
+      subject(:policy) { policy_factory(test1?: false, test2?: true) }
 
       it { is_expected.not_to permit_actions(%i[test1 test2]) }
     end
 
     context 'when test1? and test2? are both forbidden' do
-      let(:policy_class) do
-        Class.new(TestPolicy) do
-          def test1?
-            false
-          end
-
-          def test2?
-            false
-          end
-        end
-      end
+      subject(:policy) { policy_factory(test1?: false, test2?: false) }
 
       it { is_expected.not_to permit_actions(%i[test1 test2]) }
     end

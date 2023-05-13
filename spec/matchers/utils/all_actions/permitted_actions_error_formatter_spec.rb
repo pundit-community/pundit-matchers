@@ -11,11 +11,10 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::PermittedActionsErrorFormatt
     Pundit::Matchers::Utils::AllActions::PermittedActionsMatcher.new(policy)
   end
 
-  let(:policy_class) { TestCreateUpdatePolicy }
-  let(:policy) { policy_class.new(update: true) }
-
   describe '#message' do
     subject(:message) { error_message_formatter.message }
+
+    let(:policy) { policy_factory(create?: false, update?: true) }
 
     it 'includes missed actions in message' do
       expect(message).to eq('TestPolicy expected to have all actions permitted, but [:create] is forbidden')
@@ -25,23 +24,7 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::PermittedActionsErrorFormatt
   context 'when multiple expectations are not met' do
     subject(:message) { error_message_formatter.message }
 
-    let(:policy_class) do
-      Class.new(TestPolicy) do
-        def update?
-          false
-        end
-
-        def create?
-          true
-        end
-
-        def destroy?
-          false
-        end
-      end
-    end
-
-    let(:policy) { policy_class.new }
+    let(:policy) { policy_factory(update?: false, create?: true, destroy?: false) }
 
     it 'includes unexpected actions in message' do
       expect(message).to eq(
