@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe Pundit::Matchers, '.configuration#user_alias' do
   subject { described_class.configuration.user_alias }
 

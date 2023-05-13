@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe 'forbid_edit_and_update_actions matcher' do
   subject(:policy) { policy_class.new }
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe 'permit_mass_assignment_of matcher' do
   subject(:policy) { policy_class.new }
 

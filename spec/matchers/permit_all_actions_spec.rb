@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe 'permit_all_actions matcher' do
   subject(:policy) { policy_class.new }
 

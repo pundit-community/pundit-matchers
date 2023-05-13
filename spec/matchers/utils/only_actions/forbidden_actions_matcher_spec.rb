@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher do
   subject(:only_forbidden_actions_matcher) do
     described_class.new(policy, expected_actions)
