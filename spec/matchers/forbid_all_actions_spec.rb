@@ -3,22 +3,14 @@
 require 'rspec/core'
 
 RSpec.describe 'forbid_all_actions matcher' do
-  subject(:policy) { policy_class.new }
-
   context 'when no actions are specified' do
-    let(:policy_class) { Class.new }
+    subject(:policy) { policy_factory }
 
     it { is_expected.to forbid_all_actions }
   end
 
   context 'when one action is permitted' do
-    let(:policy_class) do
-      Class.new(TestPolicy) do
-        def test?
-          true
-        end
-      end
-    end
+    subject(:policy) { policy_factory(test?: true) }
 
     it { is_expected.not_to forbid_all_actions }
 
@@ -32,65 +24,25 @@ RSpec.describe 'forbid_all_actions matcher' do
 
   context 'when more than one action is specified' do
     context 'when test1? and test2? are permitted' do
-      let(:policy_class) do
-        Class.new(TestPolicy) do
-          def test1?
-            true
-          end
-
-          def test2?
-            true
-          end
-        end
-      end
+      subject(:policy) { policy_factory(test1?: true, test2?: true) }
 
       it { is_expected.not_to forbid_all_actions }
     end
 
     context 'when test1? is permitted, test2? is forbidden' do
-      let(:policy_class) do
-        Class.new(TestPolicy) do
-          def test1?
-            true
-          end
-
-          def test2?
-            false
-          end
-        end
-      end
+      subject(:policy) { policy_factory(test1?: true, test2?: false) }
 
       it { is_expected.not_to forbid_all_actions }
     end
 
     context 'when test1? is forbidden, test2? is permitted' do
-      let(:policy_class) do
-        Class.new(TestPolicy) do
-          def test1?
-            false
-          end
-
-          def test2?
-            true
-          end
-        end
-      end
+      subject(:policy) { policy_factory(test1?: false, test2?: true) }
 
       it { is_expected.not_to forbid_all_actions }
     end
 
     context 'when test1? and test2? are both forbidden' do
-      let(:policy_class) do
-        Class.new(TestPolicy) do
-          def test1?
-            false
-          end
-
-          def test2?
-            false
-          end
-        end
-      end
+      subject(:policy) { policy_factory(test1?: false, test2?: false) }
 
       it { is_expected.to forbid_all_actions }
     end

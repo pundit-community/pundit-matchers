@@ -5,23 +5,7 @@ require 'rspec/core'
 RSpec.describe Pundit::Matchers::Utils::PolicyInfo do
   subject(:policy_info) { described_class.new(policy) }
 
-  let(:policy_class) do
-    Class.new(TestPolicy) do
-      def update?
-        false
-      end
-
-      def create?
-        true
-      end
-
-      def new?
-        true
-      end
-    end
-  end
-
-  let(:policy) { policy_class.new }
+  let(:policy) { policy_factory(update?: false, create?: true, new?: true) }
 
   describe '#actions' do
     subject(:actions) { policy_info.actions }
