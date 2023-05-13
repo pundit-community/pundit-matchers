@@ -398,8 +398,6 @@ module Pundit
   end
 end
 
-if defined?(Pundit)
-  RSpec.configure do |config|
-    config.include Pundit::Matchers
-  end
+RSpec.configure do |config|
+  config.include Pundit::Matchers
 end
