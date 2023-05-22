@@ -3,6 +3,32 @@
 ## 3.0.0 (unreleased)
 
 - Drop RSpec < 3.12 and Pundit < 2 compatibility
+- Eliminate ambiguity of negated matchers
+
+### Breaking changes
+
+#### Negated Matchers
+
+The ambiguity of negated matchers has been eliminated, and this will affect
+test suites using `not_to` matchers.
+
+The following matchers will raise an error because of their ambiguity and
+ask to switch to the opposite non-negated matcher:
+- `not_to forbid_all_actions`
+- `not_to forbid_only_actions`
+- `not_to permit_all_actions`
+- `not_to permit_only_actions`
+
+The following matchers may fail, because there were ambiguous in the previous
+implementation, and the application policies should be fixed:
+- `not_to forbid_edit_and_update_actions`
+- `not_to forbid_new_and_create_actions`
+- `not_to forbid_actions` (with multiple actions)
+- `not_to forbid_mass_assignment_of` (with multiple attributes)
+- `not_to permit_actions` (with multiple actions)
+- `not_to permit_edit_and_update_actions`
+- `not_to permit_new_and_create_actions`
+- `not_to permit_mass_assignment_of` (with multiple attributes)
 
 ## 2.2.0 (2023-05-11)
 

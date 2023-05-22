@@ -342,13 +342,6 @@ it { is_expected.to forbid_actions(%i[show create update]) }
 it { is_expected.to forbid_actions(:show, :create, :update) }
 ```
 
-Warning: it is recommended to always use `is_expected.to` rather than
-`is_expected.not_to` when using Pundit Matchers. The forbid matchers were
-designed to avoid the need to use `is_expected.not_to permit_actions`. In the
-case of `is_expected.not_to permit_actions(:edit, :destroy)`, the spec will pass
-if only one of these actions is not permitted, but the other action is. This
-behaviour may be changed in a future version of Pundit Matchers.
-
 ## Testing New/Create and Edit/Update Pairs
 
 It common to write separate authorisation policies on a per action basis. A
@@ -457,6 +450,17 @@ RSpec.describe ArticlePolicy do
     it { is_expected.to permit_mass_assignment_of(%i[name description]) }
   end
 end
+```
+
+Just like `permit_actions` and `forbid_actions`, you can pass the attributes
+to check as a series of parameters, rather than an array.
+
+The following examples are equivalent:
+
+```ruby
+it { is_expected.to permit_mass_assignment_of([:first_name, :last_name]) }
+it { is_expected.to permit_mass_assignment_of(%i[first_name last_name]) }
+it { is_expected.to permit_mass_assignment_of(:first_name, :last_name) }
 ```
 
 ## Testing the Mass Assignment of Attributes for Particular Actions
