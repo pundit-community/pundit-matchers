@@ -2,26 +2,42 @@
 
 RSpec.describe Pundit::Matchers, '.configuration' do
   describe '#user_alias' do
-    subject { described_class.configuration.user_alias }
+    subject { described_class.configuration.user_alias(policy) }
 
-    context 'with default value' do
-      it { is_expected.to eq(:user) }
-    end
+    let(:policy) { policy_factory }
 
-    context 'when value is set to :account' do
+    it { is_expected.to eq :user }
+
+    context 'with a different default' do
       before do
         described_class.configure do |config|
-          config.user_alias = :account
+          config.default_user_alias = :account
         end
       end
 
       after do
         described_class.configure do |config|
-          config.user_alias = described_class::Configuration.new.user_alias
+          config.default_user_alias = described_class::Configuration::DEFAULT_USER_ALIAS
         end
       end
 
-      it { is_expected.to eq(:account) }
+      it { is_expected.to eq :account }
+    end
+
+    context 'with a policy specific configuration' do
+      before do
+        described_class.configure do |config|
+          config.user_aliases = { policy.class.name => :test_policy_account }
+        end
+      end
+
+      after do
+        described_class.configure do |config|
+          config.user_aliases = {}
+        end
+      end
+
+      it { is_expected.to eq :test_policy_account }
     end
   end
 end

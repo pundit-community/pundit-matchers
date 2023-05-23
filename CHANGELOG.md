@@ -4,8 +4,17 @@
 
 - Drop RSpec < 3.12 and Pundit < 2 compatibility
 - Eliminate ambiguity of negated matchers
+- Add support for configuring user alias per policy.
 
 ### Breaking changes
+
+#### Default User Alias
+
+In order to allow to specify user alias on a policy basis, the `user_alias`
+configuration has been renamed to `default_user_alias`. This will affect test
+suites setting `config.user_alias`.
+
+- Change `config.user_alias` to `config.default_user_alias`
 
 #### Negated Matchers
 
