@@ -6,21 +6,5 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns, inherit_mode.
-# AllowedMethods: refine
-Metrics/BlockLength:
-  Max: 50
-
-# Configuration parameters: CountComments, CountAsOne.
-Metrics/ModuleLength:
-  Max: 301
-
 RSpec/MultipleExpectations:
   Max: 2
-
-# Configuration parameters: AllowedConstants.
-Style/Documentation:
-  Exclude:
-    - 'spec/**/*'
-    - 'test/**/*'
-    - 'lib/pundit/matchers.rb'

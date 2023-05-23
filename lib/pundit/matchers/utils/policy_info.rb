@@ -5,7 +5,8 @@ module Pundit
     module Utils
       # This class provides methods to retrieve information about a policy class,
       # such as the actions it defines and which of those actions are permitted
-      # or forbidden.
+      # or forbidden. It also provides a string representation of the policy class name
+      # and the user object associated with the policy.
       class PolicyInfo
         attr_reader :policy
 
@@ -14,6 +15,20 @@ module Pundit
         # @param policy [Class] The policy class to collect details about.
         def initialize(policy)
           @policy = policy
+        end
+
+        # Returns a string representation of the policy class name.
+        #
+        # @return [String] A string representation of the policy class name.
+        def to_s
+          policy.class.name
+        end
+
+        # Returns the user object associated with the policy.
+        #
+        # @return [Object] The user object associated with the policy.
+        def user
+          @user ||= policy.public_send(user_alias)
         end
 
         # Returns an array of all actions defined in the policy class.
@@ -45,6 +60,10 @@ module Pundit
 
         def policy_public_methods
           @policy_public_methods ||= policy.public_methods - Object.instance_methods
+        end
+
+        def user_alias
+          @user_alias ||= Pundit::Matchers.configuration.user_alias
         end
       end
     end
