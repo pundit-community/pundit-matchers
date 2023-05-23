@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher do
   subject(:only_forbidden_actions_matcher) do
     described_class.new(policy, expected_actions)
   end
 
-  let(:policy_class) { TestCreateUpdatePolicy }
-  let(:policy) { policy_class.new }
+  let(:policy) { policy_factory(create?: false, update?: false) }
   let(:expected_actions) { %i[create update] }
 
   describe '#match?' do
@@ -22,7 +19,7 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher do
       it { is_expected.not_to be_match }
     end
 
-    context 'when policy allows expected actions' do
+    context 'when policy permits expected actions' do
       let(:expected_actions) { [:update] }
 
       it { is_expected.not_to be_match }
@@ -42,8 +39,8 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher do
       it { is_expected.to be_empty }
     end
 
-    context 'when policy allows expected actions' do
-      let(:policy) { policy_class.new(create: true) }
+    context 'when policy permits expected actions' do
+      let(:policy) { policy_factory(create?: true, update?: false) }
 
       it 'returns actions which are forbidden' do
         expect(missed_expected_actions).to match_array(%i[create])
@@ -66,8 +63,8 @@ RSpec.describe Pundit::Matchers::Utils::OnlyActions::ForbiddenActionsMatcher do
       end
     end
 
-    context 'when policy allows expected actions' do
-      let(:policy) { policy_class.new }
+    context 'when policy permits expected actions' do
+      let(:policy) { policy_factory(create?: true, update?: true) }
 
       it { is_expected.to be_empty }
     end

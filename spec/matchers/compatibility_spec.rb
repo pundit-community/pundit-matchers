@@ -2,25 +2,6 @@
 
 # TODO: this is a temporary spec to help the transition to matcher classes
 # that should be removed once merged classes to the main branch
-
-module PolicyFactory
-  def policy_factory(**actions)
-    policy_class = Class.new(TestPolicy) do
-      actions.each do |action, value|
-        define_method action do
-          value
-        end
-      end
-    end
-
-    policy_class.new
-  end
-end
-
-RSpec.configure do |config|
-  config.include PolicyFactory
-end
-
 RSpec.describe 'Compatibility' do
   describe 'permit_action' do
     subject(:policy) { policy_factory(test1?: true, test2?: false) }

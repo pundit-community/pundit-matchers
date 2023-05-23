@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 3.0.0 (unreleased)
+
+- Drop RSpec < 3.12 and Pundit < 2 compatibility
+
 ## 2.3.0 (2023-05-23)
 
 - Add compatibility spec to assist with transitioning to more consistent

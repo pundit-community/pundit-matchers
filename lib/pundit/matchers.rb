@@ -34,13 +34,9 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :forbid_action do |action, *args, **kwargs|
+  RSpec::Matchers.define :forbid_action do |action|
     match do |policy|
-      if args.any?
-        !policy.public_send("#{action}?", *args, **kwargs)
-      else
-        !policy.public_send("#{action}?", **kwargs)
-      end
+      !policy.public_send(:"#{action}?")
     end
 
     failure_message do |policy|
@@ -185,13 +181,9 @@ module Pundit
     end
   end
 
-  RSpec::Matchers.define :permit_action do |action, *args, **kwargs|
+  RSpec::Matchers.define :permit_action do |action|
     match do |policy|
-      if args.any?
-        policy.public_send("#{action}?", *args, **kwargs)
-      else
-        policy.public_send("#{action}?", **kwargs)
-      end
+      policy.public_send(:"#{action}?")
     end
 
     failure_message do |policy|
@@ -406,8 +398,6 @@ module Pundit
   end
 end
 
-if defined?(Pundit)
-  RSpec.configure do |config|
-    config.include Pundit::Matchers
-  end
+RSpec.configure do |config|
+  config.include Pundit::Matchers
 end

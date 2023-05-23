@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'rspec/core'
-
 RSpec.describe Pundit::Matchers::Utils::AllActions::ForbiddenActionsErrorFormatter do
   subject(:error_message_formatter) do
     described_class.new(matcher)
@@ -11,8 +9,7 @@ RSpec.describe Pundit::Matchers::Utils::AllActions::ForbiddenActionsErrorFormatt
     Pundit::Matchers::Utils::AllActions::ForbiddenActionsMatcher.new(policy)
   end
 
-  let(:policy_class) { TestCreateUpdatePolicy }
-  let(:policy) { policy_class.new(update: true) }
+  let(:policy) { policy_factory(update?: true) }
 
   describe '#message' do
     subject(:message) { error_message_formatter.message }

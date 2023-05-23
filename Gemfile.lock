@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    pundit-matchers (3.0.0)
+      rspec (>= 3.12)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -6,7 +12,7 @@ GEM
     docile (1.4.0)
     json (2.6.3)
     parallel (1.23.0)
-    parser (3.2.2.0)
+    parser (3.2.2.1)
       ast (~> 2.4.1)
     rainbow (3.1.1)
     rake (13.0.6)
@@ -25,7 +31,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-support (3.12.0)
-    rubocop (1.50.2)
+    rubocop (1.51.0)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.2.0.0)
@@ -35,18 +41,21 @@ GEM
       rubocop-ast (>= 1.28.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.28.0)
+    rubocop-ast (1.28.1)
       parser (>= 3.2.1.0)
     rubocop-capybara (2.18.0)
       rubocop (~> 1.41)
-    rubocop-performance (1.17.1)
+    rubocop-factory_bot (2.23.1)
+      rubocop (~> 1.33)
+    rubocop-performance (1.18.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.20.0)
+    rubocop-rspec (2.22.0)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
+      rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -60,10 +69,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  pundit-matchers!
   rake (~> 13.0)
-  rspec (~> 3.12)
-  rubocop (~> 1.50)
-  rubocop-performance (~> 1.17)
+  rubocop (~> 1.51)
+  rubocop-performance (~> 1.18)
   rubocop-rake (~> 0.6.0)
   rubocop-rspec (~> 2.19)
   simplecov (~> 0.22.0)
