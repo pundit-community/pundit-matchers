@@ -15,7 +15,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 2.2'
+  gem 'pundit-matchers', '~> 2.3'
 end
 ```
 
@@ -63,8 +63,9 @@ files (by convention, saved in the `spec/policies` directory).
 - `permit_all_actions` Tests that all actions in the policy are permitted.
 - `permit_action(:action_name)` Tests that an action, passed in as a parameter,
   is permitted by the policy.
-- `permit_action(:action_name, *arguments)` Tests that an action and any
-  optional arguments, passed in as parameters, are permitted by the policy.
+- `permit_action(:action_name, *arguments)` **DEPRECATED. TO BE REMOVED** Tests
+  that an action and any optional arguments, passed in as parameters, are
+  permitted by the policy.
 - `permit_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are permitted by the policy.
 - `permit_new_and_create_actions` Tests that both the new and create actions
@@ -83,8 +84,9 @@ files (by convention, saved in the `spec/policies` directory).
 - `forbid_all_actions` Tests that all actions in the policy are forbidden.
 - `forbid_action(:action_name)` Tests that an action, passed in as a parameter,
   is not permitted by the policy.
-- `forbid_action(:action_name, *arguments)` Tests that an action and any
-  optional arguments, passed in as parameters, are not permitted by the policy.
+- `forbid_action(:action_name, *arguments)` **DEPRECATED. TO BE REMOVED** Tests
+  that an action and any optional arguments, passed in as parameters, are not
+  permitted by the policy.
 - `forbid_actions(%i[action1 action2])` Tests that an array of actions, passed
   in as a parameter, are not permitted by the policy.
 - `forbid_new_and_create_actions` Tests that both the new and create actions
@@ -394,6 +396,8 @@ end
 ```
 
 ## Testing Actions With Arguments
+
+**DEPRECATED. TO BE REMOVED**
 
 Warning: this feature is deprecated and will be removed in Pundit Matchers 3.
 Pundit does not support passing additional arguments to policies in Pundit 2. To

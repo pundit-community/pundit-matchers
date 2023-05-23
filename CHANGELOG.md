@@ -1,5 +1,12 @@
 # Pundit Matchers
 
+## 2.3.0 (2023-05-23)
+
+- Add compatibility spec to assist with transitioning to more consistent
+ `not_to` behaviour in the next major version of this gem.
+- Add more obvious warnings to the Readme regarding support for additional
+  arguments to `permit_action` and `forbid_action` being removed.
+
 ## 2.2.0 (2023-05-11)
 
 - Error message improvements. Replace "allow" with "permit" in error messages.
