@@ -8,6 +8,22 @@ RSpec.describe Pundit::Matchers::Utils::PolicyInfo do
                    user: 'Test User', custom_user: 'Custom Test User')
   end
 
+  context 'when policy does not implement user alias method' do
+    before do
+      allow(Pundit::Matchers.configuration).to receive(:user_alias).and_return(:account)
+    end
+
+    it 'raises an argument error' do
+      error_message = format(
+        described_class::USER_NOT_IMPLEMENTED_ERROR, policy: 'TestPolicy', user_alias: 'account'
+      )
+
+      expect do
+        policy_info
+      end.to raise_error ArgumentError, error_message
+    end
+  end
+
   describe '#to_s' do
     subject { policy_info.to_s }
 

@@ -46,12 +46,13 @@ to your app's `spec/spec_helper.rb` or `spec/rails_helper.rb` file:
 
 ```ruby
 Pundit::Matchers.configure do |config|
-  config.user_alias = :account
+  # Change the default user alias
+  config.default_user_alias = :account
+
+  # Change the user alias for a specific policy
+  config.user_aliases = { 'Post' => :account }
 end
 ```
-
-The user alias is configured for the whole app and cannot be customised on a
-policy by policy basis.
 
 ## Matchers
 

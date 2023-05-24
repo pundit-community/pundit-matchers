@@ -20,11 +20,31 @@ module Pundit
 
     # Configuration class for Pundit Matchers.
     class Configuration
-      # Alias for the user object in policies.
-      attr_accessor :user_alias
+      # The default user object value
+      DEFAULT_USER_ALIAS = :user
+
+      # The default user object in policies.
+      # @return [Symbol|String]
+      attr_accessor :default_user_alias
+
+      # Policy-specific user objects.
+      #
+      # @example Use +:client+ as user alias for class +Post+
+      #   config.user_aliases = { 'Post' => :client }
+      #
+      # @return [Hash]
+      attr_accessor :user_aliases
 
       def initialize
-        @user_alias = :user
+        @default_user_alias = DEFAULT_USER_ALIAS
+        @user_aliases = {}
+      end
+
+      # Returns the user object for the given policy.
+      #
+      # @return [Symbol]
+      def user_alias(policy)
+        user_aliases.fetch(policy.class.name, default_user_alias)
       end
     end
 
