@@ -16,19 +16,13 @@ module Pundit
         raise ArgumentError, ARGUMENTS_REQUIRED_ERROR if expected_attributes.empty?
 
         super()
-        @expected_attributes =
-          if expected_attributes.size == 1 && expected_attributes.first.is_a?(Array)
-            expected_attributes.first
-          else
-            expected_attributes
-          end
-
+        @expected_attributes = flatten_attributes(expected_attributes)
         @options = {}
       end
 
-      # Specifies the attributes to be tested.
+      # Specifies the action to be tested.
       #
-      # @param action [Symbol, String] The attributes to be tested.
+      # @param action [Symbol, String] The action to be tested.
       # @return [AttributesMatcher] The current instance of the AttributesMatcher class.
       def for_action(action)
         @options[:action] = action
@@ -42,14 +36,35 @@ module Pundit
       def permitted_attributes(policy)
         @permitted_attributes ||=
           if options.key?(:action)
-            policy.public_send(:"permitted_attributes_for_#{options[:action]}")
+            flatten_attributes(policy.public_send(:"permitted_attributes_for_#{options[:action]}"))
           else
-            policy.permitted_attributes
+            flatten_attributes(policy.permitted_attributes)
           end
       end
 
       def action_message
         " when authorising the '#{options[:action]}' action"
+      end
+
+      # Flattens and sorts a hash or array of attributes into an array of symbols.
+      #
+      # This is a private method used internally by the `Matcher` class to convert
+      # attribute lists into a flattened, sorted array of symbols. The resulting
+      # array can be used to compare attribute lists.
+      #
+      # @param attributes [String, Symbol, Array, Hash] the attributes to be flattened.
+      # @return [Array<Symbol>] the flattened, sorted array of symbols.
+      def flatten_attributes(attributes)
+        case attributes
+        when String, Symbol
+          [attributes.to_sym]
+        when Array
+          attributes.flat_map { |item| flatten_attributes(item) }.sort
+        when Hash
+          attributes.flat_map do |key, value|
+            flatten_attributes(value).map { |item| :"#{key}[#{item}]" }
+          end.sort
+        end
       end
     end
   end

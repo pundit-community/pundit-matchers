@@ -4,7 +4,8 @@
 
 - Drop RSpec < 3.12 and Pundit < 2 compatibility
 - Eliminate ambiguity of negated matchers
-- Add support for configuring user alias per policy.
+- Add support for configuring user alias per policy
+- Add support for nested attributes
 
 ### Breaking changes
 
