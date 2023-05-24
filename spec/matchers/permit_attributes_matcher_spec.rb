@@ -5,17 +5,20 @@ RSpec.describe Pundit::Matchers::PermitAttributesMatcher do
     expect(described_class.new(:test).send(:expected_attributes)).to eq %i[test]
   end
 
-  it 'initializes expected attributes with multiple attributes' do
-    expect(described_class.new(:test2, :test1).send(:expected_attributes)).to eq %i[test2 test1]
+  it 'initializes expected attributes with multiple attributes and sorts them' do
+    expect(described_class.new(:test2, :test1).send(:expected_attributes)).to eq %i[test1 test2]
   end
 
-  it 'initializes expected attributes with an array of attributes' do
-    expect(described_class.new(%i[test2 test1]).send(:expected_attributes)).to eq %i[test2 test1]
+  it 'initializes expected attributes with an array of attributes and sorts them' do
+    expect(described_class.new(%i[test2 test1]).send(:expected_attributes)).to eq %i[test1 test2]
   end
 
-  it 'initializes expected attributes with mixed attributes' do
-    expect(described_class.new(:test1, %i[test1], { key: :value }).send(:expected_attributes))
-      .to eq [:test1, %i[test1], { key: :value }]
+  it 'initializes expected attributes with nested attributes, normalizes, and sorts them' do
+    expect(described_class.new(
+      'test', ['foo', :bar], { key: %i[value2 value1] }, { key2: { key3: %w[value] } }
+    ).send(:expected_attributes)).to eq(
+      %i[bar foo key2\[key3\[value\]\] key\[value1\] key\[value2\] test]
+    )
   end
 
   context 'without actions' do
@@ -54,6 +57,13 @@ RSpec.describe Pundit::Matchers::PermitAttributesMatcher do
 
       it { is_expected.to be true }
     end
+
+    context 'with nested attributes' do
+      let(:matcher) { described_class.new(test: :test1) }
+      let(:policy) { policy_factory(permitted_attributes: [{ test: %i[test1 test2] }]) }
+
+      it { is_expected.to be true }
+    end
   end
 
   describe '#does_not_match?' do
@@ -75,6 +85,13 @@ RSpec.describe Pundit::Matchers::PermitAttributesMatcher do
 
     context 'when all expected attributes are permitted' do
       let(:policy) { policy_factory(permitted_attributes: %i[test1 test2]) }
+
+      it { is_expected.to be false }
+    end
+
+    context 'with nested attributes' do
+      let(:matcher) { described_class.new(test: :test1) }
+      let(:policy) { policy_factory(permitted_attributes: [{ test: %i[test1 test2] }]) }
 
       it { is_expected.to be false }
     end
@@ -118,6 +135,21 @@ RSpec.describe Pundit::Matchers::PermitAttributesMatcher do
         "expected 'TestPolicy' to permit the mass assignment of [:test] " \
           "when authorising the 'test' action, " \
           "but forbade the mass assignment of [:test] for 'user'"
+      end
+
+      it { is_expected.to eq expected_failure_message }
+    end
+
+    context 'with nested attributes' do
+      let(:matcher) { described_class.new(test: :test1) }
+      let(:policy) { policy_factory(permitted_attributes: []) }
+      let(:expected_failure_message) do
+        "expected 'TestPolicy' to permit the mass assignment of [:\"test[test1]\"], " \
+          "but forbade the mass assignment of [:\"test[test1]\"] for 'user'"
+      end
+
+      before do
+        matcher.matches?(policy)
       end
 
       it { is_expected.to eq expected_failure_message }

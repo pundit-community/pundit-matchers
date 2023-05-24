@@ -426,9 +426,10 @@ end
 ## Testing the Mass Assignment of Multiple Attributes
 
 To test multiple attributes at once, the `permit_mass_assignment_of` and
-`forbid_mass_assignment_of` matchers can be used. Both matchers accept an array
-of attributes as a parameter. In the following example, visitors can only set
-the name of articles, while administrators can also set the description.
+`forbid_mass_assignment_of` matchers can be used. Both matchers accept single,
+multiple, arrays and hashes of attributes as a parameter. In the following
+example, visitors can only set the name of articles, while administrators
+can also set the description.
 
 ```ruby
 require 'rails_helper'
@@ -463,6 +464,22 @@ it { is_expected.to permit_mass_assignment_of([:first_name, :last_name]) }
 it { is_expected.to permit_mass_assignment_of(%i[first_name last_name]) }
 it { is_expected.to permit_mass_assignment_of(:first_name, :last_name) }
 ```
+
+### Testing Nested Attributes
+
+It is possible to test nested attributes by specifying them with the usual
+nested syntax:
+
+```ruby
+it 'permits nested attributes for address' do
+  is_expected.to(
+    permit_mass_assignment_of(address_attributes: [:country])
+  )
+end
+```
+
+There is no limit to the depth of nested attributes, allowing for testing at
+any necessary level.
 
 ## Testing the Mass Assignment of Attributes for Particular Actions
 
