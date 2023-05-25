@@ -12,7 +12,10 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.homepage    = 'https://github.com/punditcommunity/pundit-matchers'
   s.license     = 'MIT'
-  s.add_runtime_dependency 'rspec', '>= 3.12'
   s.metadata['rubygems_mfa_required'] = 'true'
   s.required_ruby_version = '>= 3.0'
+
+  %w[core expectations mocks support].each do |name|
+    s.add_runtime_dependency "rspec-#{name}", '>= 3.12'
+  end
 end
