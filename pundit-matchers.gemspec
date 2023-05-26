@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'pundit-matchers'
-  s.version     = '3.0.0.beta1'
+  s.version     = '3.0.0.beta2'
   s.summary     = 'RSpec matchers for Pundit policies'
   s.description = 'A set of RSpec matchers for testing Pundit authorisation ' \
                   'policies'
