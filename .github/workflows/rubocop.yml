@@ -28,5 +28,6 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true
+        rubygems: latest
     - name: Ruby linter
       run: bundle exec bin/rubocop
