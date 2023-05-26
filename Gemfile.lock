@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pundit-matchers (3.0.0)
+    pundit-matchers (3.0.0.beta1)
       rspec (>= 3.12)
 
 GEM
