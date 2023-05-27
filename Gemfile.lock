@@ -68,6 +68,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (~> 2.4)
   pundit-matchers!
   rake (~> 13.0)
   rubocop (~> 1.51)
