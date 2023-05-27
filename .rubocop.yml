@@ -14,13 +14,5 @@ AllCops:
     - 'bin/**/*'
     - 'vendor/bundle/**/*'
 
-RSpec/DescribeClass:
-  Exclude:
-    - '**/spec/matchers/**/*'
-
 RSpec/ExampleLength:
   Max: 10
-
-RSpec/FilePath:
-  Exclude:
-    - '**/spec/matchers/**/*'
