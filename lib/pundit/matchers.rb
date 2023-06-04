@@ -82,7 +82,7 @@ module Pundit
 
     # Creates a matcher that tests if the policy permits a set of actions.
     #
-    # @param [Array<Symbol>] actions the actions to be tested.
+    # @param [Array<String, Symbol>] actions the actions to be tested.
     # @return [PermitActionsMatcher] the matcher object.
     def permit_actions(*actions)
       PermitActionsMatcher.new(*actions)
@@ -135,7 +135,7 @@ module Pundit
     # @note The negative form +not_to permit_only_actions+ is not supported
     #   since it creates ambiguity. Instead use +to forbid_only_actions+.
     #
-    # @param [Array<Symbol>] actions the actions to be tested.
+    # @param [Array<String, Symbol>] actions the actions to be tested.
     # @return [PermitOnlyActionsMatcher] the matcher object.
     def permit_only_actions(*actions)
       PermitOnlyActionsMatcher.new(*actions)
@@ -146,7 +146,7 @@ module Pundit
     # @note The negative form +not_to forbid_only_actions+ is not supported
     #   since it creates ambiguity. Instead use +to permit_only_actions+.
     #
-    # @param [Array<Symbol>] actions the actions to be tested.
+    # @param [Array<String, Symbol>] actions the actions to be tested.
     # @return [ForbidOnlyActionsMatcher] the matcher object.
     def forbid_only_actions(*actions)
       ForbidOnlyActionsMatcher.new(*actions)
@@ -154,7 +154,7 @@ module Pundit
 
     # Creates a matcher that tests if the policy permits mass assignment of a set of attributes.
     #
-    # @param [Array<Symbol>] attributes the attributes to be tested.
+    # @param [Array<String, Symbol, Hash>] attributes the attributes to be tested.
     # @return [PermitAttributesMatcher] the matcher object.
     def permit_mass_assignment_of(*attributes)
       PermitAttributesMatcher.new(*attributes)
