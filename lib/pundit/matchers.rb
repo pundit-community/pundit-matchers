@@ -66,10 +66,10 @@ module Pundit
 
     # Creates a matcher that tests if the policy permits a given action.
     #
-    # @param [Symbol] action the action to be tested.
+    # @param [String|Symbol] action the action to be tested.
     # @return [PermitActionsMatcher] the matcher object.
     def permit_action(action)
-      PermitActionsMatcher.new(action)
+      PermitActionsMatcher.new(action).ensure_single_action!
     end
 
     # @!macro [attach] RSpec::Matchers.define_negated_matcher

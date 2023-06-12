@@ -117,6 +117,16 @@ RSpec.describe Pundit::Matchers::PermitActionsMatcher do
       end
     end
 
+    context 'with a single action matcher' do
+      subject(:policy) { policy_factory(test?: true, test2?: true) }
+
+      it 'ensures that it has been called with a single action' do
+        expect do
+          expect(policy).to permit_action(%i[test test2])
+        end.to raise_error ArgumentError, described_class::ONE_ARGUMENT_REQUIRED_ERROR
+      end
+    end
+
     context 'when expectation is not met' do
       subject(:policy) { policy_factory(test?: false) }
 
@@ -136,16 +146,53 @@ RSpec.describe Pundit::Matchers::PermitActionsMatcher do
       end
     end
 
-    describe 'helper matchers' do
+    describe 'single action matcher' do
+      let(:test_matcher) { instance_double(described_class, matches?: true, ensure_single_action!: nil) }
+
       before do
-        test_matcher = instance_double(described_class, matches?: true)
         allow(described_class).to receive(:new).and_return(test_matcher)
+        allow(test_matcher).to receive(:ensure_single_action!).and_return(test_matcher)
       end
 
       it 'defines permit_action matcher' do
         expect(policy).to permit_action(:test)
 
         expect(described_class).to have_received(:new).with(:test)
+      end
+
+      it 'ensures that it has been called with a single action' do
+        expect(policy).to permit_action(:test)
+
+        expect(test_matcher).to have_received(:ensure_single_action!)
+      end
+    end
+
+    describe 'single action negated matcher' do
+      let(:test_matcher) { instance_double(described_class, does_not_match?: true, ensure_single_action!: nil) }
+
+      before do
+        allow(described_class).to receive(:new).and_return(test_matcher)
+        allow(test_matcher).to receive(:ensure_single_action!).and_return(test_matcher)
+      end
+
+      it 'defines forbid_action matcher' do
+        expect(policy).to forbid_action(:test)
+
+        expect(described_class).to have_received(:new).with(:test)
+      end
+
+      it 'ensures that it has been called with a single action' do
+        expect(policy).to forbid_action(:test)
+
+        expect(test_matcher).to have_received(:ensure_single_action!)
+      end
+    end
+
+    describe 'helper matchers' do
+      let(:test_matcher) { instance_double(described_class, matches?: true) }
+
+      before do
+        allow(described_class).to receive(:new).and_return(test_matcher)
       end
 
       it 'defines permit_new_and_create_actions matcher' do
@@ -162,15 +209,10 @@ RSpec.describe Pundit::Matchers::PermitActionsMatcher do
     end
 
     describe 'negated matchers' do
+      let(:test_matcher) { instance_double(described_class, does_not_match?: true) }
+
       before do
-        test_matcher = instance_double(described_class, does_not_match?: true)
         allow(described_class).to receive(:new).and_return(test_matcher)
-      end
-
-      it 'defines forbid_action matcher' do
-        expect(policy).to forbid_action(:test)
-
-        expect(described_class).to have_received(:new).with(:test)
       end
 
       it 'defines forbid_new_and_create_actions matcher' do

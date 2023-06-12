@@ -24,6 +24,16 @@ RSpec.shared_examples_for 'an actions matcher' do
       end.to raise_error ArgumentError, described_class::ARGUMENTS_REQUIRED_ERROR
     end
   end
+
+  describe '#ensure_single_action!' do
+    context 'when matcher has been initializated with more than one action' do
+      it 'raises an argument error' do
+        expect do
+          described_class.new(:test, :test2).ensure_single_action!
+        end.to raise_error ArgumentError, described_class::ONE_ARGUMENT_REQUIRED_ERROR
+      end
+    end
+  end
 end
 
 RSpec.shared_examples_for 'a matcher that checks actions' do

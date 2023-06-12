@@ -10,6 +10,8 @@ module Pundit
       ACTIONS_NOT_IMPLEMENTED_ERROR = "'%<policy>s' does not implement %<actions>s"
       # Error message when at least one action must be specified.
       ARGUMENTS_REQUIRED_ERROR = 'At least one action must be specified'
+      # Error message when only one action may be specified.
+      ONE_ARGUMENT_REQUIRED_ERROR = 'Only one action may be specified'
 
       # Initializes a new instance of the ActionsMatcher class.
       #
@@ -21,6 +23,17 @@ module Pundit
 
         super()
         @expected_actions = expected_actions.flatten.map(&:to_sym).sort
+      end
+
+      # Ensures that only one action is specified.
+      #
+      # @raise [ArgumentError] If more than one action is specified.
+      #
+      # @return [ActionsMatcher] The object itself.
+      def ensure_single_action!
+        raise ArgumentError, ONE_ARGUMENT_REQUIRED_ERROR if expected_actions.size > 1
+
+        self
       end
 
       private
