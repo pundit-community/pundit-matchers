@@ -1,6 +1,6 @@
 # Pundit Matchers
 
-## 3.0.0 (unreleased)
+## 3.0.0 (2023-06-14)
 
 - Drop RSpec < 3.12 and Pundit < 2 compatibility
 - Eliminate ambiguity of negated matchers
@@ -24,6 +24,7 @@ test suites using `not_to` matchers.
 
 The following matchers will raise an error because of their ambiguity and
 ask to switch to the opposite non-negated matcher:
+
 - `not_to forbid_all_actions`
 - `not_to forbid_only_actions`
 - `not_to permit_all_actions`
@@ -31,6 +32,7 @@ ask to switch to the opposite non-negated matcher:
 
 The following matchers may fail, because there were ambiguous in the previous
 implementation, and the application policies should be fixed:
+
 - `not_to forbid_edit_and_update_actions`
 - `not_to forbid_new_and_create_actions`
 - `not_to forbid_actions` (with multiple actions)
@@ -43,7 +45,7 @@ implementation, and the application policies should be fixed:
 ## 2.3.0 (2023-05-23)
 
 - Add compatibility spec to assist with transitioning to more consistent
- `not_to` behaviour in the next major version of this gem.
+  `not_to` behaviour in the next major version of this gem.
 - Add more obvious warnings to the Readme regarding support for additional
   arguments to `permit_action` and `forbid_action` being removed.
 
