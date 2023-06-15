@@ -42,7 +42,7 @@ module Pundit
 
       def check_actions!
         non_explicit_actions = (expected_actions - policy_info.actions)
-        missing_actions = non_explicit_actions.reject { |action| policy_info.policy.respond_to?("#{action}?".to_sym) }
+        missing_actions = non_explicit_actions.reject { |action| policy_info.policy.respond_to?(:"#{action}?") }
         return if missing_actions.empty?
 
         raise ArgumentError, format(
