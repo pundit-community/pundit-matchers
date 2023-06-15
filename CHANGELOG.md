@@ -2,7 +2,7 @@
 
 ## 3.0.1 (unreleased)
 
-- Allow `permit_action` to match dynamic actions
+- Allow to match dynamically defined actions
 
 ## 3.0.0 (2023-06-14)
 
