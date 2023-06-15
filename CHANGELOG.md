@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 3.0.1 (unreleased)
+
+- Allow `permit_action` to match dynamic actions
+
 ## 3.0.0 (2023-06-14)
 
 - Drop RSpec < 3.12 and Pundit < 2 compatibility
