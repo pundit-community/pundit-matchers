@@ -98,6 +98,12 @@ RSpec.describe Pundit::Matchers::PermitActionsMatcher do
       "expected 'TestPolicy' to forbid [:test], but permitted [:test] for 'user'"
     end
 
+    context 'when policy has dynamic action' do
+      subject(:policy) { DynamicTestPolicy.new }
+
+      it { is_expected.to permit_actions(:poke) }
+    end
+
     context 'when expectation is met' do
       subject(:policy) { policy_factory(test?: true) }
 
