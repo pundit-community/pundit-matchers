@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pundit-matchers (3.0.0)
+    pundit-matchers (3.0.1)
       rspec-core (~> 3.12)
       rspec-expectations (~> 3.12)
       rspec-mocks (~> 3.12)
