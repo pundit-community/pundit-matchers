@@ -1,6 +1,6 @@
 # Pundit Matchers
 
-## 3.0.1 (unreleased)
+## 3.0.1 (2023-06-17)
 
 - Allow to match dynamically defined actions
 
