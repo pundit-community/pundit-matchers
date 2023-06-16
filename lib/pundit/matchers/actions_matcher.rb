@@ -41,7 +41,8 @@ module Pundit
       attr_reader :expected_actions
 
       def check_actions!
-        missing_actions = expected_actions - policy_info.actions
+        non_explicit_actions = (expected_actions - policy_info.actions)
+        missing_actions = non_explicit_actions.reject { |action| policy_info.policy.respond_to?(:"#{action}?") }
         return if missing_actions.empty?
 
         raise ArgumentError, format(

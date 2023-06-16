@@ -14,6 +14,19 @@ class TestPolicy
   end
 end
 
+class DynamicTestPolicy < TestPolicy
+  def method_missing(method, *args, &block)
+    method_s = method.to_s
+    return super unless method_s.end_with?('?')
+
+    method_s.match?(/^poke/)
+  end
+
+  def respond_to_missing?(method, include_private = false)
+    method.to_s.end_with?('?') || super
+  end
+end
+
 module PolicyFactory
   def policy_factory(**actions)
     policy_class = Class.new(TestPolicy) do
