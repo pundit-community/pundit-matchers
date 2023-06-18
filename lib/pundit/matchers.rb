@@ -152,15 +152,32 @@ module Pundit
       ForbidOnlyActionsMatcher.new(*actions)
     end
 
+    # Creates a matcher that tests if the policy permits mass assignment of an attribute.
+    #
+    # @param [String, Symbol, Hash] attribute the attribute to be tested.
+    # @return [PermitAttributesMatcher] the matcher object.
+    def permit_attribute(attribute)
+      PermitAttributesMatcher.new(attribute).ensure_single_attribute!
+    end
+
+    RSpec::Matchers.define_negated_matcher :forbid_attribute, :permit_attribute, &NEGATED_DESCRIPTION
+
     # Creates a matcher that tests if the policy permits mass assignment of a set of attributes.
     #
     # @param [Array<String, Symbol, Hash>] attributes the attributes to be tested.
     # @return [PermitAttributesMatcher] the matcher object.
-    def permit_mass_assignment_of(*attributes)
+    def permit_attributes(*attributes)
       PermitAttributesMatcher.new(*attributes)
     end
 
-    RSpec::Matchers.define_negated_matcher :forbid_mass_assignment_of, :permit_mass_assignment_of, &NEGATED_DESCRIPTION
+    RSpec::Matchers.define_negated_matcher :forbid_attributes, :permit_attributes, &NEGATED_DESCRIPTION
+
+    # @!macro [attach] RSpec::Matchers.alias_matcher
+    #   @!method $1
+    #
+    #   An alias matcher for {$2}.
+    RSpec::Matchers.alias_matcher :permit_mass_assignment_of, :permit_attributes
+    RSpec::Matchers.alias_matcher :forbid_mass_assignment_of, :forbid_attributes
   end
 end
 

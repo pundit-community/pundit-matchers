@@ -72,10 +72,12 @@ files (by convention, saved in the `spec/policies` directory).
   are permitted by the policy.
 - `permit_edit_and_update_actions` Tests that both the edit and update actions
   are permitted by the policy.
-- `permit_mass_assignment_of(:attribute_name)` or
-  `permit_mass_assignment_of(%i[attribute1 attribute2])` Tests that mass
-  assignment of the attribute(s), passed in as a single symbol parameter or an
-  array of symbols, are permitted by the policy.
+- `permit_attribute` Tests that an attribute, passed in as a parameter,
+  is permitted by the policy for mass assignment.
+- `permit_attributes` Tests that a list of attributes, passed in as a parameter,
+  are permitted by the policy for mass assignment.
+- `permit_mass_assignment_of` Alternative syntax for `permit_attributes`, used
+  for backward compatibility with older test suites.
 
 ### Forbid Matchers
 
@@ -90,10 +92,12 @@ files (by convention, saved in the `spec/policies` directory).
   are not permitted by the policy.
 - `forbid_edit_and_update_actions` Tests that both the edit and update actions
   are not permitted by the policy.
-- `forbid_mass_assignment_of(:attribute_name)` or
-  `forbid_mass_assignment_of(%i[attribute1 attribute2])` Tests that mass
-  assignment of the attribute(s), passed in as a single symbol parameter or an
-  array of symbols, are not permitted by the policy.
+- `forbid_attribute` Tests that an attribute, passed in as a parameter,
+  is not permitted by the policy for mass assignment.
+- `forbid_attributes` Tests that a list of attributes, passed in as a parameter,
+  are not permitted by the policy for mass assignment.
+- `forbid_mass_assignment_of` Alternative syntax for `forbid_attributes`, used
+  for backward compatibility with older test suites.
 
 ## A Basic Example of a Policy Spec
 
@@ -385,14 +389,14 @@ RSpec.describe ArticlePolicy do
 end
 ```
 
-## Testing the Mass Assignment of Attributes
+## Testing if an Attribute is Authorised
 
 For policies that contain a `permitted_attributes` method (to authorise only
 particular attributes), Pundit Matchers provides two matchers to test for mass
 assignment.
 
-- `permit_mass_assignment_of(:attribute_name)`
-- `forbid_mass_assignment_of(:attribute_name)`
+- `permit_attribute(:attribute_name)`
+- `forbid_attribute(:attribute_name)`
 
 Let's modify the earlier example which tests a policy where administrators are
 granted permission to create articles, but visitors are not authorised to do so.
@@ -411,22 +415,22 @@ RSpec.describe ArticlePolicy do
     let(:user) { nil }
 
     it { is_expected.to permit_new_and_create_actions }
-    it { is_expected.to forbid_mass_assignment_of(:publish) }
+    it { is_expected.to forbid_attribute(:publish) }
   end
 
   context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_new_and_create_actions }
-    it { is_expected.to permit_mass_assignment_of(:publish) }
+    it { is_expected.to permit_attribute(:publish) }
   end
 end
 ```
 
-## Testing the Mass Assignment of Multiple Attributes
+## Testing if Multiple Attributes are Authorised
 
-To test multiple attributes at once, the `permit_mass_assignment_of` and
-`forbid_mass_assignment_of` matchers can be used. Both matchers accept single,
+To test multiple attributes at once, the `permit_attributes` and
+`forbid_attributes` matchers can be used. Both matchers accept single,
 multiple, arrays and hashes of attributes as a parameter. In the following
 example, visitors can only set the name of articles, while administrators
 can also set the description.
@@ -442,14 +446,14 @@ RSpec.describe ArticlePolicy do
   context 'with visitors' do
     let(:user) { nil }
 
-    it { is_expected.to permit_mass_assignment_of(%i[name]) }
-    it { is_expected.to forbid_mass_assignment_of(%i[description]) }
+    it { is_expected.to permit_attribute(:name) }
+    it { is_expected.to forbid_attribute(:description) }
   end
 
   context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
-    it { is_expected.to permit_mass_assignment_of(%i[name description]) }
+    it { is_expected.to permit_attributes(%i[name description]) }
   end
 end
 ```
@@ -460,8 +464,9 @@ to check as a series of parameters, rather than an array.
 The following examples are equivalent:
 
 ```ruby
-it { is_expected.to permit_mass_assignment_of([:first_name, :last_name]) }
-it { is_expected.to permit_mass_assignment_of(%i[first_name last_name]) }
+it { is_expected.to permit_attributes([:first_name, :last_name]) }
+it { is_expected.to permit_attributes(%i[first_name last_name]) }
+it { is_expected.to permit_attributes(:first_name, :last_name) }
 it { is_expected.to permit_mass_assignment_of(:first_name, :last_name) }
 ```
 
@@ -473,7 +478,7 @@ nested syntax:
 ```ruby
 it 'permits nested attributes for address' do
   is_expected.to(
-    permit_mass_assignment_of(address_attributes: [:country])
+    permit_attribute(address_attributes: [:country])
   )
 end
 ```
@@ -481,14 +486,14 @@ end
 There is no limit to the depth of nested attributes, allowing for testing at
 any necessary level.
 
-## Testing the Mass Assignment of Attributes for Particular Actions
+## Testing if Attributes are Authorised for Particular Actions
 
 Pundit allows you to permit different attributes based on the current action
 by adding a `permitted_attributes_for_#{action}` method to your policy.
 Pundit Matchers supports testing of these methods via composable matchers.
 
-- `permit_mass_assignment_of(:attribute_name).for_action(:action_name)`
-- `forbid_mass_assignment_of(:attribute_name).for_action(:action_name)`
+- `permit_attribute(:attribute_name).for_action(:action_name)`
+- `forbid_attribute(:attribute_name).for_action(:action_name)`
 
 To illustrate this, we'll check for the mass assignment of a slug attribute in
 our spec. The policy is expected to allow visitors to set the slug attribute
@@ -507,25 +512,25 @@ RSpec.describe ArticlePolicy do
     let(:user) { nil }
 
     it { is_expected.to permit_only_actions(%i[new create edit update]) }
-    it { is_expected.to forbid_mass_assignment_of(:slug) }
-    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
-    it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
+    it { is_expected.to forbid_attribute(:slug) }
+    it { is_expected.to permit_attribute(:slug).for_action(:create) }
+    it { is_expected.to forbid_attribute(:slug).for_action(:update) }
   end
 
   context 'with administrators' do
     let(:user) { User.new(administrator: true) }
 
     it { is_expected.to permit_only_actions(%i[new create edit update]) }
-    it { is_expected.to permit_mass_assignment_of(:slug) }
-    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
-    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
+    it { is_expected.to permit_attribute(:slug) }
+    it { is_expected.to permit_attribute(:slug).for_action(:create) }
+    it { is_expected.to permit_attribute(:slug).for_action(:update) }
   end
 end
 ```
 
 Warning: Currently, Pundit Matchers does _not_ automatically check if the
 attribute is permitted by a `permitted_attributes_for_#{action}` method, so even
-if you include a `forbid_mass_assignment_of(:attribute)` expectation in the
+if you include a `forbid_attribute(:attribute)` expectation in the
 policy spec, it's entirely possible that the attribute _is_ being permitted
 through a `permitted_attributes_for_#{action}` method that is tested separately.
 For this reason, you should always explicitly test _all_ implemented
@@ -627,16 +632,16 @@ RSpec.describe ArticlePolicy do
   end
 
   describe 'permitted attributes for visitor' do
-    it { is_expected.to forbid_mass_assignment_of(:publish) }
+    it { is_expected.to forbid_attribute(:publish) }
     it do
-      is_expected.to forbid_mass_assignment_of(:publish).for_action(:create)
+      is_expected.to forbid_attribute(:publish).for_action(:create)
     end
     it do
-      is_expected.to forbid_mass_assignment_of(:publish).for_action(:update)
+      is_expected.to forbid_attribute(:publish).for_action(:update)
     end
-    it { is_expected.to forbid_mass_assignment_of(:slug) }
-    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
-    it { is_expected.to forbid_mass_assignment_of(:slug).for_action(:update) }
+    it { is_expected.to forbid_attribute(:slug) }
+    it { is_expected.to permit_attribute(:slug).for_action(:create) }
+    it { is_expected.to forbid_attribute(:slug).for_action(:update) }
   end
 end
 ```
@@ -682,16 +687,16 @@ RSpec.describe ArticlePolicy do
   end
 
   describe 'permitted attributes for administrator' do
-    it { is_expected.to permit_mass_assignment_of(:publish) }
+    it { is_expected.to permit_attribute(:publish) }
     it do
-      is_expected.to permit_mass_assignment_of(:publish).for_action(:create)
+      is_expected.to permit_attribute(:publish).for_action(:create)
     end
     it do
-      is_expected.to permit_mass_assignment_of(:publish).for_action(:update)
+      is_expected.to permit_attribute(:publish).for_action(:update)
     end
-    it { is_expected.to permit_mass_assignment_of(:slug) }
-    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:create) }
-    it { is_expected.to permit_mass_assignment_of(:slug).for_action(:update) }
+    it { is_expected.to permit_attribute(:slug) }
+    it { is_expected.to permit_attribute(:slug).for_action(:create) }
+    it { is_expected.to permit_attribute(:slug).for_action(:update) }
   end
 end
 ```

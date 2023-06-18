@@ -8,6 +8,8 @@ module Pundit
     class AttributesMatcher < BaseMatcher
       # Error message to be raised when no attributes are specified.
       ARGUMENTS_REQUIRED_ERROR = 'At least one attribute must be specified'
+      # Error message to be raised when only one attribute may be specified.
+      ONE_ARGUMENT_REQUIRED_ERROR = 'Only one attribute may be specified'
 
       # Initializes a new instance of the AttributesMatcher class.
       #
@@ -26,6 +28,17 @@ module Pundit
       # @return [AttributesMatcher] The current instance of the AttributesMatcher class.
       def for_action(action)
         @options[:action] = action
+        self
+      end
+
+      # Ensures that only one attribute is specified.
+      #
+      # @raise [ArgumentError] If more than one attribute is specified.
+      #
+      # @return [AttributesMatcher] The object itself.
+      def ensure_single_attribute!
+        raise ArgumentError, ONE_ARGUMENT_REQUIRED_ERROR if expected_attributes.size > 1
+
         self
       end
 
