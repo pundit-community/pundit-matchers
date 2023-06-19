@@ -6,6 +6,8 @@ module Pundit
   module Matchers
     # The AttributesMatcher class is used to test whether a Pundit policy allows or denies access to certain attributes.
     class AttributesMatcher < BaseMatcher
+      # Error message when permitted attributes actions are not implemented in a policy.
+      ACTIONS_NOT_IMPLEMENTED_ERROR = "'%<policy>s' does not implement permitted attributes for %<actions>s"
       # Error message to be raised when no attributes are specified.
       ARGUMENTS_REQUIRED_ERROR = 'At least one attribute must be specified'
       # Error message to be raised when only one attribute may be specified.
@@ -19,7 +21,7 @@ module Pundit
 
         super()
         @expected_attributes = flatten_attributes(expected_attributes)
-        @options = {}
+        @actions = {}
       end
 
       # Specifies the action to be tested.
@@ -27,8 +29,15 @@ module Pundit
       # @param action [Symbol, String] The action to be tested.
       # @return [AttributesMatcher] The current instance of the AttributesMatcher class.
       def for_action(action)
-        @options[:action] = action
-        self
+        for_actions(action)
+      end
+
+      # Specifies the actions to be tested.
+      #
+      # @param actions [Array<String, Symbol>] The actions to be tested.
+      # @return [AttributesMatcher] The current instance of the AttributesMatcher class.
+      def for_actions(*actions)
+        @actions = actions.map(&:to_sym).sort
       end
 
       # Ensures that only one attribute is specified.
@@ -44,19 +53,19 @@ module Pundit
 
       private
 
-      attr_reader :expected_attributes, :options
+      attr_reader :expected_attributes, :actions, :current_action
 
       def permitted_attributes(policy)
         @permitted_attributes ||=
-          if options.key?(:action)
-            flatten_attributes(policy.public_send(:"permitted_attributes_for_#{options[:action]}"))
+          if current_action
+            flatten_attributes(policy.public_send(:"permitted_attributes_for_#{current_action}"))
           else
             flatten_attributes(policy.permitted_attributes)
           end
       end
 
       def action_message
-        " when authorising the '#{options[:action]}' action"
+        " when authorising the '#{current_action}' action"
       end
 
       # Flattens and sorts a hash or array of attributes into an array of symbols.
@@ -78,6 +87,19 @@ module Pundit
             flatten_attributes(value).map { |item| :"#{key}[#{item}]" }
           end.sort
         end
+      end
+
+      def check_actions!
+        non_explicit_actions = (options[:actions] - policy_info.permitted_attributes_actions)
+        missing_actions = non_explicit_actions.reject do |action|
+          policy_info.policy.respond_to?(:"permitted_attributes_for_#{action}?")
+        end
+        return if missing_actions.empty?
+
+        raise ArgumentError, format(
+          ACTIONS_NOT_IMPLEMENTED_ERROR,
+          policy: policy_info, actions: missing_actions
+        )
       end
     end
   end

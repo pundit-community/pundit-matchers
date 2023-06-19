@@ -57,6 +57,15 @@ module Pundit
           end
         end
 
+        # Returns an array of all permitted attributes methods defined in the policy class.
+        #
+        # @return [Array<Symbol>] An array of all permitted attributes methods defined in the policy class.
+        def permitted_attributes_actions
+          @permitted_attributes_actions ||= policy_public_methods.grep(/permitted_attributes_for_.+$/).sort.map do |policy_method|
+            policy_method.to_s.delete_prefix('permitted_attributes_for_').to_sym
+          end
+        end
+
         # Returns an array of all permitted actions defined in the policy class.
         #
         # @return [Array<Symbol>] An array of all permitted actions defined in the policy class.
