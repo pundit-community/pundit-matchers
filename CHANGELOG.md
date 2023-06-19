@@ -1,6 +1,6 @@
 # Pundit Matchers
 
-## 3.1.0 (unreleased)
+## 3.1.0 (2023-06-19)
 
 - Add `*_attribute(s)` matchers for uniformity with `*_action(s)`
 

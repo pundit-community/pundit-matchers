@@ -15,7 +15,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 3.0'
+  gem 'pundit-matchers', '~> 3.1'
 end
 ```
 
@@ -206,9 +206,9 @@ end
 
 This approach would be robust in the following scenario:
 
-* `ArticlePolicy` is created with `index`, `create`, and `destroy` actions.
-* The policy is tested with `permit_only_actions(%i[index create destroy])`
-* After several months, a developer adds a `publish` action, which would
+- `ArticlePolicy` is created with `index`, `create`, and `destroy` actions.
+- The policy is tested with `permit_only_actions(%i[index create destroy])`
+- After several months, a developer adds a `publish` action, which would
   automatically be tested to be forbidden since it is not in the allow list of
   permitted actions.
 
