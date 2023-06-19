@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 3.1.0 (unreleased)
+
+- Add `*_attribute(s)` matchers for uniformity with `*_action(s)`
+
 ## 3.0.1 (2023-06-17)
 
 - Allow to match dynamically defined actions
