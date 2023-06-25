@@ -1,6 +1,6 @@
 # Pundit Matchers
 
-## 3.1.1 (unreleased)
+## 3.1.1 (2023-06-25)
 
 - Fix composability support
 
