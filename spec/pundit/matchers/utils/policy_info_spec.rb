@@ -67,4 +67,17 @@ RSpec.describe Pundit::Matchers::Utils::PolicyInfo do
       expect(forbidden_actions).to contain_exactly(:update)
     end
   end
+
+  describe '#permitted_attributes_actions' do
+    subject(:permitted_attributes_actions) { policy_info.permitted_attributes_actions }
+
+    let(:policy) do
+      policy_factory(permitted_attribues: [], permitted_attributes_for_update: [],
+                     permitted_attributes_for_create: [])
+    end
+
+    it 'returns all permitted attributes actions alphabetically sorted' do
+      expect(permitted_attributes_actions).to eq(%i[create update])
+    end
+  end
 end

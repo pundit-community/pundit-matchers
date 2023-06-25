@@ -21,23 +21,33 @@ module Pundit
 
         super()
         @expected_attributes = flatten_attributes(expected_attributes)
-        @actions = {}
+        @expected_actions = {}
+        @all_actions = false
       end
 
       # Specifies the action to be tested.
       #
       # @param action [Symbol, String] The action to be tested.
       # @return [AttributesMatcher] The current instance of the AttributesMatcher class.
-      def for_action(action)
-        for_actions(action)
+      def for_action(expected_action)
+        for_actions(expected_action)
       end
 
       # Specifies the actions to be tested.
       #
       # @param actions [Array<String, Symbol>] The actions to be tested.
       # @return [AttributesMatcher] The current instance of the AttributesMatcher class.
-      def for_actions(*actions)
-        @actions = actions.map(&:to_sym).sort
+      def for_actions(*expected_actions)
+        @expected_actions = expected_actions.map(&:to_sym).sort
+        self
+      end
+
+      # Test against all defined actions.
+      #
+      # @return [AttributesMatcher] The current instance of the AttributesMatcher class.
+      def for_all_actions
+        for_actions(actions)
+        self
       end
 
       # Ensures that only one attribute is specified.
@@ -53,7 +63,7 @@ module Pundit
 
       private
 
-      attr_reader :expected_attributes, :actions, :current_action
+      attr_reader :expected_attributes, :expected_actions, :current_action, :all_actions
 
       def permitted_attributes(policy)
         @permitted_attributes ||=
@@ -64,8 +74,12 @@ module Pundit
           end
       end
 
-      def action_message
-        " when authorising the '#{current_action}' action"
+      def actions_message
+        if all_actions
+          ' when authorising all actions'
+        else
+          " when authorising #{expected_actions}"
+        end
       end
 
       # Flattens and sorts a hash or array of attributes into an array of symbols.
@@ -90,7 +104,7 @@ module Pundit
       end
 
       def check_actions!
-        non_explicit_actions = (options[:actions] - policy_info.permitted_attributes_actions)
+        non_explicit_actions = (expected_actions - policy_info.permitted_attributes_actions)
         missing_actions = non_explicit_actions.reject do |action|
           policy_info.policy.respond_to?(:"permitted_attributes_for_#{action}?")
         end
