@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe Pundit::Matchers::PermitAttributesMatcher do
+  it_behaves_like 'a composable matcher'
+
   it 'initializes expected attributes with a single attribute' do
     expect(described_class.new(:test).send(:expected_attributes)).to eq %i[test]
   end
@@ -212,6 +214,14 @@ RSpec.describe Pundit::Matchers::PermitAttributesMatcher do
     let(:failure_message_when_negated) do
       "expected 'TestPolicy' to forbid the mass assignment of [:test], " \
         "but permitted the mass assignment of [:test] for 'user'"
+    end
+
+    it 'supports composability' do
+      policy = policy_factory(permitted_attributes: %i[test1])
+
+      expect(policy)
+        .to permit_attribute(:test1)
+        .and forbid_attribute(:test2)
     end
 
     context 'with for_action chain' do

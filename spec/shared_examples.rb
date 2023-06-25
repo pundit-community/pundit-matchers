@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
+RSpec.shared_examples_for 'a composable matcher' do
+  it 'is composable' do
+    expect(described_class).to include(RSpec::Matchers::Composable)
+  end
+end
+
 RSpec.shared_examples_for 'an actions matcher' do
+  it_behaves_like 'a composable matcher'
+
   it 'initializes expected actions with a single action' do
     expect(described_class.new(:test).send(:expected_actions)).to eq %i[test]
   end

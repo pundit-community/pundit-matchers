@@ -104,6 +104,14 @@ RSpec.describe Pundit::Matchers::PermitActionsMatcher do
       it { is_expected.to permit_actions(:poke) }
     end
 
+    it 'supports composability' do
+      policy = policy_factory(test1?: true, test2?: false)
+
+      expect(policy)
+        .to permit_actions(:test1)
+        .and forbid_actions(:test2)
+    end
+
     context 'when expectation is met' do
       subject(:policy) { policy_factory(test?: true) }
 
