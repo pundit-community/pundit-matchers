@@ -6,7 +6,7 @@ module Pundit
   module Matchers
     # This is the base class for all matchers in the Pundit Matchers library.
     class BaseMatcher
-      include RSpec::Matchers::Composable
+      include ::RSpec::Matchers::Composable
 
       # Error message when an ambiguous negated matcher is used.
       AMBIGUOUS_NEGATED_MATCHER_ERROR = <<~MSG

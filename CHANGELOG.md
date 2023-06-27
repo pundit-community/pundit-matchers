@@ -1,5 +1,9 @@
 # Pundit Matchers
 
+## 3.1.2 (unreleased)
+
+- Fix namespace resolution under some circumstances
+
 ## 3.1.1 (2023-06-25)
 
 - Fix composability support
