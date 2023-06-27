@@ -1,6 +1,6 @@
 # Pundit Matchers
 
-## 3.1.2 (unreleased)
+## 3.1.2 (2023-06-28)
 
 - Fix namespace resolution under some circumstances
 
