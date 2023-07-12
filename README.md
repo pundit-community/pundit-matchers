@@ -720,10 +720,10 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 
 [version-badge]: https://img.shields.io/gem/v/pundit-matchers.svg
 [rubygems]: https://rubygems.org/gems/pundit-matchers
-[github-actions-test]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/test.yml
-[github-actions-test-badge]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/test.yml/badge.svg
-[github-actions-rubocop]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml
-[github-actions-rubocop-badge]: https://github.com/punditcommunity/pundit-matchers/actions/workflows/rubocop.yml/badge.svg
+[github-actions-test]: https://github.com/pundit-community/pundit-matchers/actions/workflows/test.yml
+[github-actions-test-badge]: https://github.com/pundit-community/pundit-matchers/actions/workflows/test.yml/badge.svg
+[github-actions-rubocop]: https://github.com/pundit-community/pundit-matchers/actions/workflows/rubocop.yml
+[github-actions-rubocop-badge]: https://github.com/pundit-community/pundit-matchers/actions/workflows/rubocop.yml/badge.svg
 [pundit-github]: https://github.com/varvet/pundit
 [thunderbolt-labs]: https://www.thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec/
 [owasp-top-10]: https://owasp.org/Top10/

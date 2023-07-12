@@ -37,7 +37,7 @@
 12. Create a GitHub release, using the tag for the release (e.g. `v1.0.0`), at
     the following URL:
 
-    https://github.com/punditcommunity/pundit-matchers/releases/new
+    https://github.com/pundit-community/pundit-matchers/releases/new
 
 13. Create a pull request and, once approved, merge the release branch into
     `main`.
