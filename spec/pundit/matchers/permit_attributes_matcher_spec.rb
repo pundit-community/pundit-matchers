@@ -19,7 +19,7 @@ RSpec.describe Pundit::Matchers::PermitAttributesMatcher do
     expect(described_class.new(
       'test', ['foo', :bar], { key: %i[value2 value1] }, { key2: { key3: %w[value] } }
     ).send(:expected_attributes)).to eq(
-      %i[bar foo key2\[key3\[value\]\] key\[value1\] key\[value2\] test]
+      [:bar, :foo, :'key2[key3[value]]', :'key[value1]', :'key[value2]', :test]
     )
   end
 
