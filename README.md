@@ -349,7 +349,7 @@ it { is_expected.to forbid_actions(:show, :create, :update) }
 
 ## Testing New/Create and Edit/Update Pairs
 
-It common to write separate authorisation policies on a per action basis. A
+It is common to write separate authorisation policies on a per action basis. A
 notable exception to this is in the case of new/create and edit/update action
 pairs. Generally speaking, you do not want to allow users to access a 'new'
 form unless the user is also authorised to create the record associated with
