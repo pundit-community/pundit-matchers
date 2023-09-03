@@ -12,3 +12,4 @@ gem 'rubocop-performance', '~> 1.19', require: false
 gem 'rubocop-rake', '~> 0.6.0', require: false
 gem 'rubocop-rspec', '~> 2.23', require: false
 gem 'simplecov', '~> 0.22.0', require: false
+gem 'yard', '~> 0.9.34', require: false
