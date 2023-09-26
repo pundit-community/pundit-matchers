@@ -134,6 +134,8 @@ RSpec.describe Pundit::Matchers::PermitActionsMatcher do
     context 'with a single action matcher' do
       subject(:policy) { policy_factory(test?: true, test2?: true) }
 
+      it { is_expected.to permit_action(:test) }
+
       it 'ensures that it has been called with a single action' do
         expect do
           expect(policy).to permit_action(%i[test test2])
