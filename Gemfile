@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'bundler', '~> 2.4'
-gem 'rake', '~> 13.0'
+gem 'rake', '~> 13.1'
 gem 'rubocop', '~> 1.57', require: false
 gem 'rubocop-packaging', '~> 0.5.2', require: false
 gem 'rubocop-performance', '~> 1.19', require: false
