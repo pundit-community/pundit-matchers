@@ -69,7 +69,7 @@ GEM
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
     unicode-display_width (2.5.0)
-    yard (0.9.35)
+    yard (0.9.36)
 
 PLATFORMS
   ruby
@@ -84,7 +84,7 @@ DEPENDENCIES
   rubocop-rake (~> 0.6.0)
   rubocop-rspec (~> 2.26)
   simplecov (~> 0.22.0)
-  yard (~> 0.9.35)
+  yard (~> 0.9.36)
 
 BUNDLED WITH
    2.4.13
