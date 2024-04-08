@@ -21,7 +21,7 @@ GEM
       racc
     racc (1.7.3)
     rainbow (3.1.1)
-    rake (13.1.0)
+    rake (13.2.1)
     regexp_parser (2.9.0)
     rexml (3.2.6)
     rspec-core (3.13.0)
@@ -80,7 +80,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 2.4)
   pundit-matchers!
-  rake (~> 13.1)
+  rake (~> 13.2)
   rubocop (~> 1.62)
   rubocop-packaging (~> 0.5.2)
   rubocop-performance (~> 1.21)
