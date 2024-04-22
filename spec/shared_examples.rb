@@ -34,7 +34,7 @@ RSpec.shared_examples_for 'an actions matcher' do
   end
 
   describe '#ensure_single_action!' do
-    context 'when matcher has been initializated with more than one action' do
+    context 'when matcher has been initialized with more than one action' do
       it 'raises an argument error' do
         expect do
           described_class.new(:test, :test2).ensure_single_action!

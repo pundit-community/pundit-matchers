@@ -38,7 +38,7 @@ RSpec.describe Pundit::Matchers::PermitAttributesMatcher do
       end.not_to raise_error
     end
 
-    context 'when matcher has been initializated with more than one attribute' do
+    context 'when matcher has been initialized with more than one attribute' do
       it 'raises an argument error' do
         expect do
           described_class.new(test: %i[nest1 nest2]).ensure_single_attribute!

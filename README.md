@@ -587,7 +587,7 @@ unpublished articles, while administrators have full access to all articles.
 Visitors can only set the slug attribute when creating an article.
 
 To avoid deeply nested context trees it is a good idea to split larger policy
-specs up into multiple files. Here we divide the policy spec into seperate files
+specs up into multiple files. Here we divide the policy spec into separate files
 for the visitor and administrator contexts, but you could just as easily split
 the files by published status or policy action.
 
