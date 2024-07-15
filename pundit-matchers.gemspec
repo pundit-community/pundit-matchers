@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 3.0'
 
   %w[core expectations mocks support].each do |name|
-    s.add_runtime_dependency "rspec-#{name}", '~> 3.12'
+    s.add_dependency "rspec-#{name}", '~> 3.12'
   end
 end
