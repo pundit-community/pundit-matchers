@@ -728,4 +728,4 @@ Run Rubocop: `docker build . && docker-compose run lib bin/rubocop`
 [thunderbolt-labs]: https://www.thunderboltlabs.com/blog/2013/03/27/testing-pundit-policies-with-rspec/
 [owasp-top-10]: https://owasp.org/Top10/
 [broken-access-control]: https://owasp.org/Top10/A01_2021-Broken_Access_Control/
-[ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
+[ruby-style-guide]: https://github.com/rubocop/ruby-style-guide
