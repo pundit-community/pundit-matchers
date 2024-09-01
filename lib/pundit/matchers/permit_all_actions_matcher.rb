@@ -34,7 +34,7 @@ module Pundit
       #
       # @return [String] A failure message when the policy does not permit all actions.
       def failure_message
-        message = +"expected '#{policy_info}' to permit all actions,"
+        message = "expected '#{policy_info}' to permit all actions,"
         message << " but forbade #{policy_info.forbidden_actions}"
         message << user_message
       end
