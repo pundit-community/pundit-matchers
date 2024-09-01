@@ -34,7 +34,7 @@ module Pundit
       #
       # @return [String] Failure message.
       def failure_message
-        message = +"expected '#{policy_info}' to forbid all actions,"
+        message = "expected '#{policy_info}' to forbid all actions,"
         message << " but permitted #{policy_info.permitted_actions}"
         message << user_message
       end

@@ -47,7 +47,7 @@ module Pundit
       #
       # @return [String] A failure message when the expected actions are not forbidden.
       def failure_message
-        message = +"expected '#{policy_info}' to permit #{expected_actions},"
+        message = "expected '#{policy_info}' to permit #{expected_actions},"
         message << " but forbade #{actual_actions}"
         message << user_message
       end
@@ -56,7 +56,7 @@ module Pundit
       #
       # @return [String] A failure message when the expected actions are permitted.
       def failure_message_when_negated
-        message = +"expected '#{policy_info}' to forbid #{expected_actions},"
+        message = "expected '#{policy_info}' to forbid #{expected_actions},"
         message << " but permitted #{actual_actions}"
         message << user_message
       end

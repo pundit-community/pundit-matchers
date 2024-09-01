@@ -38,7 +38,7 @@ module Pundit
       #
       # @return [String] A failure message when the expected actions and the forbidden actions do not match.
       def failure_message
-        message = +"expected '#{policy_info}' to forbid only #{expected_actions},"
+        message = "expected '#{policy_info}' to forbid only #{expected_actions},"
         message << " but forbade #{actual_actions}" unless actual_actions.empty?
         message << extra_message unless extra_actions.empty?
         message << user_message

@@ -41,7 +41,7 @@ module Pundit
       #
       # @return [String] A failure message when the expected attributes are not permitted.
       def failure_message
-        message = +"expected '#{policy_info}' to permit the mass assignment of #{expected_attributes}"
+        message = "expected '#{policy_info}' to permit the mass assignment of #{expected_attributes}"
         message << action_message if options.key?(:action)
         message << ", but forbade the mass assignment of #{actual_attributes}"
         message << user_message
@@ -51,7 +51,7 @@ module Pundit
       #
       # @return [String] A failure message when the expected attributes are forbidden.
       def failure_message_when_negated
-        message = +"expected '#{policy_info}' to forbid the mass assignment of #{expected_attributes}"
+        message = "expected '#{policy_info}' to forbid the mass assignment of #{expected_attributes}"
         message << action_message if options.key?(:action)
         message << ", but permitted the mass assignment of #{actual_attributes}"
         message << user_message
