@@ -46,7 +46,7 @@ GEM
       parser (>= 3.3.1.0)
     rubocop-packaging (0.5.2)
       rubocop (>= 1.33, < 2.0)
-    rubocop-performance (1.21.1)
+    rubocop-performance (1.22.0)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rake (0.6.0)
@@ -60,7 +60,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    unicode-display_width (2.5.0)
+    unicode-display_width (2.6.0)
     yard (0.9.37)
 
 PLATFORMS
@@ -72,7 +72,7 @@ DEPENDENCIES
   rake (~> 13.2)
   rubocop (~> 1.66)
   rubocop-packaging (~> 0.5.2)
-  rubocop-performance (~> 1.21)
+  rubocop-performance (~> 1.22)
   rubocop-rake (~> 0.6.0)
   rubocop-rspec (~> 3.0)
   simplecov (~> 0.22.0)
