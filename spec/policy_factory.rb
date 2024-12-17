@@ -15,7 +15,7 @@ class TestPolicy
 end
 
 class DynamicTestPolicy < TestPolicy
-  def method_missing(method, *args, &block)
+  def method_missing(method, *args, &)
     method_s = method.to_s
     return super unless method_s.end_with?('?')
 

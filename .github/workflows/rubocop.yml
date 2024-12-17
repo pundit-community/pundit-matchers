@@ -2,9 +2,9 @@ name: RuboCop
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: read
@@ -19,15 +19,15 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        ruby-version: ['3.3']
+        ruby-version: ["3.1"]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true
-        rubygems: latest
-    - name: Ruby linter
-      run: bundle exec bin/rubocop
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+          rubygems: latest
+      - name: Ruby linter
+        run: bundle exec bin/rubocop
