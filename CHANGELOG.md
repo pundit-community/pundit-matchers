@@ -1,5 +1,10 @@
 # Pundit Matchers
 
+# 4.0.0 (2024-12-18)
+
+- Drop Ruby < 3.1 compatibility. Please upgrade your Rails application to use
+  Ruby 3.1 or higher.
+
 ## 3.1.2 (2023-06-28)
 
 - Fix namespace resolution under some circumstances

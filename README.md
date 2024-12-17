@@ -15,7 +15,7 @@ group:
 
 ```ruby
 group :test do
-  gem 'pundit-matchers', '~> 3.1'
+  gem 'pundit-matchers', '~> 4.0'
 end
 ```
 
@@ -26,7 +26,7 @@ And then execute the following command:
 Pundit Matchers expects that the application you're testing is using a
 software stack consisting of:
 
-- Ruby 3+
+- Ruby 3.1+
 - Pundit 2+
 - RSpec 3.12+
 

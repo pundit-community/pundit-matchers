@@ -6,12 +6,16 @@ require:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   DisplayStyleGuide: true
   ExtraDetails: true
   Exclude:
-    - 'bin/**/*'
-    - 'vendor/bundle/**/*'
+    - .git/**/*
+    - .github/**/*
+    - bin/**/*
+    - coverage/**/*
+    - doc/**/*
+    - vendor/**/*
 
 RSpec/ExampleLength:
   Max: 10
