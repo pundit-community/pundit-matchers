@@ -1,6 +1,6 @@
 # Pundit Matchers
 
-# 4.0.0 (2024-12-18)
+## 4.0.0 (2024-12-18)
 
 - Drop Ruby < 3.1 compatibility. Please upgrade your Rails application to use
   Ruby 3.1 or higher.
