@@ -76,7 +76,7 @@ DEPENDENCIES
   bundler (~> 2.4)
   pundit-matchers!
   rake (~> 13.2)
-  rubocop (~> 1.71)
+  rubocop (~> 1.72)
   rubocop-packaging (~> 0.5.2)
   rubocop-performance (~> 1.24)
   rubocop-rake (~> 0.6.0)
