@@ -4,8 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    reviewers:
-      - pundit-community/dependabot-reviewers
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
@@ -14,5 +12,3 @@ updates:
       rubocop:
         patterns:
           - "rubocop*"
-    reviewers:
-      - pundit-community/dependabot-reviewers

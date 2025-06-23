@@ -1,0 +1,6 @@
+# Dependabot `bundler` ecosystem
+/Gemfile      @pundit-community/dependabot-reviewers
+/Gemfile.lock @pundit-community/dependabot-reviewers
+
+# Dependabot `github-actions` ecosystem
+/.github/workflows/* @pundit-community/dependabot-reviewers
