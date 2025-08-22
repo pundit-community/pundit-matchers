@@ -20,7 +20,7 @@ AllCops:
 # Configured to allow the use of `does_not_match?`, as it aligns with the RSpec Matcher Protocol.
 # This method is part of RSpec's internal API for defining custom matchers.
 # Reference: https://www.rubydoc.info/github/rspec/rspec-expectations/RSpec/Matchers/MatcherProtocol#does_not_match%3F-instance_method
-Naming/PredicateName:
+Naming/PredicatePrefix:
   AllowedMethods:
     - does_not_match?
 
