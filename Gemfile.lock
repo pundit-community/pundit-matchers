@@ -34,7 +34,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.5)
-    rubocop (1.80.0)
+    rubocop (1.80.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -80,7 +80,7 @@ DEPENDENCIES
   bundler (~> 2.4)
   pundit-matchers!
   rake (~> 13.3)
-  rubocop (~> 1.79)
+  rubocop (~> 1.80)
   rubocop-packaging (~> 0.6.0)
   rubocop-performance (~> 1.25)
   rubocop-rake (~> 0.7.1)
