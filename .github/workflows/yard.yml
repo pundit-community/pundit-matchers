@@ -1,32 +1,26 @@
-name: YARD
+name: YARD Lint
 
 on:
   push:
-    branches: ['*']
+    branches: [main]
   pull_request:
-    branches: ['*']
+    branches: [main]
 
 permissions:
   contents: read
 
 jobs:
-  rubocop:
-    name: YARD
-    runs-on: ${{ matrix.os }}
-    env:
-      BUNDLE_JOBS: 4
-      BUNDLE_RETRY: 3
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        ruby-version: ['3.4']
+  yard:
+    name: YARD Lint
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true
-    - name: Lint YARD documentation
-      run: bundle exec yard doc --fail-on-warning --no-output --no-progress
+      - uses: actions/checkout@v6
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4' # FIXME: Yard is not compatible yet with Ruby 4.0. Ref: lsegal/yard#1636
+          bundler-cache: true
+          rubygems: latest
+      - name: Lint YARD documentation
+        run: bundle exec yard doc --fail-on-warning --no-output --no-progress
