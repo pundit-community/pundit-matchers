@@ -13,7 +13,7 @@ GEM
     ast (2.4.3)
     diff-lcs (1.6.2)
     docile (1.4.1)
-    json (2.18.0)
+    json (2.18.1)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     parallel (1.27.0)
@@ -34,7 +34,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.7)
-    rubocop (1.84.0)
+    rubocop (1.84.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -80,7 +80,7 @@ DEPENDENCIES
   bundler
   pundit-matchers!
   rake
-  rubocop (~> 1.82)
+  rubocop (~> 1.84)
   rubocop-packaging (~> 0.6.0)
   rubocop-performance (~> 1.26)
   rubocop-rake (~> 0.7.1)

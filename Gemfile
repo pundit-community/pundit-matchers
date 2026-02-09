@@ -7,7 +7,7 @@ gemspec
 gem 'bundler'
 gem 'rake'
 
-gem 'rubocop', '~> 1.82', require: false
+gem 'rubocop', '~> 1.84', require: false
 gem 'rubocop-packaging', '~> 0.6.0', require: false
 gem 'rubocop-performance', '~> 1.26', require: false
 gem 'rubocop-rake', '~> 0.7.1', require: false
