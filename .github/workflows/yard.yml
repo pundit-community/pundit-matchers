@@ -17,9 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.306.0
         with:
-          ruby-version: '3.4' # FIXME: Yard is not compatible yet with Ruby 4.0. Ref: lsegal/yard#1636
+          # Ruby 4.0 emits an `irb/notifier` warning due to a Ruby bug that does
+          # not respect the `Warning` module rules. Ref: lsegal/yard#1643.
+          # FIXME: Remove this comment once the warning stops appearing.
+          ruby-version: '4.0'
           bundler-cache: true
           rubygems: latest
       - name: Lint YARD documentation
