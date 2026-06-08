@@ -11,6 +11,6 @@ gem 'rubocop', '~> 1.87', require: false
 gem 'rubocop-packaging', '~> 0.6.0', require: false
 gem 'rubocop-performance', '~> 1.26', require: false
 gem 'rubocop-rake', '~> 0.7.1', require: false
-gem 'rubocop-rspec', '~> 3.9', require: false
+gem 'rubocop-rspec', '~> 3.10', require: false
 gem 'simplecov', '~> 0.22.0', require: false
 gem 'yard', '~> 0.9.44', require: false
