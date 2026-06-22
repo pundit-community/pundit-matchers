@@ -33,34 +33,27 @@ RSpec.configure do |config|
   config.include RSpec::Matchers::FailMatchers
 
   # rspec-expectations config goes here. You can use an alternate
-  # assertion/expectation library such as wrong or the stdlib/minitest
+  # assertion/expectation library such as wrong or minitest
   # assertions if you prefer.
   config.expect_with :rspec do |expectations|
-    # This option will default to `true` in RSpec 4. It makes the `description`
-    # and `failure_message` of custom matchers include text for helper methods
-    # defined using `chain`, e.g.:
-    #     be_bigger_than(2).and_smaller_than(4).description
-    #     # => "be bigger than 2 and smaller than 4"
-    # ...rather than:
-    #     # => "be bigger than 2"
-    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+    # The default output length is 200, you can increase it to make the
+    # output more verbose, or decrease it to make it more concise.
+    expectations.max_formatted_output_length = 200
   end
 
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|
     # Prevents you from mocking or stubbing a method that does not exist on
-    # a real object. This is generally recommended, and will default to
-    # `true` in RSpec 4.
+    # a real object. This is generally recommended, and is the default since
+    # RSpec 4.
     mocks.verify_partial_doubles = true
   end
 
-  # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
-  # have no way to turn it off -- the option exists only for backwards
-  # compatibility in RSpec 3). It causes shared context metadata to be
-  # inherited by the metadata hash of host groups and examples, rather than
-  # triggering implicit auto-inclusion in groups with matching metadata.
-  config.shared_context_metadata_behavior = :apply_to_host_groups
+  # This setting turns on all Ruby warnings. It's recommended, but in some cases may
+  # be too noisy due to issues in dependencies. The default is set to `:deprecations_only`
+  # but it can also be set to `:none` to suppress them.
+  config.warnings = :all
 
   # This allows you to limit a spec run to individual examples or groups
   # you care about by tagging them with `:focus` metadata. When nothing
@@ -73,15 +66,6 @@ RSpec.configure do |config|
   # the `--only-failures` and `--next-failure` CLI options. We recommend
   # you configure your source control system to ignore this file.
   config.example_status_persistence_file_path = 'spec/examples.txt'
-
-  # Limits the available syntax to the non-monkey patched syntax that is
-  # recommended. For more details, see:
-  # https://rspec.info/features/3-12/rspec-core/configuration/zero-monkey-patching-mode/
-  config.disable_monkey_patching!
-
-  # This setting enables warnings. It's recommended, but in some cases may
-  # be too noisy due to issues in dependencies.
-  config.warnings = true
 
   # Many RSpec users commonly either run the entire suite or an individual
   # file, and it's useful to allow more verbose output when running an
@@ -98,10 +82,9 @@ RSpec.configure do |config|
   # particularly slow.
   config.profile_examples = 10
 
-  # Run specs in random order to surface order dependencies. If you find an
-  # order dependency and want to debug it, you can fix the order by providing
-  # the seed, which is printed after each run.
-  #     --seed 1234
+  # RSpec runs specs in a random order by default to surface order dependencies.
+  # We recommend this setting but it can be changed to others, such as `:defined`
+  # to run specs in the defined order. See the documentation for more details.
   config.order = :random
 
   # Seed global randomization in this process using the `--seed` CLI option.
