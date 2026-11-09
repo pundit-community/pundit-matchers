@@ -26,4 +26,9 @@ jobs:
           bundler-cache: true
           rubygems: latest
       - name: Run specs
+        env:
+          # Raise on any string literal mutation, to stay ready for frozen string
+          # literals by default.
+          # See https://gist.github.com/fxn/bf4eed2505c76f4fca03ab48c43adc72
+          RUBYOPT: --enable=frozen-string-literal --debug=frozen-string-literal
         run: bundle exec rake
